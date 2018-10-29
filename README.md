@@ -15,3 +15,8 @@
 7. Check the empty folders and add an empty file in each one for Git.
 8. Add the project to your Git project.1
 
+## Adding controllers
+
+1. Select your WAR project
+2. Create a package `controller`
+3. Add a Java class with the name of your controller.
