@@ -8,15 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * ControllerManagement dispatches all the requests and glues the Model and the View together.
- * The View receives it's data through the ControllerManagement and the ControllerManagement updates the 
+ * ControllerMember dispatches all the requests and glues the Model and the View together.
+ * The View receives it's data through the ControllerMember and the ControllerMember updates the 
  * Model if needed from the input given by the View.
  * @author Dylan Van Assche
  */
-public class ControllerManagement extends HttpServlet {
+public class ControllerMember extends HttpServlet {
     
     /**
-     * Initialisation of the ControllerManagement Servlet.
+     * Initialisation of the ControllerMember Servlet.
      */
     public void init() {
         
@@ -31,7 +31,7 @@ public class ControllerManagement extends HttpServlet {
      * @throws IOException if an I/O error
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        this.goToJSPPage("management.jsp", request, response);
+        this.goToJSPPage("account.jsp", request, response);
     }
     
     /**

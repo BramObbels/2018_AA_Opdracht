@@ -1,6 +1,6 @@
 <%-- 
-    Document   : admin
-    Created on : Oct 29, 2018, 12:55:38 PM
+    Document   : confirm.jsp
+    Created on : Oct 29, 2018, 6:47:03 PM
     Author     : dylan
 --%>
 
@@ -9,9 +9,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Order confirmation</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Confirm your order below</h1>
     </body>
 </html>

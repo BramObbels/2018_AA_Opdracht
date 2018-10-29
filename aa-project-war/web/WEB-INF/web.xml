@@ -1,13 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
-        <description>Managment Controller servlet</description>
-        <servlet-name>ManagementController</servlet-name>
+        <description>The landing page of Ticketmaster</description>
+        <servlet-name>Landing Servlet</servlet-name>
+        <jsp-file>/landing.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <description>Management module for the owners</description>
+        <servlet-name>Management Servlet</servlet-name>
         <servlet-class>controller.ControllerManagement</servlet-class>
     </servlet>
+    <servlet>
+        <description>Ordering tickets for a certain play</description>
+        <servlet-name>Order Servlet</servlet-name>
+        <servlet-class>controller.ControllerOrder</servlet-class>
+    </servlet>
+    <servlet>
+        <description>Returning customers with an account can view their previous orders</description>
+        <servlet-name>Member Servlet</servlet-name>
+        <servlet-class>controller.ControllerMember</servlet-class>
+    </servlet>
     <servlet-mapping>
-        <servlet-name>ManagementController</servlet-name>
-        <url-pattern>/management</url-pattern>
+        <servlet-name>Landing Servlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Management Servlet</servlet-name>
+        <url-pattern>/manage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Order Servlet</servlet-name>
+        <url-pattern>/order</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Member Servlet</servlet-name>
+        <url-pattern>/member</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
