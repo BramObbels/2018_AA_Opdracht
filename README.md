@@ -13,10 +13,15 @@
 5. Make your WAR and EJB projects depend on this shared library (Properties, Libraries, add).
 6. Add a JDBC connection resource and pool with your DB on the main EE project.
 7. Check the empty folders and add an empty file in each one for Git.
-8. Add the project to your Git project.1
+8. Add Deployment Descriptor to the WAR project (New, Other..., Web, Standard Deployment Descriptor).
+9. Add GlassFish Descriptor to the WAR project for the Security part (New, Other..., GlassFish, GlassFish Descriptor).
+9. Add the project to your Git project.
 
 ## Adding controllers
 
-1. Select your WAR project
-2. Create a package `controller`
+1. Select your WAR project.
+2. Create a package `controller`.
 3. Add a Java class with the name of your controller.
+4. Add the Servlet to the XML deployment descriptor with the right URL pattern.
+
+

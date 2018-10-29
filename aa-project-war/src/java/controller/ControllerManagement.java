@@ -31,7 +31,7 @@ public class ControllerManagement extends HttpServlet {
      * @throws IOException if an I/O error
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+        this.goToJSPPage("admin.jsp", request, response);
     }
     
     /**
