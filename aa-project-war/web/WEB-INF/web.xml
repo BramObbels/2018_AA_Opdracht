@@ -2,11 +2,11 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <description>Managment Controller servlet</description>
-        <servlet-name>ManagementControll</servlet-name>
+        <servlet-name>ManagementController</servlet-name>
         <servlet-class>controller.ControllerManagement</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ManagementControll</servlet-name>
+        <servlet-name>ManagementController</servlet-name>
         <url-pattern>/management</url-pattern>
     </servlet-mapping>
     <session-config>
