@@ -1,0 +1,7 @@
+/aa-project-shared/nbproject/private/
+/aa-project-ejb/build/
+/aa-project-war/build/
+/build/
+/aa-project-war/dist/
+/aa-project-ejb/dist/
+*/dist/*
