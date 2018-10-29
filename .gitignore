@@ -4,4 +4,4 @@
 /build/
 /aa-project-war/dist/
 /aa-project-ejb/dist/
-*/dist/*
+dist/*
