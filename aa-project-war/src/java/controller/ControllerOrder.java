@@ -1,6 +1,8 @@
 package controller;
 
+import beans.PlaysBeanInterface;
 import java.io.IOException;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Dylan Van Assche
  */
 public class ControllerOrder extends HttpServlet {
+    @EJB private PlaysBeanInterface playsAPI;
     
     /**
      * Initialisation of the ControllerOrder Servlet.
@@ -31,6 +34,7 @@ public class ControllerOrder extends HttpServlet {
      * @throws IOException if an I/O error
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        playsAPI.getUpcomingPlays();
         this.goToJSPPage("select-play.jsp", request, response);
     }
     
