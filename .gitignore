@@ -4,4 +4,6 @@
 /build/
 /aa-project-war/dist/
 /aa-project-ejb/dist/
-*/dist/*
+dist/*
+/aa-project-shared/build/
+/aa-project-shared/dist/
