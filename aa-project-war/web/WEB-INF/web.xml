@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <description>Order your tickets for our upcoming plays!</description>
+    <display-name>Ticketmaster</display-name>
     <servlet>
         <description>The landing page of Ticketmaster</description>
         <servlet-name>Landing Servlet</servlet-name>
@@ -21,14 +23,6 @@
         <servlet-class>controller.ControllerMember</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Landing Servlet</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Management Servlet</servlet-name>
-        <url-pattern>/manage</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>Order Servlet</servlet-name>
         <url-pattern>/order</url-pattern>
     </servlet-mapping>
@@ -36,9 +30,21 @@
         <servlet-name>Member Servlet</servlet-name>
         <url-pattern>/member</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Landing Servlet</servlet-name>
+        <url-pattern>/home</url-pattern>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Management Servlet</servlet-name>
+        <url-pattern>/manage</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>landing.jsp</welcome-file>
+    </welcome-file-list>
 </web-app>

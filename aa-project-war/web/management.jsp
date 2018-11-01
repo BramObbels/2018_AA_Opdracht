@@ -12,6 +12,8 @@
         <title>Management tool</title>
     </head>
     <body>
+        <!-- Menu -->
+        <%@include file="WEB-INF/jspf/menu.jspf" %>
         <h1>Welcome to the management tool for Ticketmaster, at your service!</h1>
     </body>
 </html>

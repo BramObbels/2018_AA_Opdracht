@@ -12,6 +12,8 @@
         <title>Account</title>
     </head>
     <body>
+        <!-- Menu -->
+        <%@include file="WEB-INF/jspf/menu.jspf" %>
         <h1>Welcome to Ticketmaster's account manager!</h1>
     </body>
 </html>

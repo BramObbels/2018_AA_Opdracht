@@ -1,0 +1,14 @@
+<%-- 
+    Document   : menu.jspf
+    Created on : Nov 1, 2018, 14:35:36 PM
+    Author     : Dylan Van Assche
+
+    JSP fragments are placed by the JEE conventions into WEB-INF/jspf
+--%>
+
+<%@ page pageEncoding="UTF-8" %>
+<ul>
+    <li><a href="member">Members area</a></li>
+    <li><a href="order">Order tickets</a></li>
+    <li><a href="manage">Management area</a></li>
+</ul>

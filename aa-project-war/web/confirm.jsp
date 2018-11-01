@@ -12,6 +12,8 @@
         <title>Order confirmation</title>
     </head>
     <body>
+        <!-- Menu -->
+        <%@include file="WEB-INF/jspf/menu.jspf" %>
         <h1>Confirm your order below</h1>
     </body>
 </html>
