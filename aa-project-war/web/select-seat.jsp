@@ -12,6 +12,8 @@
         <title>Seat selection</title>
     </head>
     <body>
+        <!-- Menu -->
+        <%@include file="WEB-INF/jspf/menu.jspf" %>
         <h1>Select the seats for the chosen play</h1>
     </body>
 </html>

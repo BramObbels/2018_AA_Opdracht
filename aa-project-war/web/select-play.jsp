@@ -12,6 +12,8 @@
         <title>Play selection</title>
     </head>
     <body>
+        <!-- Menu -->
+        <%@include file="WEB-INF/jspf/menu.jspf" %>
         <h1>Select an upcoming play to continue</h1>
     </body>
 </html>
