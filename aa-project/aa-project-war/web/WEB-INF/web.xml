@@ -4,10 +4,51 @@
     <servlet>
         <servlet-name>ControllerOrder</servlet-name>
         <servlet-class>controllers.ControllerOrder</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet>
+        <description>Landing page</description>
+        <servlet-name>ControllerLanding</servlet-name>
+        <servlet-class>controllers.ControllerLanding</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <description>Members area</description>
+        <servlet-name>ControllerMember</servlet-name>
+        <servlet-class>controllers.ControllerMember</servlet-class>
+        <load-on-startup>3</load-on-startup>
+        <security-role-ref>
+            <description/>
+            <role-name>Members</role-name>
+            <role-link>members</role-link>
+        </security-role-ref>
+    </servlet>
+    <servlet>
+        <description>Management area</description>
+        <servlet-name>ControllerManagement</servlet-name>
+        <servlet-class>controllers.ControllerManagement</servlet-class>
+        <load-on-startup>4</load-on-startup>
+        <security-role-ref>
+            <description/>
+            <role-name>Administrators</role-name>
+            <role-link>administrators</role-link>
+        </security-role-ref>
     </servlet>
     <servlet-mapping>
         <servlet-name>ControllerOrder</servlet-name>
         <url-pattern>/order</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControllerLanding</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControllerMember</servlet-name>
+        <url-pattern>/member</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControllerManagement</servlet-name>
+        <url-pattern>/manage</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
