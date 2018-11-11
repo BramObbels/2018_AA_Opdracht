@@ -15,5 +15,9 @@
         <!-- Menu -->
         <%@include file="WEB-INF/jspf/menu.jspf" %>
         <h1>Select the seats for the chosen play</h1>
+        <form method="post" action="<c:url value='order' />">
+            <input type="hidden" name="nextState" value="confirmOrder">
+            <input type="submit" name="submit" value="Select seats">
+        </form>
     </body>
 </html>

@@ -21,6 +21,7 @@
                     <li><input type="radio" name="selectedPlay" required value="${r.getId()}"> <c:out value="${r.getName()}"/> (<c:out value="${r.getDate()}"/>) <c:out value="${r.getBasicPrice()}"/>+<c:out value="${r.getRankFee()}"/>&euro;</li>
                 </c:forEach>
             </ul>
+            <input type="hidden" name="nextState" value="selectSeat">
             <input type="submit" name="submit" value="Select play">
         </form>
     </body>

@@ -20,9 +20,10 @@ import javax.servlet.http.HttpSession;
 public class ControllerOrder extends HttpServlet {
     @EJB PlaysBeanRemote playsBean;
     @EJB SeatsBeanRemote seatsBean;
-    private static final int SELECT_PLAY = 0;
-    private static final int SELECT_SEAT = 1;
-    private static final int CONFIRM_ORDER = 2;
+    private static final String SELECT_PLAY = "selectPlay";
+    private static final String SELECT_SEAT = "selectSeat";
+    private static final String CONFIRM_ORDER = "confirmOrder";
+    private static final String ORDER_FINISHED = "orderFinished";
     
     /**
      * Initialisation of the ControllerOrder Servlet.
@@ -43,11 +44,15 @@ public class ControllerOrder extends HttpServlet {
         HttpSession session = request.getSession();
         
         // At the beginning, the order state isn't initialised for the current session
-        if(session.getAttribute("nextOrderState") == null) {
-            session.setAttribute("nextOrderState", SELECT_PLAY);
+        String state;
+        if(request.getParameter("nextState") == null) {
+            state = SELECT_PLAY;
+            System.out.println("Order process started");
         }
-              
-        Integer state = (Integer)session.getAttribute("nextOrderState");
+        else {
+            state = request.getParameter("nextState");
+        }
+        
         System.out.println("STATE=" + state);
         switch(state) {
             default:
@@ -79,6 +84,12 @@ public class ControllerOrder extends HttpServlet {
                 System.out.println("CONFIRM ORDER");
                 session.setAttribute("nextOrderState", SELECT_PLAY);
                 this.goToJSPPage("confirm-order.jsp", request, response);
+                break;
+                
+            case ORDER_FINISHED:
+                System.out.println("ORDER FINISHED, GO TO LANDING PAGE");
+                this.goToJSPPage("landing.jsp", request, response);
+                session.invalidate(); // Order complete, throw away session
                 break;
         }
     }

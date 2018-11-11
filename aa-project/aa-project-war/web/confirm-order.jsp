@@ -15,5 +15,9 @@
         <!-- Menu -->
         <%@include file="WEB-INF/jspf/menu.jspf" %>
         <h1>Confirm your order below</h1>
+        <form method="post" action="<c:url value='order' />">
+            <input type="hidden" name="nextState" value="orderFinished">
+            <input type="submit" name="submit" value="Confirm order">
+        </form>
     </body>
 </html>
