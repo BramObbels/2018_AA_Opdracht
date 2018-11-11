@@ -1,0 +1,14 @@
+<%-- 
+    Document   : login-form.jspf
+    Created on : Nov 11, 2018, 16:13:36 PM
+    Author     : Dylan Van Assche
+
+    JSP fragments are placed by the JEE conventions into WEB-INF/jspf
+--%>
+
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
+
+<form method="post" action="j_security_check">
+    <input type="text" name="j_username">
+    <input type="password" name="j_password">
+</form>
