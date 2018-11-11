@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <display-name>Ticketmaster</display-name>
+    <servlet>
+        <servlet-name>ControllerOrder</servlet-name>
+        <servlet-class>controllers.ControllerOrder</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ControllerOrder</servlet-name>
+        <url-pattern>/order</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error.jsp</location>
+    </error-page>
+    <security-role>
+        <description>Visible for anyone</description>
+        <role-name>public</role-name>
+    </security-role>
+    <security-role>
+        <description>Members only</description>
+        <role-name>members</role-name>
+    </security-role>
+    <security-role>
+        <description>Administrator access to the application
+</description>
+        <role-name>administrators</role-name>
+    </security-role>
+</web-app>

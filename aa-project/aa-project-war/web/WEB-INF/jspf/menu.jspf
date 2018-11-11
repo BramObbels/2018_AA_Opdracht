@@ -1,0 +1,16 @@
+<%-- 
+    Document   : menu.jspf
+    Created on : Nov 1, 2018, 14:35:36 PM
+    Author     : Dylan Van Assche
+
+    JSP fragments are placed by the JEE conventions into WEB-INF/jspf
+--%>
+
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<ul>
+    <li><a href="<c:url value='member'/>">Members area</a></li>
+    <li><a href="<c:url value='order'/>">Order tickets</a></li>
+    <li><a href="<c:url value='manage'/>">Management area</a></li>
+</ul>
