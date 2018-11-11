@@ -11,9 +11,6 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface SeatsBeanRemote {
-    public ArrayList<ArrayList<Object>> getAvailableSeatsForPlay(int playId);
-    public ArrayList<ArrayList<Object>> getOccupiedSeatsForPlay(int playId);
-    public ArrayList<ArrayList<Object>> getReservedSeatsForPlay(int playId);
     public ArrayList<ArrayList<Object>> getAllSeatsForPlay(int playId);
     public void reserveSeat(int seatId);
     public void freeSeat(int seatId);

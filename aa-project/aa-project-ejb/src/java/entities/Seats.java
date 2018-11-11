@@ -28,14 +28,21 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Seats.findAll", query = "SELECT s FROM Seats s")
+    , @NamedQuery(name = "Seats.findAllSorted", query = "SELECT s FROM Seats s ORDER BY s.rowNumber, s.columnNumber")
     , @NamedQuery(name = "Seats.findById", query = "SELECT s FROM Seats s WHERE s.id = :id")
     , @NamedQuery(name = "Seats.findByRowNumber", query = "SELECT s FROM Seats s WHERE s.rowNumber = :rowNumber")
     , @NamedQuery(name = "Seats.findByColumnNumber", query = "SELECT s FROM Seats s WHERE s.columnNumber = :columnNumber")
     , @NamedQuery(name = "Seats.findByRank", query = "SELECT s FROM Seats s WHERE s.rank = :rank")
-    , @NamedQuery(name = "Seats.findByStatus", query = "SELECT s FROM Seats s WHERE s.status = :status")})
+    , @NamedQuery(name = "Seats.findByStatus", query = "SELECT s FROM Seats s WHERE s.status = :status")
+    , @NamedQuery(name = "Seats.findRowSize", query = "SELECT MAX(s.rowNumber) FROM Seats s")
+    , @NamedQuery(name = "Seats.findColumnSize", query = "SELECT MAX(s.columnNumber) FROM Seats s")})
 public class Seats implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    public static final int AVAILABLE = 0;
+    public static final int RESERVED = 1;
+    public static final int OCCUPIED = 2;
+    
     @Id
     @Basic(optional = false)
     @NotNull
@@ -91,14 +98,6 @@ public class Seats implements Serializable {
         this.rank = rank;
     }
 
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
     @XmlTransient
     public Collection<Tickets> getTicketsCollection() {
         return ticketsCollection;
@@ -133,4 +132,28 @@ public class Seats implements Serializable {
         return "entities.Seats[ id=" + id + " ]";
     }
     
+    // We don't allow to set the status from outside the Seats object to maintain persistence for states in the status member.
+    public boolean isAvailable() {
+        return this.status == AVAILABLE;
+    }
+    
+    public boolean isOccupied() {
+        return this.status == OCCUPIED;
+    }
+    
+    public boolean isReserved() {
+        return this.status == RESERVED;
+    }
+    
+    public void setAvailable() {
+        this.status = AVAILABLE;
+    }
+    
+    public void setOccupied() {
+        this.status = OCCUPIED;
+    }
+    
+    public void setReserved() {
+        this.status = RESERVED;
+    }
 }

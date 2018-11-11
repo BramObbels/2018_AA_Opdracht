@@ -39,10 +39,6 @@
         <url-pattern>/order</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ControllerLanding</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>ControllerMember</servlet-name>
         <url-pattern>/member</url-pattern>
     </servlet-mapping>
@@ -50,11 +46,18 @@
         <servlet-name>ControllerManagement</servlet-name>
         <url-pattern>/manage</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControllerLanding</servlet-name>
+        <url-pattern>/landing</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>landing.jsp</welcome-file>
+    </welcome-file-list>
     <error-page>
         <error-code>404</error-code>
         <location>/error.jsp</location>
