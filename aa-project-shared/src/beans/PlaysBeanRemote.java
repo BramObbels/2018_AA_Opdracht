@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package beans;
 
 import java.util.ArrayList;
+import java.util.Date;
 import javax.ejb.Remote;
 
 /**
@@ -17,4 +13,7 @@ import javax.ejb.Remote;
 @Remote
 public interface PlaysBeanRemote {
     public ArrayList<Object> getUpcomingPlays();
+    public ArrayList<Object> getAllPlays();
+    public void removePlay(int id);
+    public void addPlay(String name, Date date, float basicPrice, float rankFee);
 }

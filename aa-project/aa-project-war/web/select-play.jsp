@@ -15,5 +15,12 @@
         <!-- Menu -->
         <%@include file="WEB-INF/jspf/menu.jspf" %>
         <h1>Select an upcoming play to continue</h1>
+        <form method="post" action="<c:url value='controller' />">
+            <ul>
+                <c:forEach var = "r" items = "${requestScope.upcomingPlays}">
+                    <li><input type="checkbox" value="${r.getId()}"> <c:out value="${r.getName()}"/> (<c:out value="${r.getDate()}"/>) <c:out value="${r.getBasicPrice()}"/>+<c:out value="${r.getRankFee()}"/>&euro;</li>
+                </c:forEach>
+            </ul>
+        </form>
     </body>
 </html>

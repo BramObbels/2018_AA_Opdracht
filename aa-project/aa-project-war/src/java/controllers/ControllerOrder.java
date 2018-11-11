@@ -34,7 +34,8 @@ public class ControllerOrder extends HttpServlet {
      * @throws IOException if an I/O error
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("UPCOMING=" + playsBean.getUpcomingPlays());
+        System.out.println("UPCOMING PLAYS=" + playsBean.getUpcomingPlays());
+        request.setAttribute("upcomingPlays", playsBean.getUpcomingPlays());
         this.goToJSPPage("select-play.jsp", request, response);
     }
     
