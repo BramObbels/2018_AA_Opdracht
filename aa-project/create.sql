@@ -91,3 +91,23 @@ CREATE TABLE tickets(
     FOREIGN KEY(playId) REFERENCES plays(id),
     FOREIGN KEY(seatId) REFERENCES seats(id)
 );
+
+INSERT INTO groups VALUES(0, 'members');
+INSERT INTO groups VALUES(1, 'public');
+INSERT INTO groups VALUES(2, 'administrators');
+INSERT INTO accounts VALUES(0, 'Joske Vermeulen', 0);
+INSERT INTO accounts VALUES(1, 'Herman Brusselmans', 1);
+INSERT INTO accounts VALUES(2, 'Mr. T', 2);
+INSERT INTO plays VALUES(0, 'Sneeuwitje', '2018-04-19 13:08:22.0', 5.0, 2.0);
+INSERT INTO plays VALUES(1, 'Girl', '2018-05-19 13:08:22.0', 6.0, 3.0);
+INSERT INTO seats VALUES(0, 0, 0, 1, 1);
+INSERT INTO seats VALUES(1, 0, 1, 0, 2);
+INSERT INTO seats VALUES(2, 0, 2, 0, 0);
+INSERT INTO seats VALUES(3, 1, 0, 1, 0);
+INSERT INTO seats VALUES(4, 1, 1, 0, 3);
+INSERT INTO seats VALUES(5, 1, 2, 2, 2);
+INSERT INTO seats VALUES(6, 2, 0, 0, 1);
+INSERT INTO seats VALUES(7, 2, 1, 0, 1);
+INSERT INTO seats VALUES(8, 2, 2, 3, 1);
+INSERT INTO tickets VALUES(0, 0, 0, 1);
+INSERT INTO tickets VALUES(1, 1, 1, 1);
