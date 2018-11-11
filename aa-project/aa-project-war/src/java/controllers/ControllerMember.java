@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * ControllerMember dispatches all the requests and glues the Model and the View together.
+ * ControllerMember dispatches all the requests for the members area and glues the Model and the View together.
  * The View receives it's data through the ControllerMember and the ControllerMember updates the 
  * Model if needed from the input given by the View.
  * @author Dylan Van Assche

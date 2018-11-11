@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * ControllerLanding dispatches all the requests and glues the Model and the View together.
+ * ControllerLanding dispatches all the requests for the landing pages and glues the Model and the View together.
  * The View receives it's data through the ControllerLanding and the ControllerLanding updates the 
  * Model if needed from the input given by the View.
  * @author Dylan Van Assche

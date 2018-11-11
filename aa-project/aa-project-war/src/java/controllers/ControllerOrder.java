@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * ControllerOrder dispatches all the requests and glues the Model and the View together.
+ * ControllerOrder dispatches all the requests to order tickets and glues the Model and the View together.
  * The View receives it's data through the ControllerOrder and the ControllerOrder updates the 
  * Model if needed from the input given by the View.
  * @author Dylan Van Assche
