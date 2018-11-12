@@ -34,8 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Seats.findByColumnNumber", query = "SELECT s FROM Seats s WHERE s.columnNumber = :columnNumber")
     , @NamedQuery(name = "Seats.findByRank", query = "SELECT s FROM Seats s WHERE s.rank = :rank")
     , @NamedQuery(name = "Seats.findByStatus", query = "SELECT s FROM Seats s WHERE s.status = :status")
-    , @NamedQuery(name = "Seats.findRowSize", query = "SELECT MAX(s.rowNumber) FROM Seats s")
-    , @NamedQuery(name = "Seats.findColumnSize", query = "SELECT MAX(s.columnNumber) FROM Seats s")})
+    , @NamedQuery(name = "Seats.findLastRowNumber", query = "SELECT MAX(s.rowNumber) FROM Seats s")
+    , @NamedQuery(name = "Seats.findLastColumnNumber", query = "SELECT MAX(s.columnNumber) FROM Seats s")})
 public class Seats implements Serializable {
 
     private static final long serialVersionUID = 1L;

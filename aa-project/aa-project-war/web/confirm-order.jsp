@@ -1,5 +1,5 @@
 <%-- 
-    Document   : confirm-roder.jsp
+    Document   : confirm-oder.jsp
     Created on : Oct 29, 2018, 6:47:03 PM
     Author     : Dylan Van Assche
 --%>
@@ -16,7 +16,7 @@
         <%@include file="WEB-INF/jspf/menu.jspf" %>
         <h1>Confirm your order below</h1>
         <form method="post" action="<c:url value='order' />">
-            <input type="hidden" name="nextState" value="orderFinished">
+            <input type="hidden" name="nextState" value="generateTickets">
             <input type="submit" name="submit" value="Confirm order">
         </form>
     </body>

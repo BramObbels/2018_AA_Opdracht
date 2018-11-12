@@ -16,6 +16,14 @@
         <%@include file="WEB-INF/jspf/menu.jspf" %>
         <h1>Select the seats for the chosen play</h1>
         <form method="post" action="<c:url value='order' />">
+            <ul>
+                <c:forEach var = "entry" items = "${requestScope.seats}">
+                    <li><input type="checkbox" name="selectedSeatIds" value="${entry.value.getId()}">
+                        [<c:out value="${entry.key.getRow()}" />, <c:out value="${entry.key.getColumn()}" />]: 
+                        seat ID= <c:out value="${entry.value.getId()}" />
+                    </li>
+                </c:forEach>
+            </ul>
             <input type="hidden" name="nextState" value="confirmOrder">
             <input type="submit" name="submit" value="Select seats">
         </form>

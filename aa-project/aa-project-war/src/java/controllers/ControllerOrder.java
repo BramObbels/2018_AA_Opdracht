@@ -3,6 +3,8 @@ package controllers;
 import beans.PlaysBeanRemote;
 import beans.SeatsBeanRemote;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,7 +25,7 @@ public class ControllerOrder extends HttpServlet {
     private static final String SELECT_PLAY = "selectPlay";
     private static final String SELECT_SEAT = "selectSeat";
     private static final String CONFIRM_ORDER = "confirmOrder";
-    private static final String ORDER_FINISHED = "orderFinished";
+    private static final String GENERATE_TICKETS = "generateTickets";
     
     /**
      * Initialisation of the ControllerOrder Servlet.
@@ -67,29 +69,52 @@ public class ControllerOrder extends HttpServlet {
             case SELECT_SEAT:
                 System.out.println("SELECT SEATS");
                 // Input validation
-                if(request.getParameter("selectedPlay") == null) {
+                if(request.getParameter("selectedPlayId") == null) {
                     System.err.println("No play selected, unable to continue. HTTP 500");
-                    response.sendError(500, "Unable to process the selected play, please try again later");
+                    response.sendError(500, "Unable to process the selected play");
                     break;
-                }               
+                }
+                else {
+                    session.setAttribute("selectedPlayId", request.getParameter("selectedPlayId"));
+                }
                 
                 // Valid input, processing...
-                System.out.println("SELECTED PLAY ID=" + request.getParameter("selectedPlay"));
-                request.setAttribute("allSeats", seatsBean.getAllSeatsForPlay(Integer.parseInt(request.getParameter("selectedPlay"))));
+                System.out.println("SELECTED PLAY ID=" + session.getAttribute("selectedPlayId"));
+                request.setAttribute("seats", seatsBean.getAllSeatsForPlay(Integer.parseInt((String)session.getAttribute("selectedPlayId"))));
                 session.setAttribute("nextOrderState", CONFIRM_ORDER);
                 this.goToJSPPage("select-seat.jsp", request, response);
                 break;
                 
             case CONFIRM_ORDER:
                 System.out.println("CONFIRM ORDER");
-                session.setAttribute("nextOrderState", SELECT_PLAY);
+                // Input validation
+                if(request.getParameterValues("selectedSeatIds") == null) {
+                    System.err.println("No seats selected, unable to continue. Return to selected seats page");
+                    session.setAttribute("nextOrderState", SELECT_SEAT);
+                    request.setAttribute("seats", seatsBean.getAllSeatsForPlay(Integer.parseInt((String)session.getAttribute("selectedPlayId"))));
+                    this.goToJSPPage("select-seat.jsp", request, response);
+                    break;
+                }    
+                else {
+                    System.out.println("NUMBER OF SELECTED SEATS=" + Arrays.toString(request.getParameterValues("selectedSeatIds")));
+                    String[] checkboxes = request.getParameterValues("selectedSeatIds");
+                    ArrayList<Integer> selectedSeatIds = new ArrayList<Integer>();
+                    for(String id : checkboxes) {
+                        selectedSeatIds.add(Integer.parseInt(id));
+                    }
+                    session.setAttribute("selectedSeatIds", selectedSeatIds);
+                }
+                
+                // Valid input, processing...
+                System.out.println("SELECTED SEATS ID=" + session.getAttribute("selectedSeatIds"));
+                session.setAttribute("nextOrderState", GENERATE_TICKETS);
                 this.goToJSPPage("confirm-order.jsp", request, response);
                 break;
                 
-            case ORDER_FINISHED:
-                System.out.println("ORDER FINISHED, GO TO LANDING PAGE");
-                this.goToJSPPage("landing.jsp", request, response);
-                session.invalidate(); // Order complete, throw away session
+            case GENERATE_TICKETS:
+                System.out.println("GENERATING TICKETS");
+                session.setAttribute("nextOrderState", SELECT_SEAT);
+                this.goToJSPPage("tickets.jsp", request, response);
                 break;
         }
     }

@@ -1,7 +1,8 @@
 package beans;
 
-import java.util.ArrayList;
+import java.util.Map;
 import javax.ejb.Remote;
+import util.TablePosition;
 
 /**
  * Seats API business interface.
@@ -11,7 +12,9 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface SeatsBeanRemote {
-    public ArrayList<ArrayList<Object>> getAllSeatsForPlay(int playId);
+    public Map<TablePosition, Object> getAllSeatsForPlay(int playId);
+    public int getNumberofRowsForPlay(int playId);
+    public int getNumberofColumnsForPlay(int playId);
     public void reserveSeat(int seatId);
     public void freeSeat(int seatId);
     public void occupySeat(int seatId);

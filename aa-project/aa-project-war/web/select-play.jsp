@@ -17,8 +17,8 @@
         <h1>Select an upcoming play to continue</h1>
         <form method="post" action="<c:url value='order' />">
             <ul>
-                <c:forEach var = "r" items = "${requestScope.upcomingPlays}">
-                    <li><input type="radio" name="selectedPlay" required value="${r.getId()}"> <c:out value="${r.getName()}"/> (<c:out value="${r.getDate()}"/>) <c:out value="${r.getBasicPrice()}"/>+<c:out value="${r.getRankFee()}"/>&euro;</li>
+                <c:forEach var = "p" items = "${requestScope.upcomingPlays}">
+                    <li><input type="radio" name="selectedPlayId" required value="${p.getId()}"> <c:out value="${p.getName()}"/> (<c:out value="${p.getDate()}"/>) <c:out value="${p.getBasicPrice()}"/>+<c:out value="${p.getRankFee()}"/>&euro;</li>
                 </c:forEach>
             </ul>
             <input type="hidden" name="nextState" value="selectSeat">
