@@ -75,12 +75,12 @@ public class ControllerOrder extends HttpServlet {
                     break;
                 }
                 else {
-                    session.setAttribute("selectedPlayId", request.getParameter("selectedPlayId"));
+                    session.setAttribute("selectedPlayId", Integer.parseInt(request.getParameter("selectedPlayId")));
                 }
                 
                 // Valid input, processing...
                 System.out.println("SELECTED PLAY ID=" + session.getAttribute("selectedPlayId"));
-                request.setAttribute("seats", seatsBean.getAllSeatsForPlay(Integer.parseInt((String)session.getAttribute("selectedPlayId"))));
+                request.setAttribute("seats", seatsBean.getAllSeatsForPlay((Integer)session.getAttribute("selectedPlayId")));
                 session.setAttribute("nextOrderState", CONFIRM_ORDER);
                 this.goToJSPPage("select-seat.jsp", request, response);
                 break;
@@ -91,7 +91,7 @@ public class ControllerOrder extends HttpServlet {
                 if(request.getParameterValues("selectedSeatIds") == null) {
                     System.err.println("No seats selected, unable to continue. Return to selected seats page");
                     session.setAttribute("nextOrderState", SELECT_SEAT);
-                    request.setAttribute("seats", seatsBean.getAllSeatsForPlay(Integer.parseInt((String)session.getAttribute("selectedPlayId"))));
+                    request.setAttribute("seats", seatsBean.getAllSeatsForPlay((Integer)session.getAttribute("selectedPlayId")));
                     this.goToJSPPage("select-seat.jsp", request, response);
                     break;
                 }    
@@ -108,6 +108,12 @@ public class ControllerOrder extends HttpServlet {
                 // Valid input, processing...
                 System.out.println("SELECTED SEATS ID=" + session.getAttribute("selectedSeatIds"));
                 session.setAttribute("nextOrderState", GENERATE_TICKETS);
+                session.setAttribute("orderedPlay", playsBean.getPlayById((Integer)session.getAttribute("selectedPlayId")));
+                ArrayList<Object> orderedSeats = new ArrayList<Object>();
+                for(Integer id : (ArrayList<Integer>)session.getAttribute("selectedSeatIds")) {
+                    orderedSeats.add(seatsBean.getSeatById(id));
+                }
+                session.setAttribute("orderedSeats", orderedSeats);
                 this.goToJSPPage("confirm-order.jsp", request, response);
                 break;
                 

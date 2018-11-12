@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import util.TablePosition;
 
 /**
@@ -20,44 +21,21 @@ public class SeatsBean implements SeatsBeanRemote {
 
     @Override
     public Map<TablePosition, Object> getAllSeatsForPlay(int playId) {
-        // Convert to ArrayList for easy access
+        // Convert to Map for easy access by row and column number using the TablePosition helper class
         List<Seats> temp = em.createNamedQuery("Seats.findAllSorted").getResultList();
-        // Create an empty 2D ArrayList with given row and column size since we don't know
-        /*ArrayList<ArrayList<Seats>> seats = new ArrayList<ArrayList<Seats>>();
-        for(int r=0; r < rowSize; r++) {
-            ArrayList<Object> rowSeats = new ArrayList<Seats>();
-            for(int c=0; c < columnSize; c++) {
-                rowSeats.add(new Seats());
-            }
-            seats.add(rowSeats);
-        }
-        System.out.println("ROW SIZE 2D: " + seats.size());
-        System.out.println("COLUMN SIZE 2D: " + seats.get(0).size());
-        
-        // Filter for upcoming plays
-        for(Seats s : temp) {
-            // Get list of seats for a certain row, create the row if needed
-            
-            // Row already exist, load it
-            ArrayList<Seats> rowSeats = seats.get(s.getRowNumber());
-            
-            // Sorted by Java Persistence Query language
-            rowSeats.add(s.getRowNumber(), s); 
-            seats.add(s.getColumnNumber(), rowSeats);
-        }
-        
-        ArrayList<ArrayList<Object>> upcastingSeats = new ArrayList<ArrayList<Object>>();
-        for(ArrayList<Seats> rowSeats: seats) {
-            for(Seats s: rowSeats) {
-                upcastingSeats.at(s.getRowNumber()).at(s.getColumnNumber())
-            }
-        }*/
-        
-        Map<TablePosition, Object> seats = new LinkedHashMap<TablePosition, Object>();
+        Map<TablePosition, Object> seats = new LinkedHashMap<TablePosition, Object>(); // Order is maintained using a LinkedHashMap
         for(Seats s: temp) {
-            seats.put(new TablePosition(s.getRowNumber(), s.getColumnNumber()), (Object)s);
+            seats.put(new TablePosition(s.getRowNumber(), s.getColumnNumber()), (Object)s); // Insert seat using upcasting
         }
         return seats;
+    }
+    
+    @Override
+    public Object getSeatById(int seatId) {
+        Query q = em.createNamedQuery("Seats.findById");
+        q.setParameter("id", seatId);
+        Seats seat = (Seats)q.getSingleResult();
+        return seat;
     }
     
     @Override
@@ -72,16 +50,37 @@ public class SeatsBean implements SeatsBeanRemote {
 
     @Override
     public void reserveSeat(int seatId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Seats seat = (Seats)this.getSeatById(seatId);
+        seat.setReserved();
     }
 
     @Override
     public void freeSeat(int seatId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Seats seat = (Seats)this.getSeatById(seatId);
+        seat.setAvailable();
     }
 
     @Override
     public void occupySeat(int seatId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Seats seat = (Seats)this.getSeatById(seatId);
+        seat.setOccupied();
+    }
+
+    @Override
+    public void addSeat(int row, int column, int rank) {
+        int lastSeatId = (int)em.createNamedQuery("Seats.findLastId").getSingleResult();
+        // Validation needed for rows and colums?
+        Seats seat = new Seats();
+        seat.setId(lastSeatId + 1);
+        seat.setColumnNumber(column);
+        seat.setRowNumber(row);
+        seat.setRank(rank);
+        em.persist(seat);
+    }
+
+    @Override
+    public void removeSeat(int seatId) {
+        Seats seat = (Seats)this.getSeatById(seatId);
+        em.remove(seat);
     }
 }

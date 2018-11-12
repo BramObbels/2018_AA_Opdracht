@@ -14,6 +14,7 @@ import javax.ejb.Remote;
 public interface PlaysBeanRemote {
     public ArrayList<Object> getUpcomingPlays();
     public ArrayList<Object> getAllPlays();
-    public void removePlay(int id);
+    public Object getPlayById(int playId);
+    public void removePlay(int playId);
     public void addPlay(String name, Date date, float basicPrice, float rankFee);
 }

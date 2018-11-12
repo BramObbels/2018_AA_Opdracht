@@ -51,19 +51,29 @@ public class PlaysBean implements PlaysBeanRemote {
         // Convert to ArrayList for easy access
         return new ArrayList<Object>(em.createNamedQuery("Plays.findAll").getResultList());
     }
+    
+    @Override
+    /**
+     * Find a Plays object by ID.
+     * @parameter int playId
+     * @author Dylan Van Assche
+     */
+    public Object getPlayById(int playId) {
+        Query q = em.createNamedQuery("Plays.findById"); // Find object by given ID
+        q.setParameter("id", playId);
+        return q.getSingleResult();
+    }
 
     @Override
     /**
      * Removes a play.
      * Removes a play by a given play ID.
-     * @parameter int id
+     * @parameter int playId
      * @see addPlay()
      * @author Dylan Van Assche
      */
-    public void removePlay(int id) {
-        Query q = em.createNamedQuery("Plays.findById"); // Find object by given ID
-        q.setParameter("id", id);
-        Plays play = (Plays)q.getSingleResult();
+    public void removePlay(int playId) {
+        Plays play = (Plays)this.getPlayById(playId);
         em.remove(play); // Remove the retrieved object from the database
     }
 
