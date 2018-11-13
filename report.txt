@@ -1,0 +1,78 @@
+commit 9e452da353a29b265701a4d292f041f182244be8
+Author: Dylan Van Assche <dylan.van.assche@protonmail.com>
+Date:   Mon Nov 12 11:21:54 2018 +0100
+
+    Added old project as ZIP + README
+
+commit 10a0a6d214552d6b3e6cb08ec11c63e0cab4fe01
+Author: Dylan Van Assche <dylan.van.assche@protonmail.com>
+Date:   Mon Nov 12 11:15:05 2018 +0100
+
+    Expose confirm order
+
+commit 6b2692a84fc99e1656ab68858f4980b3a8423b71
+Author: Dylan Van Assche <dylan.van.assche@protonmail.com>
+Date:   Mon Nov 12 09:30:19 2018 +0100
+
+    [WIP] Seats API and exposing
+
+commit 45075a66aa70f530c572cf077ce648676708cc7f
+Merge: 478b42d acaaa87
+Author: Dylan Van Assche <dylan.van.assche@protonmail.com>
+Date:   Sun Nov 11 19:59:39 2018 +0100
+
+    Merge branch 'new-project-structure' of github.com:BramObbels/2018_AA_Opdracht into new-project-structure
+
+commit acaaa878bfb5ddd5d6ae92bf1f215b4e04f1ae7e
+Author: Dylan Van Assche <dylan.van.assche@protonmail.com>
+Date:   Sun Nov 11 19:57:49 2018 +0100
+
+    Added inserts for create.sql
+
+commit 478b42d300903762ac83bb300df2dbf196187ef1
+Author: Dylan Van Assche <dylan.van.assche@protonmail.com>
+Date:   Sun Nov 11 19:33:27 2018 +0100
+
+    Added complete order process in servlet
+
+commit 4cd9fee38a1bebd1c74ebdbdd6fb447160b1af46
+Author: Dylan Van Assche <dylan.van.assche@protonmail.com>
+Date:   Sun Nov 11 19:00:56 2018 +0100
+
+    [WIP] order flow
+
+commit bc5d1d406870887b56e377203ecfb3e18fe5e0a6
+Author: Dylan Van Assche <dylan.van.assche@protonmail.com>
+Date:   Sun Nov 11 16:58:03 2018 +0100
+
+    init seatsBean
+
+commit e561a2bdd3f8de3d9d7109bbf13c01ed3457e736
+Author: Dylan Van Assche <dylan.van.assche@protonmail.com>
+Date:   Sun Nov 11 16:41:42 2018 +0100
+
+    Added the rest of the necessary servlets again
+
+commit ab4e15f824854739c28dd344a18bad3ed06065d1
+Author: Dylan Van Assche <dylan.van.assche@protonmail.com>
+Date:   Sun Nov 11 16:33:19 2018 +0100
+
+    Init JEE security
+
+commit 293d810a2f7ce22a93fbd5dc2eca2f1b8d6815b5
+Author: Dylan Van Assche <dylan.van.assche@protonmail.com>
+Date:   Sun Nov 11 16:01:26 2018 +0100
+
+    Exposed play API to the outside
+
+commit f8e3abed508c41ccdd4efb5ccfa33140b08a4ad9
+Author: Dylan Van Assche <dylan.van.assche@protonmail.com>
+Date:   Sun Nov 11 15:27:56 2018 +0100
+
+    Init JEE project
+
+commit 936ddb7977d524a638f1d5a06f9c1b50052e3486
+Author: Dylan Van Assche <dylan.van.assche@protonmail.com>
+Date:   Sun Nov 11 15:27:07 2018 +0100
+
+    Added gitignore
