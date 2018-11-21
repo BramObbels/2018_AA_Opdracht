@@ -19,6 +19,11 @@ import util.TablePosition;
 public class SeatsBean implements SeatsBeanRemote {
     @PersistenceContext private EntityManager em;
 
+    /**
+     * Retrieves all seats for a play.
+     * @parameter int playId
+     * @author Dylan Van Assche
+     */
     @Override
     public Map<TablePosition, Object> getAllSeatsForPlay(int playId) {
         // Convert to Map for easy access by row and column number using the TablePosition helper class
@@ -30,6 +35,11 @@ public class SeatsBean implements SeatsBeanRemote {
         return seats;
     }
     
+    /**
+     * Find a Seat object by ID.
+     * @parameter int seatId
+     * @author Dylan Van Assche
+     */
     @Override
     public Object getSeatById(int seatId) {
         Query q = em.createNamedQuery("Seats.findById");
@@ -38,34 +48,64 @@ public class SeatsBean implements SeatsBeanRemote {
         return seat;
     }
     
+    /**
+     * Gets the number of rows for a play.
+     * @parameter int playId
+     * @author Dylan Van Assche
+     */
     @Override
     public int getNumberofRowsForPlay(int playId) {
         return (int)em.createNamedQuery("Seats.findLastRowNumber").getSingleResult() + 1; // convert to size
     }
 
+    /**
+     * Gets the number of columns for a play.
+     * @parameter int playId
+     * @author Dylan Van Assche
+     */
     @Override
     public int getNumberofColumnsForPlay(int playId) {
         return (int)em.createNamedQuery("Seats.findLastColumnNumber").getSingleResult() + 1; // convert to size
     }
 
+    /**
+     * Reserves a seat
+     * @parameter int seatId
+     * @author Dylan Van Assche
+     */
     @Override
     public void reserveSeat(int seatId) {
         Seats seat = (Seats)this.getSeatById(seatId);
-        seat.setReserved();
+        seat.setStatus(Seats.RESERVED);
     }
 
+    /**
+     * Free a seat
+     * @parameter int seatId
+     * @author Dylan Van Assche
+     */
     @Override
     public void freeSeat(int seatId) {
         Seats seat = (Seats)this.getSeatById(seatId);
-        seat.setAvailable();
+        seat.setStatus(Seats.AVAILABLE);
     }
 
+    /**
+     * Occupy a seat
+     * @parameter int seatId
+     * @author Dylan Van Assche
+     */
     @Override
     public void occupySeat(int seatId) {
         Seats seat = (Seats)this.getSeatById(seatId);
-        seat.setOccupied();
+        seat.setStatus(Seats.OCCUPIED);
     }
 
+    /**
+     * Add a seat
+     * @parameter int seatId
+     * @author Dylan Van Assche
+     */
     @Override
     public void addSeat(int row, int column, int rank) {
         int lastSeatId = (int)em.createNamedQuery("Seats.findLastId").getSingleResult();
@@ -78,6 +118,11 @@ public class SeatsBean implements SeatsBeanRemote {
         em.persist(seat);
     }
 
+    /**
+     * Remove a seat
+     * @parameter int seatId
+     * @author Dylan Van Assche
+     */
     @Override
     public void removeSeat(int seatId) {
         Seats seat = (Seats)this.getSeatById(seatId);

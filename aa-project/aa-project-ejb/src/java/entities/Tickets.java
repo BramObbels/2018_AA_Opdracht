@@ -30,8 +30,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Tickets.findById", query = "SELECT t FROM Tickets t WHERE t.id = :id")
     , @NamedQuery(name = "Tickets.findByValid", query = "SELECT t FROM Tickets t WHERE t.valid = :valid")})
 public class Tickets implements Serializable {
-
     private static final long serialVersionUID = 1L;
+    public static final int VALID = 1;
+    public static final int INVALID = 0;
+    
     @Id
     @Basic(optional = false)
     @NotNull
@@ -120,5 +122,4 @@ public class Tickets implements Serializable {
     public String toString() {
         return "entities.Tickets[ id=" + id + " ]";
     }
-    
 }

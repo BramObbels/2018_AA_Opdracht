@@ -152,29 +152,4 @@ public class Seats implements Serializable {
     public String toString() {
         return "entities.Seats[ id=" + id + " ]";
     }
-    
-    // We don't allow to set the status from outside the Seats object to maintain persistence for states in the status member.
-    public boolean isAvailable() {
-        return this.status == AVAILABLE;
-    }
-    
-    public boolean isOccupied() {
-        return this.status == OCCUPIED;
-    }
-    
-    public boolean isReserved() {
-        return this.status == RESERVED;
-    }
-    
-    public void setAvailable() {
-        this.status = AVAILABLE;
-    }
-    
-    public void setOccupied() {
-        this.status = OCCUPIED;
-    }
-    
-    public void setReserved() {
-        this.status = RESERVED;
-    }
 }

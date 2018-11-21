@@ -21,6 +21,11 @@
             If you don't want to create an account, print this page and keep it in a save place.
         </p>
         <form method="post" action="<c:url value='/' />">
+            <ul>
+                <c:forEach var = "t" items = "${sessionScope.generatedTickets}">
+                    <li>${t.getId()}</li>
+                </c:forEach>
+            </ul>
             <input type="hidden" name="nextState" value="orderFinished">
             <input type="submit" name="submit" value="Finish">
         </form>
