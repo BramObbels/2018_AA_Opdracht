@@ -4,6 +4,8 @@ import entities.Plays;
 import entities.Seats;
 import entities.Tickets;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -52,7 +54,7 @@ public class TicketsBean implements TicketsBeanRemote {
         ticket.setSeatId(seat);        
         ticket.setValid(Tickets.VALID);
         
-        // Make seat OCCUPIED
+        // Make seat OCCUPIED and merge the change with the DB
         seat.setStatus(Seats.OCCUPIED);
         seat = em.merge(seat);
         
@@ -72,6 +74,20 @@ public class TicketsBean implements TicketsBeanRemote {
         Query q = em.createNamedQuery("Tickets.findById"); // Find object by given ID
         q.setParameter("id", ticketId);
         return q.getSingleResult();
+    }
+    
+    /**
+     * Get all sold tickets for a play.
+     * Retrieves all the sold tickets for a play ID. 
+     * @parameter int playId
+     * @author Dylan Van Assche
+     */
+    @Override
+    public ArrayList<Object> getAllSoldTicketsForPlay(int playId) {
+        Query q = em.createNamedQuery("Tickets.findByPlayId"); // Find object by given ID
+        q.setParameter("playId", playId);
+        ArrayList<Object> tickets = (ArrayList<Object>)q.getResultList();
+        return tickets;
     }
 
     /**
@@ -98,6 +114,9 @@ public class TicketsBean implements TicketsBeanRemote {
     @Override
     public void invalidateTicketById(int ticketId) {
         Tickets ticket = (Tickets)this.getTicketById(ticketId);
+        
+        // Make ticket invalid and merge it with the DB
         ticket.setValid(Tickets.INVALID);
+        ticket = em.merge(ticket);
     }
 }

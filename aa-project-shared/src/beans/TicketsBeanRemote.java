@@ -1,5 +1,6 @@
 package beans;
 
+import java.util.ArrayList;
 import javax.ejb.Remote;
 
 /**
@@ -13,6 +14,7 @@ import javax.ejb.Remote;
 public interface TicketsBeanRemote {
     public Object generateTicket(int accountId, int playId, int seatId);
     public Object getTicketById(int ticketId);
+    public ArrayList<Object> getAllSoldTicketsForPlay(int playId);
     public boolean isTicketValidById(int ticketId);
     public void invalidateTicketById(int ticketId);
 }

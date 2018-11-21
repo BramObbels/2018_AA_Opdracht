@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Tickets.findAll", query = "SELECT t FROM Tickets t")
     , @NamedQuery(name = "Tickets.findById", query = "SELECT t FROM Tickets t WHERE t.id = :id")
+    , @NamedQuery(name = "Tickets.findByPlayId", query = "SELECT t FROM Tickets t WHERE t.playId = :playId")
     , @NamedQuery(name = "Tickets.findByValid", query = "SELECT t FROM Tickets t WHERE t.valid = :valid")})
 public class Tickets implements Serializable {
     private static final long serialVersionUID = 1L;

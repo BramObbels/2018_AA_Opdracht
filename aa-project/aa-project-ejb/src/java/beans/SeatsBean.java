@@ -36,11 +36,7 @@ public class SeatsBean implements SeatsBeanRemote {
         Map<TablePosition, Object> seats = new LinkedHashMap<TablePosition, Object>(); // Order is maintained using a LinkedHashMap
         
         for(Seats s: temp) {
-            // IF USER is member or public (add check):
-            if(s.getStatus() == Seats.AVAILABLE) {
-               seats.put(new TablePosition(s.getRowNumber(), s.getColumnNumber()), (Object)s); // Insert seat using upcasting
-            }
-            // IF USER is administrator:
+            seats.put(new TablePosition(s.getRowNumber(), s.getColumnNumber()), (Object)s); // Insert seat using upcasting
         }
         
         return seats;

@@ -34,6 +34,7 @@ public class PlaysBean implements PlaysBeanRemote {
         // Filter for upcoming plays
         for(Plays p : temp) {
             if(p.getDate().getTime() < now.getTime()) {
+                // Administrators can see all the plays, members and public only the plays that aren't sold out
                 plays.add(p);
             }
         }
