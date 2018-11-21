@@ -11,11 +11,11 @@
  * - ACCOUNTS
  *   - ID
  *   - name
- *   - group
  * 
  * - GROUPS
  *   - ID
  *   - name
+ *   - accountId
  *
  * JEE Application
  * - PLAYS
@@ -30,11 +30,13 @@
  *   - price
  *   - rank
  *   - state (free, reserved, occupied)
+ *   - playId
  *
  * - TICKETS
  *   - ID
  *   - account ID
  *   - play ID
+ *   - valid
  *
  * /!\ Drop tables in reverse order of creation
  *
@@ -43,21 +45,22 @@
 DROP TABLE IF EXISTS tickets;
 DROP TABLE IF EXISTS seats;
 DROP TABLE IF EXISTS plays;
-DROP TABLE IF EXISTS accounts;
 DROP TABLE IF EXISTS groups;
-
-CREATE TABLE groups(
-    id INT,
-    name VARCHAR(50),
-    PRIMARY KEY(id)
-);
+DROP TABLE IF EXISTS accounts;
 
 CREATE TABLE accounts(
     id INT,
     name VARCHAR(50),
-    groupId INT,
+    password VARCHAR(50),
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE groups(
+    id INT,
+    name VARCHAR(50),
+    accountId INT,
     PRIMARY KEY(id),
-    FOREIGN KEY(groupId) REFERENCES groups(id)
+    FOREIGN KEY(accountId) REFERENCES accounts(id)
 );
     
 CREATE TABLE plays(
@@ -75,39 +78,47 @@ CREATE TABLE seats(
     columnNumber INT,
     rank INT,
     status INT,
+    playId INT,
     PRIMARY KEY(id),
+    FOREIGN KEY(playId) REFERENCES plays(id),
     CONSTRAINT checkRank CHECK (rank >= 0), -- price = basic price + (rank * additional fee) defined for each play
     CONSTRAINT checkStatus CHECK (status >= 0), -- 0 = free, 1 = reserved, 2 = occupied
-    CONSTRAINT checkRowColumn UNIQUE(rowNumber, columnNumber) -- row and column of a seat are unique
+    CONSTRAINT checkRowColumn UNIQUE(rowNumber, columnNumber, playId) -- row and column of a seat are unique
 );
 
 CREATE TABLE tickets(
-    id INT,
+    id BIGINT,
     accountId INT,
     playId INT,
     seatId INT,
+    valid INT,
+    CONSTRAINT checkValid CHECK (valid = 0 OR valid = 1),
     PRIMARY KEY(id),
     FOREIGN KEY(accountId) REFERENCES accounts(id),
     FOREIGN KEY(playId) REFERENCES plays(id),
     FOREIGN KEY(seatId) REFERENCES seats(id)
 );
 
-INSERT INTO groups VALUES(0, 'members');
-INSERT INTO groups VALUES(1, 'public');
-INSERT INTO groups VALUES(2, 'administrators');
 INSERT INTO accounts VALUES(0, 'Joske Vermeulen', 0);
 INSERT INTO accounts VALUES(1, 'Herman Brusselmans', 1);
 INSERT INTO accounts VALUES(2, 'Mr. T', 2);
+INSERT INTO groups VALUES(0, 'members', 0);
+INSERT INTO groups VALUES(1, 'public', 1);
+INSERT INTO groups VALUES(2, 'administrators', 2);
 INSERT INTO plays VALUES(0, 'Sneeuwitje', '2018-04-19 13:08:22.0', 5.0, 2.0);
 INSERT INTO plays VALUES(1, 'Girl', '2018-05-19 13:08:22.0', 6.0, 3.0);
-INSERT INTO seats VALUES(0, 0, 0, 1, 1);
-INSERT INTO seats VALUES(1, 0, 1, 0, 2);
-INSERT INTO seats VALUES(2, 0, 2, 0, 0);
-INSERT INTO seats VALUES(3, 1, 0, 1, 0);
-INSERT INTO seats VALUES(4, 1, 1, 0, 3);
-INSERT INTO seats VALUES(5, 1, 2, 2, 2);
-INSERT INTO seats VALUES(6, 2, 0, 0, 1);
-INSERT INTO seats VALUES(7, 2, 1, 0, 1);
-INSERT INTO seats VALUES(8, 2, 2, 3, 1);
-INSERT INTO tickets VALUES(0, 0, 0, 1);
-INSERT INTO tickets VALUES(1, 1, 1, 1);
+INSERT INTO seats VALUES(0, 0, 0, 1, 1, 0);
+INSERT INTO seats VALUES(1, 0, 1, 0, 2, 0);
+INSERT INTO seats VALUES(2, 0, 2, 0, 0, 0);
+INSERT INTO seats VALUES(3, 1, 0, 1, 0, 0);
+INSERT INTO seats VALUES(4, 1, 1, 0, 3, 0);
+INSERT INTO seats VALUES(5, 1, 2, 2, 2, 0);
+INSERT INTO seats VALUES(6, 2, 0, 0, 1, 0);
+INSERT INTO seats VALUES(7, 2, 1, 0, 1, 0);
+INSERT INTO seats VALUES(8, 2, 2, 3, 1, 0);
+INSERT INTO seats VALUES(9, 0, 0, 1, 1, 1);
+INSERT INTO seats VALUES(10, 0, 1, 0, 2, 1);
+INSERT INTO seats VALUES(11, 0, 2, 0, 0, 1);
+INSERT INTO seats VALUES(12, 1, 0, 1, 0, 1);
+INSERT INTO tickets VALUES(0, 0, 0, 1, 1);
+INSERT INTO tickets VALUES(1, 1, 1, 1, 1);

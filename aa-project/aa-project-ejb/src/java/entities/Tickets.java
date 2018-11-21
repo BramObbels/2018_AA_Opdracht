@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package entities;
 
 import java.io.Serializable;
@@ -14,15 +19,16 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Entity bean for the TICKETS table.
- * @author Dylan Van Assche
+ *
+ * @author dylan
  */
 @Entity
 @Table(name = "tickets")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Tickets.findAll", query = "SELECT t FROM Tickets t")
-    , @NamedQuery(name = "Tickets.findById", query = "SELECT t FROM Tickets t WHERE t.id = :id")})
+    , @NamedQuery(name = "Tickets.findById", query = "SELECT t FROM Tickets t WHERE t.id = :id")
+    , @NamedQuery(name = "Tickets.findByValid", query = "SELECT t FROM Tickets t WHERE t.valid = :valid")})
 public class Tickets implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,7 +36,9 @@ public class Tickets implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
-    private Integer id;
+    private Long id;
+    @Column(name = "valid")
+    private Integer valid;
     @JoinColumn(name = "accountId", referencedColumnName = "id")
     @ManyToOne
     private Accounts accountId;
@@ -44,16 +52,24 @@ public class Tickets implements Serializable {
     public Tickets() {
     }
 
-    public Tickets(Integer id) {
+    public Tickets(Long id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getValid() {
+        return valid;
+    }
+
+    public void setValid(Integer valid) {
+        this.valid = valid;
     }
 
     public Accounts getAccountId() {
