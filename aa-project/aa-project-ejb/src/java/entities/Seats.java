@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Seats.findAll", query = "SELECT s FROM Seats s")
     , @NamedQuery(name = "Seats.findAllSorted", query = "SELECT s FROM Seats s ORDER BY s.rowNumber, s.columnNumber")
+    , @NamedQuery(name = "Seats.findAllSortedByPlayId", query = "SELECT s FROM Seats s WHERE s.playId = :playId ORDER BY s.rowNumber, s.columnNumber")
     , @NamedQuery(name = "Seats.findById", query = "SELECT s FROM Seats s WHERE s.id = :id")
     , @NamedQuery(name = "Seats.findByRowNumber", query = "SELECT s FROM Seats s WHERE s.rowNumber = :rowNumber")
     , @NamedQuery(name = "Seats.findByColumnNumber", query = "SELECT s FROM Seats s WHERE s.columnNumber = :columnNumber")

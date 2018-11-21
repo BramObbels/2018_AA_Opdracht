@@ -127,7 +127,7 @@ public class ControllerOrder extends HttpServlet {
                 for(Integer id : (ArrayList<Integer>)session.getAttribute("selectedSeatIds")) {
                     int playId = (Integer)session.getAttribute("selectedPlayId");
                     int accountId = 0;
-                    System.out.println("Ticket");
+                    System.out.println("Ticket:" + playId + " ACC:" + accountId + " ID=" + id);
                     Object ticket = ticketsBean.generateTicket(accountId, playId, id);
                     System.out.println(((Tickets)ticket).getId());
                     generatedTickets.add(ticket);
