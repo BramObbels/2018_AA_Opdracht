@@ -34,9 +34,15 @@ public class SeatsBean implements SeatsBeanRemote {
         q.setParameter("playId", (Plays)playsBean.getPlayById(playId));
         List<Seats> temp = q.getResultList();
         Map<TablePosition, Object> seats = new LinkedHashMap<TablePosition, Object>(); // Order is maintained using a LinkedHashMap
+        
         for(Seats s: temp) {
-            seats.put(new TablePosition(s.getRowNumber(), s.getColumnNumber()), (Object)s); // Insert seat using upcasting
+            // IF USER is member or public (add check):
+            if(s.getStatus() == Seats.AVAILABLE) {
+               seats.put(new TablePosition(s.getRowNumber(), s.getColumnNumber()), (Object)s); // Insert seat using upcasting
+            }
+            // IF USER is administrator:
         }
+        
         return seats;
     }
     

@@ -52,6 +52,10 @@ public class TicketsBean implements TicketsBeanRemote {
         ticket.setSeatId(seat);        
         ticket.setValid(Tickets.VALID);
         
+        // Make seat OCCUPIED
+        seat.setStatus(Seats.OCCUPIED);
+        seat = em.merge(seat);
+        
         // Make ticket persistent and return it
         em.persist(ticket);
         return (Object)ticket;
