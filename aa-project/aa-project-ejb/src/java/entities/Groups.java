@@ -6,19 +6,18 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -42,8 +41,9 @@ public class Groups implements Serializable {
     @Size(max = 50)
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "groupId")
-    private Collection<Accounts> accountsCollection;
+    @JoinColumn(name = "accountId", referencedColumnName = "id")
+    @ManyToOne
+    private Accounts accountId;
 
     public Groups() {
     }
@@ -68,13 +68,12 @@ public class Groups implements Serializable {
         this.name = name;
     }
 
-    @XmlTransient
-    public Collection<Accounts> getAccountsCollection() {
-        return accountsCollection;
+    public Accounts getAccountId() {
+        return accountId;
     }
 
-    public void setAccountsCollection(Collection<Accounts> accountsCollection) {
-        this.accountsCollection = accountsCollection;
+    public void setAccountId(Accounts accountId) {
+        this.accountId = accountId;
     }
 
     @Override
