@@ -2,6 +2,8 @@ package controllers;
 
 import beans.PlaysBeanRemote;
 import beans.SeatsBeanRemote;
+import beans.TicketsBeanRemote;
+import entities.Tickets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,6 +24,7 @@ import javax.servlet.http.HttpSession;
 public class ControllerOrder extends HttpServlet {
     @EJB PlaysBeanRemote playsBean;
     @EJB SeatsBeanRemote seatsBean;
+    @EJB TicketsBeanRemote ticketsBean;
     private static final String SELECT_PLAY = "selectPlay";
     private static final String SELECT_SEAT = "selectSeat";
     private static final String CONFIRM_ORDER = "confirmOrder";
@@ -120,6 +123,17 @@ public class ControllerOrder extends HttpServlet {
             case GENERATE_TICKETS:
                 System.out.println("GENERATING TICKETS");
                 session.setAttribute("nextOrderState", SELECT_SEAT);
+                ArrayList<Object> generatedTickets = new ArrayList<Object>();
+                for(Integer id : (ArrayList<Integer>)session.getAttribute("selectedSeatIds")) {
+                    int playId = (Integer)session.getAttribute("selectedPlayId");
+                    int accountId = 0;
+                    System.out.println("Ticket:" + playId + " ACC:" + accountId + " ID=" + id);
+                    Object ticket = ticketsBean.generateTicket(accountId, playId, id);
+                    System.out.println(((Tickets)ticket).getId());
+                    generatedTickets.add(ticket);
+                }
+                session.setAttribute("generatedTickets", generatedTickets);
+                
                 this.goToJSPPage("tickets.jsp", request, response);
                 break;
         }

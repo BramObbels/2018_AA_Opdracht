@@ -34,37 +34,37 @@ public class PlaysBean implements PlaysBeanRemote {
         // Filter for upcoming plays
         for(Plays p : temp) {
             if(p.getDate().getTime() < now.getTime()) {
+                // Administrators can see all the plays, members and public only the plays that aren't sold out
                 plays.add(p);
             }
         }
         return plays;
     }
     
-    @Override
     /**
      * Get upcoming plays.
      * Retrieves all the plays. If you want only the upcoming plays, see getUpcomingPlays().
      * @see getUpcomingPlays()
      * @author Dylan Van Assche
      */
+    @Override
     public ArrayList<Object> getAllPlays() {
         // Convert to ArrayList for easy access
         return new ArrayList<Object>(em.createNamedQuery("Plays.findAll").getResultList());
     }
     
-    @Override
     /**
      * Find a Plays object by ID.
      * @parameter int playId
      * @author Dylan Van Assche
      */
+    @Override
     public Object getPlayById(int playId) {
         Query q = em.createNamedQuery("Plays.findById"); // Find object by given ID
         q.setParameter("id", playId);
         return q.getSingleResult();
     }
 
-    @Override
     /**
      * Removes a play.
      * Removes a play by a given play ID.
@@ -72,12 +72,12 @@ public class PlaysBean implements PlaysBeanRemote {
      * @see addPlay()
      * @author Dylan Van Assche
      */
+    @Override
     public void removePlay(int playId) {
         Plays play = (Plays)this.getPlayById(playId);
         em.remove(play); // Remove the retrieved object from the database
     }
 
-    @Override
     /**
      * Adds a play.
      * Adds a play by a name, date, basicPrice and rankFee.
@@ -88,6 +88,7 @@ public class PlaysBean implements PlaysBeanRemote {
      * @see removePlay()
      * @author Dylan Van Assche
      */
+    @Override
     public void addPlay(String name, Date date, float basicPrice, float rankFee) {
         int lastId = (int)em.createNamedQuery("Plays.findLastId").getSingleResult();
         Plays play = new Plays(); // Create a new Plays object
