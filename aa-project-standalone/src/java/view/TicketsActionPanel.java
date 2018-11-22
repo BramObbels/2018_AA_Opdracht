@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * JPanel for each JList entry.
+ * JPanel for each JList ticket entry.
  * @author Dylan Van Assche
  */
 public class TicketsActionPanel extends JPanel {
@@ -15,6 +15,12 @@ public class TicketsActionPanel extends JPanel {
     private JLabel seatRowLabel;
     private JLabel seatColumnLabel;
     
+    /**
+    * Public constructor.
+    * This panel holds the seat information for a ticket and allows the operator 
+    * to invalidate the ticket at the entrance. 
+    * @author Dylan Van Assche
+    */
     public TicketsActionPanel(Controller controller) {
         // Keep a reference to the Controller
         this.setController(controller);

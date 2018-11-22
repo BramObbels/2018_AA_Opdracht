@@ -3,9 +3,13 @@ package view;
 import controller.Controller;
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * MainWindow.
@@ -23,7 +27,7 @@ public class MainWindow extends JFrame {
     public MainWindow(Controller controller) {      
         // JFrame setup
         super();
-        
+                
         // Keep a reference to the Controller
         this.setController(controller);
         

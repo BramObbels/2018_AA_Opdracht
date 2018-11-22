@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * JPanel for information about the current selected play.
+ * JPanel for information about the selected play.
  * @author Dylan Van Assche
  */
 public class PlayInformationPanel extends JPanel {
@@ -18,6 +18,11 @@ public class PlayInformationPanel extends JPanel {
     private JLabel numberOfTicketsText;
     private JLabel dateText;
     
+    /**
+    * Public constructor.
+    * This panel holds all the information about a play.
+    * @author Dylan Van Assche
+    */
     public PlayInformationPanel(Controller controller) {
         // Keep a reference to the controller
         this.setController(controller);
