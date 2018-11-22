@@ -34,6 +34,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Accounts.findByPassword", query = "SELECT a FROM Accounts a WHERE a.password = :password")})
 public class Accounts implements Serializable {
 
+    @OneToMany(mappedBy = "accountId")
+    private Collection<Tickets> ticketsCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -112,6 +115,15 @@ public class Accounts implements Serializable {
     @Override
     public String toString() {
         return "entities.Accounts[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Tickets> getTicketsCollection() {
+        return ticketsCollection;
+    }
+
+    public void setTicketsCollection(Collection<Tickets> ticketsCollection) {
+        this.ticketsCollection = ticketsCollection;
     }
     
 }
