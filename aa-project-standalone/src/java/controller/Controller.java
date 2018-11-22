@@ -1,5 +1,7 @@
 package controller;
 
+import beans.PlaysBeanRemote;
+import javax.ejb.EJB;
 import view.MainWindow;
 
 /**
@@ -11,8 +13,8 @@ import view.MainWindow;
  */
 public class Controller {
     private static Controller controller = null;
-    //@EJB private static PlaysBeanRemote playsBean;
-    //@EJB private static TicketsBeanRemote ticketsBean;
+    @EJB private static PlaysBeanRemote playsBean;
+    @EJB private static TicketsBeanRemote ticketsBean;
     
     /**
      * main().
