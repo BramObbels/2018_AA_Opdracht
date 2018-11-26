@@ -9,6 +9,7 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 
 <form method="post" action="j_security_check">
-    <input type="text" name="j_username">
-    <input type="password" name="j_password">
+    gebruikersnaam: <input type="text" name="j_username"> <br>
+    passwoord: <input type="password" name="j_password"> <br>
+    <input type="submit" value="login">
 </form>

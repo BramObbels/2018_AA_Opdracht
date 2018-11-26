@@ -64,7 +64,7 @@
     </error-page>
     <login-config>
         <auth-method>FORM</auth-method>
-        <realm-name>file</realm-name>
+        <realm-name>aa-realm</realm-name>
         <form-login-config>
             <form-login-page>/login.jsp</form-login-page>
             <form-error-page>/login-error.jsp</form-error-page>
