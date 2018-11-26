@@ -1,5 +1,5 @@
 /**
- * Author:  Dylan Van Assche
+ * Author:  Dylan Van Assche   Bram Obbels
  * Created: Nov 1, 2018
  * SQL tables for AA project 2018
  * See https://github.com/BramObbels/2018_AA_Opdracht/issues/1
@@ -49,7 +49,7 @@ DROP TABLE IF EXISTS groups;
 DROP TABLE IF EXISTS accounts;
 
 CREATE TABLE accounts(
-    id INT,
+    id INT NOT NULL,
     name VARCHAR(50),
     password VARCHAR(50),
     PRIMARY KEY(id)
@@ -58,9 +58,8 @@ CREATE TABLE accounts(
 CREATE TABLE groups(
     id INT,
     name VARCHAR(50),
-    accountId INT,
-    PRIMARY KEY(id),
-    FOREIGN KEY(accountId) REFERENCES accounts(id)
+    gebruikersnaam VARCHAR(50),
+    PRIMARY KEY(id)
 );
     
 CREATE TABLE plays(
@@ -99,12 +98,12 @@ CREATE TABLE tickets(
     FOREIGN KEY(seatId) REFERENCES seats(id)
 );
 
-INSERT INTO accounts VALUES(0, 'Joske Vermeulen', 0);
-INSERT INTO accounts VALUES(1, 'Herman Brusselmans', 1);
-INSERT INTO accounts VALUES(2, 'Mr. T', 2);
-INSERT INTO groups VALUES(0, 'members', 0);
-INSERT INTO groups VALUES(1, 'public', 1);
-INSERT INTO groups VALUES(2, 'administrators', 2);
+INSERT INTO accounts VALUES(0, 'a', '123');
+INSERT INTO accounts VALUES(1, 'b', '123');
+INSERT INTO accounts VALUES(2, 'c','123');
+INSERT INTO groups VALUES(0, 'members', 'a');
+INSERT INTO groups VALUES(1, 'public', 'b');
+INSERT INTO groups VALUES(2, 'administrators', 'c');
 INSERT INTO plays VALUES(0, 'Sneeuwitje', '2018-04-19 13:08:22.0', 5.0, 2.0);
 INSERT INTO plays VALUES(1, 'Girl', '2018-05-19 13:08:22.0', 6.0, 3.0);
 INSERT INTO seats VALUES(0, 0, 0, 1, 1, 0);
