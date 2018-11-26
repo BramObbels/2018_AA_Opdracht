@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package entities;
 
 import java.io.Serializable;
@@ -6,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -15,8 +22,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * Entity bean for the SEATS table.
- * @author Dylan Van Assche
+ *
+ * @author dylan
  */
 @Entity
 @Table(name = "seats")
@@ -38,7 +45,6 @@ public class Seats implements Serializable {
     public static final int AVAILABLE = 0;
     public static final int RESERVED = 1;
     public static final int OCCUPIED = 2;
-    
     @Id
     @Basic(optional = false)
     @NotNull
@@ -54,6 +60,9 @@ public class Seats implements Serializable {
     private Integer status;
     @OneToMany(mappedBy = "seatId")
     private Collection<Tickets> ticketsCollection;
+    @JoinColumn(name = "playId", referencedColumnName = "id")
+    @ManyToOne
+    private Plays playId;
 
     public Seats() {
     }
@@ -94,6 +103,14 @@ public class Seats implements Serializable {
         this.rank = rank;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     @XmlTransient
     public Collection<Tickets> getTicketsCollection() {
         return ticketsCollection;
@@ -101,6 +118,14 @@ public class Seats implements Serializable {
 
     public void setTicketsCollection(Collection<Tickets> ticketsCollection) {
         this.ticketsCollection = ticketsCollection;
+    }
+
+    public Plays getPlayId() {
+        return playId;
+    }
+
+    public void setPlayId(Plays playId) {
+        this.playId = playId;
     }
 
     @Override

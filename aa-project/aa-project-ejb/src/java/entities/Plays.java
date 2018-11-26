@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package entities;
 
 import java.io.Serializable;
@@ -19,8 +24,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * Entity bean for the PLAYS table.
- * @author Dylan Van Assche
+ *
+ * @author dylan
  */
 @Entity
 @Table(name = "plays")
@@ -31,8 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Plays.findByName", query = "SELECT p FROM Plays p WHERE p.name = :name")
     , @NamedQuery(name = "Plays.findByDate", query = "SELECT p FROM Plays p WHERE p.date = :date")
     , @NamedQuery(name = "Plays.findByBasicPrice", query = "SELECT p FROM Plays p WHERE p.basicPrice = :basicPrice")
-    , @NamedQuery(name = "Plays.findByRankFee", query = "SELECT p FROM Plays p WHERE p.rankFee = :rankFee")
-    , @NamedQuery(name = "Plays.findLastId", query = "SELECT MAX(p.id) FROM Plays p")})
+    , @NamedQuery(name = "Plays.findByRankFee", query = "SELECT p FROM Plays p WHERE p.rankFee = :rankFee")})
 public class Plays implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,7 +49,7 @@ public class Plays implements Serializable {
     @Column(name = "name")
     private String name;
     @Column(name = "date")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date date;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "basicPrice")
@@ -54,6 +58,8 @@ public class Plays implements Serializable {
     private Float rankFee;
     @OneToMany(mappedBy = "playId")
     private Collection<Tickets> ticketsCollection;
+    @OneToMany(mappedBy = "playId")
+    private Collection<Seats> seatsCollection;
 
     public Plays() {
     }
@@ -109,6 +115,15 @@ public class Plays implements Serializable {
 
     public void setTicketsCollection(Collection<Tickets> ticketsCollection) {
         this.ticketsCollection = ticketsCollection;
+    }
+
+    @XmlTransient
+    public Collection<Seats> getSeatsCollection() {
+        return seatsCollection;
+    }
+
+    public void setSeatsCollection(Collection<Seats> seatsCollection) {
+        this.seatsCollection = seatsCollection;
     }
 
     @Override
