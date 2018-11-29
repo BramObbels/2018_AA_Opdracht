@@ -68,7 +68,6 @@ public class ControllerLanding extends HttpServlet {
      * @throws IOException 
      */
     private void goToJSPPage(String page, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher(page);
-        dispatcher.forward(request, response);
+        response.sendRedirect(page);
     }
 }

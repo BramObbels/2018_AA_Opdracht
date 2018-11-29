@@ -49,13 +49,11 @@ public class ControllerOrder extends HttpServlet {
         HttpSession session = request.getSession();
         
         // At the beginning, the order state isn't initialised for the current session
-        String state;
-        if(request.getParameter("nextState") == null) {
-            state = SELECT_PLAY;
+        String state = (String)session.getAttribute("nextOrderState");
+        if(state == null) {
             System.out.println("Order process started");
-        }
-        else {
-            state = request.getParameter("nextState");
+            session.setAttribute("nextOrderState", SELECT_PLAY);
+            state = SELECT_PLAY;
         }
         
         System.out.println("STATE=" + state);
@@ -64,7 +62,7 @@ public class ControllerOrder extends HttpServlet {
                 System.err.println("Unknown ordering state, starting from the beginning");
             case SELECT_PLAY:
                 System.out.println("UPCOMING PLAYS=" + playsBean.getUpcomingPlays());
-                request.setAttribute("upcomingPlays", playsBean.getUpcomingPlays());
+                session.setAttribute("upcomingPlays", playsBean.getUpcomingPlays());
                 session.setAttribute("nextOrderState", SELECT_SEAT);
                 this.goToJSPPage("select-play.jsp", request, response);
                 break;
@@ -83,7 +81,7 @@ public class ControllerOrder extends HttpServlet {
                 
                 // Valid input, processing...
                 System.out.println("SELECTED PLAY ID=" + session.getAttribute("selectedPlayId"));
-                request.setAttribute("seats", seatsBean.getAllSeatsForPlay((Integer)session.getAttribute("selectedPlayId")));
+                session.setAttribute("seats", seatsBean.getAllSeatsForPlay((Integer)session.getAttribute("selectedPlayId")));
                 session.setAttribute("nextOrderState", CONFIRM_ORDER);
                 this.goToJSPPage("select-seat.jsp", request, response);
                 break;
@@ -94,7 +92,7 @@ public class ControllerOrder extends HttpServlet {
                 if(request.getParameterValues("selectedSeatIds") == null) {
                     System.err.println("No seats selected, unable to continue. Return to selected seats page");
                     session.setAttribute("nextOrderState", SELECT_SEAT);
-                    request.setAttribute("seats", seatsBean.getAllSeatsForPlay((Integer)session.getAttribute("selectedPlayId")));
+                    session.setAttribute("seats", seatsBean.getAllSeatsForPlay((Integer)session.getAttribute("selectedPlayId")));
                     this.goToJSPPage("select-seat.jsp", request, response);
                     break;
                 }    
@@ -122,7 +120,7 @@ public class ControllerOrder extends HttpServlet {
                 
             case GENERATE_TICKETS:
                 System.out.println("GENERATING TICKETS");
-                session.setAttribute("nextOrderState", SELECT_SEAT);
+                session.setAttribute("nextOrderState", null); // End of ordering
                 ArrayList<Object> generatedTickets = new ArrayList<Object>();
                 for(Integer id : (ArrayList<Integer>)session.getAttribute("selectedSeatIds")) {
                     int playId = (Integer)session.getAttribute("selectedPlayId");
@@ -173,7 +171,6 @@ public class ControllerOrder extends HttpServlet {
      * @throws IOException 
      */
     private void goToJSPPage(String page, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher(page);
-        dispatcher.forward(request, response);
+        response.sendRedirect(page);
     }
 }

@@ -16,7 +16,6 @@
         <%@include file="WEB-INF/jspf/menu.jspf" %>
         <h1>Confirm your order below</h1>
         <form method="post" action="<c:url value='order' />">
-            <input type="hidden" name="nextState" value="generateTickets">
             Play: <c:out value="${sessionScope.orderedPlay.getName()}" />
             <ul>
                 <c:forEach var = "entry" items = "${sessionScope.orderedSeats}">

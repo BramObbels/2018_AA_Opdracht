@@ -26,7 +26,6 @@
                     <li>${t.getId()}</li>
                 </c:forEach>
             </ul>
-            <input type="hidden" name="nextState" value="orderFinished">
             <input type="submit" name="submit" value="Finish">
         </form>
     </body>

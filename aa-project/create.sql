@@ -110,7 +110,7 @@ INSERT INTO plays VALUES(2, 'Girl', '2018-05-19 13:08:22.0', 6.0, 3.0);
 INSERT INTO seats VALUES(1, 0, 1, 0, 2, 2);
 INSERT INTO seats VALUES(2, 0, 2, 0, 0, 2);
 INSERT INTO seats VALUES(3, 1, 0, 1, 0, 2);
-INSERT INTO seats VALUES(4, 1, 1, 0, 3, 2);
+INSERT INTO seats VALUES(4, 1, 1, 0, 2, 2);
 INSERT INTO seats VALUES(5, 1, 2, 2, 2, 2);
 INSERT INTO seats VALUES(6, 2, 0, 0, 1, 2);
 INSERT INTO seats VALUES(7, 2, 1, 0, 1, 2);
