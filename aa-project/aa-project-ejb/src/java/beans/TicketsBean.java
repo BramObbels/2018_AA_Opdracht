@@ -42,8 +42,6 @@ public class TicketsBean implements TicketsBeanRemote {
         // Generate ticket ID and build Ticket object
         long ticketId = ThreadLocalRandom.current().nextLong(MIN.longValue(), MAX.longValue() + 1);
         Tickets ticket = new Tickets();
-        ticket.setId(ticketId); 
-        /*ticket.setAccountId(); */// Security story
         System.out.println("AccountId=" + accountId);
         System.out.println("PlayId=" + playId);
         System.out.println("SeatId=" + seatId);
@@ -51,6 +49,10 @@ public class TicketsBean implements TicketsBeanRemote {
         System.out.println("PLAY=" + play.getName());
         Seats seat = (Seats)seatsBean.getSeatById(seatId);
         System.out.println("SEAT=" + seat.getRowNumber() + "," + seat.getColumnNumber() + " ID=" + seat.getId());
+        
+        ticket.setId(ticketId); 
+        /*ticket.setAccountId(); */// Security story
+        ticket.setPlayId(play);
         ticket.setSeatId(seat);        
         ticket.setValid(Tickets.VALID);
         
