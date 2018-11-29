@@ -11,9 +11,18 @@
             <test-roots>
                 <root id="test.src.dir"/>
             </test-roots>
+            <included-library dirs="100">reference.aa-project-ejb.dist</included-library>
             <included-library dirs="200">reference.aa-project-shared.jar</included-library>
         </data>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
+            <reference>
+                <foreign-project>aa-project-ejb</foreign-project>
+                <artifact-type>jar</artifact-type>
+                <script>build.xml</script>
+                <target>dist</target>
+                <clean-target>clean</clean-target>
+                <id>dist</id>
+            </reference>
             <reference>
                 <foreign-project>aa-project-shared</foreign-project>
                 <artifact-type>jar</artifact-type>
