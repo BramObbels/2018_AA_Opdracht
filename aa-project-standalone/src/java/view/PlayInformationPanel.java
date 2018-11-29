@@ -2,8 +2,10 @@ package view;
 
 import controller.Controller;
 import java.awt.GridLayout;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 /**
  * JPanel for information about the selected play.
@@ -35,15 +37,10 @@ public class PlayInformationPanel extends JPanel {
         this.dateLabel = new JLabel("Date:");
         
         // Setup the data and add it to the panel
-        this.nameText = new JLabel("Sneeuwitje");
-        this.numberOfTicketsText = new JLabel("53");
-        this.dateText = new JLabel("22-11-2018");
-        this.add(this.nameLabel);
-        this.add(this.nameText);
-        this.add(this.numberOfTicketsLabel);
-        this.add(this.numberOfTicketsText);
-        this.add(this.dateLabel);
-        this.add(this.dateText);
+        this.nameText = new JLabel();
+        this.numberOfTicketsText = new JLabel();
+        this.dateText = new JLabel();
+        this.update();
     }
     
     // Getters & Setters
@@ -53,5 +50,30 @@ public class PlayInformationPanel extends JPanel {
     
     public void setController(Controller controller) {
         this.controller = controller;
+    }
+    
+    public void setName(String name) {
+        this.nameText = new JLabel(name);
+        this.update();
+    }
+    
+    public void setNumberOfTickets(int numberOfTickets) {
+        this.numberOfTicketsText = new JLabel(Integer.toString(numberOfTickets));
+        this.update();
+    }
+    
+    public void setDate(String date) {
+        this.dateText = new JLabel(date);
+        this.update();
+    }
+    
+    public void update() {
+        this.removeAll();
+        this.add(this.nameLabel);
+        this.add(this.nameText);
+        this.add(this.numberOfTicketsLabel);
+        this.add(this.numberOfTicketsText);
+        this.add(this.dateLabel);
+        this.add(this.dateText);
     }
 }

@@ -70,7 +70,7 @@ public class TicketsBean implements TicketsBeanRemote {
      * @author Dylan Van Assche
      */
     @Override
-    public Object getTicketById(int ticketId) {
+    public Object getTicketById(long ticketId) {
         Query q = em.createNamedQuery("Tickets.findById"); // Find object by given ID
         q.setParameter("id", ticketId);
         return q.getSingleResult();
@@ -83,10 +83,10 @@ public class TicketsBean implements TicketsBeanRemote {
      * @author Dylan Van Assche
      */
     @Override
-    public ArrayList<Object> getAllSoldTicketsForPlay(int playId) {
+    public ArrayList<Object> getAllSoldTicketsForPlay(Object playId) {
         Query q = em.createNamedQuery("Tickets.findByPlayId"); // Find object by given ID
-        q.setParameter("playId", playId);
-        ArrayList<Object> tickets = (ArrayList<Object>)q.getResultList();
+        q.setParameter("playId", (Plays)playId);
+        ArrayList<Object> tickets = new ArrayList<Object>(q.getResultList());
         return tickets;
     }
 
@@ -98,7 +98,7 @@ public class TicketsBean implements TicketsBeanRemote {
      * @author Dylan Van Assche
      */
     @Override
-    public boolean isTicketValidById(int ticketId) {
+    public boolean isTicketValidById(long ticketId) {
         Tickets ticket = (Tickets)this.getTicketById(ticketId);
         // check if ticket is valid and return it
         return ticket.getValid() == Tickets.VALID;
@@ -112,7 +112,7 @@ public class TicketsBean implements TicketsBeanRemote {
      * @author Dylan Van Assche
      */
     @Override
-    public void invalidateTicketById(int ticketId) {
+    public void invalidateTicketById(long ticketId) {
         Tickets ticket = (Tickets)this.getTicketById(ticketId);
         
         // Make ticket invalid and merge it with the DB

@@ -1,6 +1,8 @@
 package view;
 
 import controller.Controller;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,12 +28,10 @@ public class TicketsActionPanel extends JPanel {
         this.setController(controller);
         
         // Setup the data and add it to the panel
-        invalidateButton = new JButton("Invalidate");
-        seatRowLabel= new JLabel("Row: 3");
-        seatColumnLabel= new JLabel("Column: 2");
-        this.add(seatRowLabel);
-        this.add(seatColumnLabel);
-        this.add(invalidateButton);
+        this.invalidateButton = new JButton("Invalidate");
+        this.seatRowLabel= new JLabel();
+        this.seatColumnLabel= new JLabel();
+        this.update();
     }
     
     // Getters & Setters
@@ -41,5 +41,27 @@ public class TicketsActionPanel extends JPanel {
     
     public void setController(Controller controller) {
         this.controller = controller;
+    }
+    
+    public JButton getInvalidateButton() {
+        return this.invalidateButton;
+    }
+    
+    // Updaters
+    public void setRow(String row) {
+        this.seatRowLabel= new JLabel("Row: " + row);
+        this.update();
+    }
+    
+    public void setColumn(String column) {
+        this.seatColumnLabel= new JLabel("Column: " + column);
+        this.update();
+    }
+    
+    public void update() {
+        this.removeAll();
+        this.add(seatRowLabel);
+        this.add(seatColumnLabel);
+        this.add(invalidateButton);
     }
 }

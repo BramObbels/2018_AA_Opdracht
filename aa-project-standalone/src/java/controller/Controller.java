@@ -1,6 +1,10 @@
 package controller;
 
 import beans.PlaysBeanRemote;
+import beans.TicketsBeanRemote;
+import entities.Plays;
+import entities.Tickets;
+import java.util.ArrayList;
 import javax.ejb.EJB;
 import view.MainWindow;
 
@@ -47,5 +51,49 @@ public class Controller {
     private Controller() {
         System.out.println("Standalone application for JEE AA-project");
         new MainWindow(this);
+    }
+    
+    public ArrayList<Plays> getPlays() {
+        ArrayList<Object> temp = playsBean.getAllPlays();
+        ArrayList<Plays> plays = new ArrayList<Plays>();
+        for(Object p: temp) {
+            System.out.println(((Plays)p).getName()); // Hoe downcasten we deze handel?
+            plays.add(((Plays)p));
+        }
+        return plays;
+    }
+    
+    public ArrayList<Tickets> getValidTickets(int playId) {
+        System.out.println("PLAY ID=" + playId);
+        Plays play = (Plays)playsBean.getPlayById(playId);
+        ArrayList<Object> temp = ticketsBean.getAllSoldTicketsForPlay(play);
+        ArrayList<Tickets> tickets = new ArrayList<Tickets>();
+        for(Object t: temp) {
+            System.out.println(((Tickets)t).getId()); // Hoe downcasten we deze handel?
+            Tickets ticket = (Tickets)t;
+            if(ticket.getValid() == Tickets.VALID) {
+                tickets.add(ticket);
+            }
+            else {
+                System.out.println("Ticket invalid ID:" + ticket.getId());
+            }
+        }
+        return tickets;
+    }
+    
+    public int getNumberOfSoldTickets(int playId) {
+        Plays play = (Plays)playsBean.getPlayById(playId);
+        ArrayList<Object> temp = ticketsBean.getAllSoldTicketsForPlay(play);
+        return temp.size();
+    }
+    
+    public Tickets getTicketById(long ticketId) {
+        Tickets ticket = (Tickets)ticketsBean.getTicketById(ticketId);
+        return ticket;
+    }
+    
+    public void invalidateTicketById(long ticketId) {
+        ticketsBean.invalidateTicketById(ticketId);
+        System.out.println("Ticket validation status:" + this.getTicketById(ticketId).getValid());
     }
 }
