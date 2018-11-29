@@ -67,6 +67,7 @@ public class PlayInformationPanel extends JPanel {
         this.update();
     }
     
+    // Updaters
     public void update() {
         this.removeAll();
         this.add(this.nameLabel);
