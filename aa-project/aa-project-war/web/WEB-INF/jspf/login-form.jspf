@@ -12,6 +12,6 @@
     <input class="w3-input w3-section w3-border" type="text" name="j_username" placeholder="USERNAME"><label>
     <input class="w3-input w3-section w3-border" type="password" name="j_password" placeholder="WACHTWOORD">
     <button class="w3-button w3-black w3-section" type="submit">
-        <i class="fa fa-paper-plane"></i> LOGIN
+        LOGIN
     </button>
 </form>
