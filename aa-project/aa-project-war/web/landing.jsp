@@ -24,7 +24,7 @@
 
             <!-- Project Section -->
             <div class="w3-container w3-padding-32">
-                <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Welcome to TicketMaster!</h3>
+                <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Welcome to D&amp;B Concerts!</h3>
                 <p>In this application you can order your tickets for our upcoming plays. Click on 'order' to proceed.</p>
                 <p>If you would like to check your previous orders, you can enter the 'members area' using your username and password.</p>
                 <p>Managing the application can be done in the 'management area'.</p>

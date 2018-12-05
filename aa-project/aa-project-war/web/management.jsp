@@ -21,7 +21,7 @@
 
             <!-- Project Section -->
             <div class="w3-container w3-padding-32">
-                <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Welcome to the management tool for Ticketmaster, at your service!</h3>
+                <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Welcome to the management tool for D&amp;B Concerts, at your service!</h3>
             </div>
         </div>
     </body>
