@@ -34,6 +34,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Accounts.findByPassword", query = "SELECT a FROM Accounts a WHERE a.password = :password")})
 public class Accounts implements Serializable {
 
+    @Size(max = 50)
+    @Column(name = "username")
+    private String username;
+
     @OneToMany(mappedBy = "accountId")
     private Collection<Tickets> ticketsCollection;
 
@@ -124,6 +128,14 @@ public class Accounts implements Serializable {
 
     public void setTicketsCollection(Collection<Tickets> ticketsCollection) {
         this.ticketsCollection = ticketsCollection;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
     
 }

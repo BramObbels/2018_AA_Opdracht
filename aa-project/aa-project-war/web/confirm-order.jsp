@@ -8,22 +8,31 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Order confirmation</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <title>Confirm</title>
     </head>
     <body>
         <!-- Menu -->
         <%@include file="WEB-INF/jspf/menu.jspf" %>
-        <h1>Confirm your order below</h1>
-        <form method="post" action="<c:url value='order' />">
-            <input type="hidden" name="nextState" value="generateTickets">
-            Play: <c:out value="${sessionScope.orderedPlay.getName()}" />
-            <ul>
-                <c:forEach var = "entry" items = "${sessionScope.orderedSeats}">
-                    <li>seat ID= <c:out value="${entry.getId()}" /></li>
-                </c:forEach>
-            </ul>
-            <input type="submit" name="submit" value="Confirm order">
-        </form>
+        <div class="w3-content w3-padding" style="max-width:1564px">
+
+            <!-- Project Section -->
+            <div class="w3-container w3-padding-32">
+                <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Confirm your order below</h3>
+                <form class="w3-container w3-card-4" method="post" action="<c:url value='order' />">
+                    <input type="hidden" name="nextState" value="generateTickets">
+                    Play: <c:out value="${sessionScope.orderedPlay.getName()}" />
+                    
+                    <c:forEach var = "entry" items = "${sessionScope.orderedSeats}">
+                        <p>seat ID= <c:out value="${entry.getId()}" /></p>
+                    </c:forEach>
+                    <button class="w3-button w3-black w3-section" type="submit">
+                        <i class="fa fa-paper-plane"></i> CONFIRM ORDER
+                    </button>
+                </form>
+            </div>
+        </div>
     </body>
 </html>

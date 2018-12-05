@@ -8,12 +8,20 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Management tool</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <title>Management</title>
     </head>
     <body>
         <!-- Menu -->
         <%@include file="WEB-INF/jspf/menu.jspf" %>
-        <h1>Welcome to the management tool for Ticketmaster, at your service!</h1>
+        <div class="w3-content w3-padding" style="max-width:1564px">
+
+            <!-- Project Section -->
+            <div class="w3-container w3-padding-32">
+                <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Welcome to the management tool for Ticketmaster, at your service!</h3>
+            </div>
+        </div>
     </body>
 </html>

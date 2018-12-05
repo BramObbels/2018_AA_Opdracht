@@ -8,13 +8,23 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Login</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <title>Login-Error</title>
     </head>
     <body>
-        <h1>Login</h1>
-        <p>Make sure your login credentials are correct!</p>
-        <!-- Login form -->
-        <%@include file="WEB-INF/jspf/login-form.jspf" %>
+        <!-- Menu -->
+        <%@include file="WEB-INF/jspf/menu.jspf" %>
+        <div class="w3-content w3-padding" style="max-width:1564px">
+
+            <!-- Project Section -->
+            <div class="w3-container w3-padding-32">
+                <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Login</h3>
+                <p>Make sure your login credentials are correct!</p>
+                <!-- Login form -->
+                <%@include file="WEB-INF/jspf/login-form.jspf" %>
+            </div>
+        </div>
     </body>
 </html>

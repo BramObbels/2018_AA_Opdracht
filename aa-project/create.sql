@@ -50,17 +50,16 @@ DROP TABLE IF EXISTS accounts;
 
 CREATE TABLE accounts(
     id INT,
-    name VARCHAR(50),
+    username VARCHAR(50),
     password VARCHAR(50),
     PRIMARY KEY(id)
 );
 
 CREATE TABLE groups(
     id INT,
-    name VARCHAR(50),
-    accountId INT,
-    PRIMARY KEY(id),
-    FOREIGN KEY(accountId) REFERENCES accounts(id)
+    username VARCHAR(50),
+    groupname VARCHAR(50),
+    PRIMARY KEY(id)
 );
     
 CREATE TABLE plays(
@@ -99,12 +98,12 @@ CREATE TABLE tickets(
     FOREIGN KEY(seatId) REFERENCES seats(id)
 );
 
-INSERT INTO accounts VALUES(1, 'Joske Vermeulen', 'password');
-INSERT INTO accounts VALUES(2, 'Herman Brusselmans', 'wachtwoord');
-INSERT INTO accounts VALUES(3, 'Mr. T', 'sucker');
-INSERT INTO groups VALUES(1, 'members', 3);
-INSERT INTO groups VALUES(2, 'public', 1);
-INSERT INTO groups VALUES(3, 'administrators', 2);
+INSERT INTO accounts VALUES(1, 'a', '123');
+INSERT INTO accounts VALUES(2, 'b', '123');
+INSERT INTO accounts VALUES(3, 'c', '123');
+INSERT INTO groups VALUES(1,'a', 'members');
+INSERT INTO groups VALUES(2,'b', 'public');
+INSERT INTO groups VALUES(3,'c', 'administrators');
 INSERT INTO plays VALUES(1, 'Sneeuwitje', '2018-04-19 13:08:22.0', 5.0, 2.0);
 INSERT INTO plays VALUES(2, 'Girl', '2018-05-19 13:08:22.0', 6.0, 3.0);
 INSERT INTO seats VALUES(1, 0, 1, 0, 2, 2);

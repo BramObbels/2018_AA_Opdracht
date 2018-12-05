@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <display-name>Ticketmaster</display-name>
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
     <servlet>
         <servlet-name>ControllerOrder</servlet-name>
         <servlet-class>controllers.ControllerOrder</servlet-class>
@@ -34,6 +38,11 @@
             <role-link>administrators</role-link>
         </security-role-ref>
     </servlet>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ControllerOrder</servlet-name>
         <url-pattern>/order</url-pattern>
@@ -50,12 +59,17 @@
         <servlet-name>ControllerLanding</servlet-name>
         <url-pattern>/landing</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     <welcome-file-list>
+        <welcome-file>faces/index.xhtml</welcome-file>
         <welcome-file>landing.jsp</welcome-file>
     </welcome-file-list>
     <error-page>
@@ -64,7 +78,7 @@
     </error-page>
     <login-config>
         <auth-method>FORM</auth-method>
-        <realm-name>file</realm-name>
+        <realm-name>aa-realm</realm-name>
         <form-login-config>
             <form-login-page>/login.jsp</form-login-page>
             <form-error-page>/login-error.jsp</form-error-page>

@@ -8,21 +8,31 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Play selection</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <title>Play Selection</title>
     </head>
     <body>
         <!-- Menu -->
         <%@include file="WEB-INF/jspf/menu.jspf" %>
-        <h1>Select an upcoming play to continue</h1>
-        <form method="post" action="<c:url value='order' />">
-            <ul>
-                <c:forEach var = "p" items = "${requestScope.upcomingPlays}">
-                    <li><input type="radio" name="selectedPlayId" required value="${p.getId()}"> <c:out value="${p.getName()}"/> (<c:out value="${p.getDate()}"/>) <c:out value="${p.getBasicPrice()}"/>+<c:out value="${p.getRankFee()}"/>&euro;</li>
-                </c:forEach>
-            </ul>
-            <input type="hidden" name="nextState" value="selectSeat">
-            <input type="submit" name="submit" value="Select play">
-        </form>
+        <div class="w3-content w3-padding" style="max-width:1564px">
+
+            <!-- Project Section -->
+            <div class="w3-container w3-padding-32">
+                <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Select an upcoming play to continue</h3>
+                <form class="w3-container w3-card-4" method="post" action="<c:url value='order' />">
+                   
+                        <c:forEach var = "p" items = "${requestScope.upcomingPlays}">
+                            <p><input class="w3-radio" type="radio" name="selectedPlayId" required value="${p.getId()}"><label><c:out value="${p.getName()}"/> (<c:out value="${p.getDate()}"/>) <c:out value="${p.getBasicPrice()}"/>+<c:out value="${p.getRankFee()}"/>&euro;</label></p>
+                        </c:forEach>
+                    
+                    <input type="hidden" name="nextState" value="selectSeat">
+                    <button class="w3-button w3-black w3-section" type="submit">
+                        <i class="fa fa-paper-plane"></i> SELECT PLAY
+                    </button>
+                </form>
+            </div>
+        </div>
     </body>
 </html>

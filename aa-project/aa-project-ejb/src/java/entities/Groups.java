@@ -32,6 +32,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Groups.findByName", query = "SELECT g FROM Groups g WHERE g.name = :name")})
 public class Groups implements Serializable {
 
+    @Size(max = 50)
+    @Column(name = "groupname")
+    private String groupname;
+    @Size(max = 50)
+    @Column(name = "username")
+    private String username;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -99,6 +106,22 @@ public class Groups implements Serializable {
     @Override
     public String toString() {
         return "entities.Groups[ id=" + id + " ]";
+    }
+
+    public String getGroupname() {
+        return groupname;
+    }
+
+    public void setGroupname(String groupname) {
+        this.groupname = groupname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
     
 }
