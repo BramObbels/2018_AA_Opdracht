@@ -8,12 +8,22 @@
 https://github.com/BramObbels/2018_AA_Opdracht
 
 ## Verslagen
+### 25/11/2018 - 01/12/2018
+
+| Wie              | Wat                                                                                                | Wanneer    | Tijd  |
+|------------------|----------------------------------------------------------------------------------------------------|------------|-------|
+| Dylan Van Assche | Standalone tickets validation applicatie met Java Swing afgewerkt.	      | 27/11/2018 | 1 uur |
+| Bram Obbels	   | JEE Security											              | 28/11/2018 | 8 uur |
+| Bram Obbels	   | Glassfish deployment problemen.							              | 28/11/2018 | 8 uur |
+| Bram Obbels	   | CSS toegevoegd aan elke JSP pagina.			                                      | 30/11/2018 | 2 uur |
+| Bram Obbels	   | Login flow met logout functionaliteit.			                                      | 01/12/2018 | 2 uur |
+
 ### 18/11/2018 - 24/11/2018
 
 | Wie              | Wat                                                                                                | Wanneer    | Tijd  |
 |------------------|----------------------------------------------------------------------------------------------------|------------|-------|
-| Dylan Van Assche | Exposed TicketsBean om alle interactie te kunnen uitvoeren met tickets				| 22/11/2018 | 3 uur |
-| Dylan Van Assche | [WIP] Standalone tickets validation applicatie met Java Swing					| 22/11/2018 | 2 uur |
+| Dylan Van Assche | Exposed TicketsBean om alle interactie te kunnen uitvoeren met tickets.	| 22/11/2018 | 3 uur |
+| Dylan Van Assche | [WIP] Standalone tickets validation applicatie met Java Swing.			| 22/11/2018 | 2 uur |
 | Bram Obbels	   | JEE Security											| 24/11/2018 | 4 uur |
 
 ### 5/11/2018 - 11/11/2018
