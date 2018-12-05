@@ -8,6 +8,18 @@
 https://github.com/BramObbels/2018_AA_Opdracht
 
 ## Verslagen
+### 25/11/2018 - 1/12/2018
+
+| Wie              | Wat                                                                                                  | Wanneer    | Tijd  |
+|------------------|-----------------------------------------------------------------------------------|----------------|-------|
+| Dylan Van Assche | Standalone tickets validation applicatie afgewerkt.		| 29/11/2018 | 1 uur |
+| Dylan Van Assche | Gebruik HTTPSession in plaats van hidden fields in order proces.	| 29/11/2018 | 30 minuten |
+| Bram Obbels	   | JEE Security setup.									| 26/11/2018 | 4 uur |
+| Bram Obbels	   | GlassFish deployment problemen.						| 30/11/2018 | 12 uur |
+| Bram Obbels	   | CSS toegevoegd aan alle JSP paginas.					| 1/12/2018 | 4 uur |
+| Bram Obbels	   | Login flow met logout functionaliteit.					| 1/12/2018 | 1 uur |
+
+## Verslagen
 ### 18/11/2018 - 24/11/2018
 
 | Wie              | Wat                                                                                                | Wanneer    | Tijd  |
