@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * ControllerMember dispatches all the requests for the members area and glues the Model and the View together.
@@ -31,7 +32,13 @@ public class ControllerMember extends HttpServlet {
      * @throws IOException if an I/O error
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        this.goToJSPPage("account.jsp", request, response);
+        if(request.getParameter("logout")!=null){
+            HttpSession session = request.getSession();
+            session.invalidate();
+            this.goToJSPPage("landing.jsp", request, response);
+        }else{
+            this.goToJSPPage("account.jsp", request, response);
+        }
     }
     
     /**
@@ -68,7 +75,6 @@ public class ControllerMember extends HttpServlet {
      * @throws IOException 
      */
     private void goToJSPPage(String page, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher(page);
-        dispatcher.forward(request, response);
+        response.sendRedirect(page);
     }
 }

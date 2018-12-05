@@ -17,6 +17,9 @@
         <a href="<c:url value='member'/>">Account</a>
         <a href="<c:url value='order'/>">Tickets</a>
         <a href="<c:url value='manage'/>">Management</a>
+        <c:if test="${!empty pageContext.request.remoteUser}">
+            <a href="<c:url value='member?logout=1'/>">Logout</a>
+        </c:if>
     </div>
   </div>
 </div>
