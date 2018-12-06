@@ -2,15 +2,14 @@ package beans;
 
 import entities.Plays;
 import entities.Seats;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import util.TablePosition;
 
 /**
  * Seats API bean.
@@ -28,16 +27,29 @@ public class SeatsBean implements SeatsBeanRemote {
      * @author Dylan Van Assche
      */
     @Override
-    public Map<TablePosition, Object> getAllSeatsForPlay(int playId) {
+    public ArrayList<ArrayList<Object>> getAllSeatsForPlay(int playId) {
         // Convert to Map for easy access by row and column number using the TablePosition helper class
         Query q = em.createNamedQuery("Seats.findAllSortedByPlayId");
         q.setParameter("playId", (Plays)playsBean.getPlayById(playId));
         List<Seats> temp = q.getResultList();
-        Map<TablePosition, Object> seats = new LinkedHashMap<TablePosition, Object>(); // Order is maintained using a LinkedHashMap
+        ArrayList<ArrayList<Object>> seats = new ArrayList<ArrayList<Object>>();
+        ArrayList<Object> seatsRow = new ArrayList<Object>();
+        int rowNumber = 0;
+        for(Seats s: temp) {
+            if(rowNumber != s.getRowNumber()) {
+                seats.add(seatsRow);
+                seatsRow = new ArrayList<Object>();
+                rowNumber = s.getRowNumber();
+            }
+            seatsRow.add((Object)s);
+        }
+        seats.add(seatsRow);
+        System.out.println("Seats:" + seats);
+        /*Map<TablePosition, Object> seats = new LinkedHashMap<TablePosition, Object>(); // Order is maintained using a LinkedHashMap
         
         for(Seats s: temp) {
             seats.put(new TablePosition(s.getRowNumber(), s.getColumnNumber()), (Object)s); // Insert seat using upcasting
-        }
+        }*/
         
         return seats;
     }

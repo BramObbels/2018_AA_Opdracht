@@ -25,11 +25,22 @@
             <div class="w3-container w3-padding-32">
                 <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Select the seats for the chosen play</h3>
                 <form class="w3-container w3-card-4" method="post" action="<c:url value='order' />">
-                        <c:forEach var = "entry" items = "${requestScope.seats}">
-                            <p><input class="w3-check" type="checkbox" name="selectedSeatIds" value="${entry.value.getId()}"><label>
-                                [<c:out value="${entry.key.getRow()}" />, <c:out value="${entry.key.getColumn()}" />]: 
-                                seat ID= <c:out value="${entry.value.getId()}" /></label></p>
+                    <table>
+                        <c:forEach var = "seatsRow" items = "${requestScope.seats}">
+                            <tr>
+                                <c:forEach var = "seat" items = "${seatsRow}">
+                                    <td>
+                                        <input class="w3-check" type="checkbox" name="selectedSeatIds" value="${entry.value.getId()}">
+                                        <label>
+                                            [<c:out value="${seat.getRowNumber()}" />, 
+                                            <c:out value="${seat.getColumnNumber()}" />] 
+                                            rank= <c:out value="${seat.getRank()}" />
+                                        </label>
+                                    </td>   
+                                </c:forEach>
+                            </tr>
                         </c:forEach>
+                    </table>
                     <input type="hidden" name="nextState" value="confirmOrder">
                     <button class="w3-button w3-black w3-section" type="submit">
                         <i class="fa fa-paper-plane"></i> SELECT SEAT

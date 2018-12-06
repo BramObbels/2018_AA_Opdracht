@@ -29,7 +29,7 @@
                         <c:forEach var = "p" items = "${requestScope.upcomingPlays}">
                             <p>
                                 <input class="w3-radio" type="radio" name="selectedPlayId" required value="${p.getId()}">
-                                <label><c:out value="${p.getName()}"/> (<c:out value="${p.getDate()}"/>) <c:out value="${p.getBasicPrice()}"/>+<c:out value="${p.getRankFee()}"/>&euro;</label>
+                                <label><c:out value="${p.getName()}"/> (<c:out value="${p.getDate()}"/>) <c:out value="${p.getBasicPrice()}"/> + <c:out value="${p.getRankFee()}"/>&euro;</label>
                             </p>
                         </c:forEach>
                     
