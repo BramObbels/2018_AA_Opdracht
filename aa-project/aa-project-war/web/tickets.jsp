@@ -27,12 +27,17 @@
                 <p>
                     If you have an account or want to create one, you can do that below. 
                     Without an account you won't be able to access your ticket codes every again. 
-                    If you don't want to create an account, print this page and keep it in a save place.
+                    If you don't want to create an account, print this page and keep it in a safe place.
                 </p>
+                <button class="w3-button w3-black w3-section printButton" onClick="window.print()"> 
+                        <i class="fa fa-print"></i> PRINT
+                </button>
                 <form class="w3-container w3-card-4" method="post" action="<c:url value='/' />">
-                    <c:forEach var = "t" items = "${sessionScope.generatedTickets}">
-                        <p>${t.getId()}</p>
-                    </c:forEach>
+                    <ul>
+                        <c:forEach var = "t" items = "${sessionScope.generatedTickets}">
+                            <li>${t.getId()}</li>
+                        </c:forEach>
+                    </ul>
                     <input type="hidden" name="nextState" value="orderFinished">
                     <button class="w3-button w3-black w3-section" type="submit">
                         <i class="fa fa-paper-plane"></i> FINISH

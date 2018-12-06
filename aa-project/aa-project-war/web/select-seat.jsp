@@ -30,7 +30,7 @@
                             <tr>
                                 <c:forEach var = "seat" items = "${seatsRow}">
                                     <td>
-                                        <input class="w3-check" type="checkbox" name="selectedSeatIds" value="${entry.value.getId()}">
+                                        <input class="w3-check" type="checkbox" name="selectedSeatIds" value="${seat.getId()}">
                                         <label>
                                             [<c:out value="${seat.getRowNumber()}" />, 
                                             <c:out value="${seat.getColumnNumber()}" />] 
