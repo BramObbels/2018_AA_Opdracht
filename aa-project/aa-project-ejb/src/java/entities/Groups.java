@@ -10,8 +10,6 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -21,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author dylan
+ * @author Bram
  */
 @Entity
 @Table(name = "groups")
@@ -29,15 +27,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Groups.findAll", query = "SELECT g FROM Groups g")
     , @NamedQuery(name = "Groups.findById", query = "SELECT g FROM Groups g WHERE g.id = :id")
-    , @NamedQuery(name = "Groups.findByName", query = "SELECT g FROM Groups g WHERE g.name = :name")})
+    , @NamedQuery(name = "Groups.findByUsername", query = "SELECT g FROM Groups g WHERE g.username = :username")
+    , @NamedQuery(name = "Groups.findLastId", query = "SELECT MAX(g.id) FROM Groups g")
+    , @NamedQuery(name = "Groups.findByGroupname", query = "SELECT g FROM Groups g WHERE g.groupname = :groupname")})
 public class Groups implements Serializable {
-
-    @Size(max = 50)
-    @Column(name = "groupname")
-    private String groupname;
-    @Size(max = 50)
-    @Column(name = "username")
-    private String username;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -46,11 +39,11 @@ public class Groups implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Size(max = 50)
-    @Column(name = "name")
-    private String name;
-    @JoinColumn(name = "accountId", referencedColumnName = "id")
-    @ManyToOne
-    private Accounts accountId;
+    @Column(name = "username")
+    private String username;
+    @Size(max = 50)
+    @Column(name = "groupname")
+    private String groupname;
 
     public Groups() {
     }
@@ -67,20 +60,20 @@ public class Groups implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public Accounts getAccountId() {
-        return accountId;
+    public String getGroupname() {
+        return groupname;
     }
 
-    public void setAccountId(Accounts accountId) {
-        this.accountId = accountId;
+    public void setGroupname(String groupname) {
+        this.groupname = groupname;
     }
 
     @Override
@@ -106,22 +99,6 @@ public class Groups implements Serializable {
     @Override
     public String toString() {
         return "entities.Groups[ id=" + id + " ]";
-    }
-
-    public String getGroupname() {
-        return groupname;
-    }
-
-    public void setGroupname(String groupname) {
-        this.groupname = groupname;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
     
 }
