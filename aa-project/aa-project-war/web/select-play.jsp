@@ -24,7 +24,7 @@
                 <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Select an upcoming play to continue</h3>
                 <form class="w3-container w3-card-4" method="post" action="<c:url value='order' />">
                    
-                        <c:forEach var = "p" items = "${requestScope.upcomingPlays}">
+                        <c:forEach var = "p" items = "${sessionScope.upcomingPlays}">
                             <p><input class="w3-radio" type="radio" name="selectedPlayId" required value="${p.getId()}"><label><c:out value="${p.getName()}"/> (<c:out value="${p.getDate()}"/>) <c:out value="${p.getBasicPrice()}"/>+<c:out value="${p.getRankFee()}"/>&euro;</label></p>
                         </c:forEach>
                     
