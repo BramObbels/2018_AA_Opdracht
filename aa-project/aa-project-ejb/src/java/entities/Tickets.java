@@ -121,6 +121,6 @@ public class Tickets implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Tickets[ id=" + id + " ]";
+        return Long.toString(this.id);
     }
 }

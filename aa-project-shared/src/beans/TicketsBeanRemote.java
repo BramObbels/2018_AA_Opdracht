@@ -13,8 +13,8 @@ import javax.ejb.Remote;
 @Remote
 public interface TicketsBeanRemote {
     public Object generateTicket(int accountId, int playId, int seatId);
-    public Object getTicketById(int ticketId);
-    public ArrayList<Object> getAllSoldTicketsForPlay(int playId);
-    public boolean isTicketValidById(int ticketId);
-    public void invalidateTicketById(int ticketId);
+    public Object getTicketById(long ticketId);
+    public ArrayList<Object> getAllSoldTicketsForPlay(Object playId);
+    public boolean isTicketValidById(long ticketId);
+    public void invalidateTicketById(long ticketId);
 }

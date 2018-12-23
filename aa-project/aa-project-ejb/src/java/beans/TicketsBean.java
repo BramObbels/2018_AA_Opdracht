@@ -42,8 +42,6 @@ public class TicketsBean implements TicketsBeanRemote {
         // Generate ticket ID and build Ticket object
         long ticketId = ThreadLocalRandom.current().nextLong(MIN.longValue(), MAX.longValue() + 1);
         Tickets ticket = new Tickets();
-        ticket.setId(ticketId); 
-        /*ticket.setAccountId(); */// Security story
         System.out.println("AccountId=" + accountId);
         System.out.println("PlayId=" + playId);
         System.out.println("SeatId=" + seatId);
@@ -51,6 +49,10 @@ public class TicketsBean implements TicketsBeanRemote {
         System.out.println("PLAY=" + play.getName());
         Seats seat = (Seats)seatsBean.getSeatById(seatId);
         System.out.println("SEAT=" + seat.getRowNumber() + "," + seat.getColumnNumber() + " ID=" + seat.getId());
+        
+        ticket.setId(ticketId); 
+        /*ticket.setAccountId(); */// Security story
+        ticket.setPlayId(play);
         ticket.setSeatId(seat);        
         ticket.setValid(Tickets.VALID);
         
@@ -70,7 +72,7 @@ public class TicketsBean implements TicketsBeanRemote {
      * @author Dylan Van Assche
      */
     @Override
-    public Object getTicketById(int ticketId) {
+    public Object getTicketById(long ticketId) {
         Query q = em.createNamedQuery("Tickets.findById"); // Find object by given ID
         q.setParameter("id", ticketId);
         return q.getSingleResult();
@@ -83,10 +85,10 @@ public class TicketsBean implements TicketsBeanRemote {
      * @author Dylan Van Assche
      */
     @Override
-    public ArrayList<Object> getAllSoldTicketsForPlay(int playId) {
+    public ArrayList<Object> getAllSoldTicketsForPlay(Object playId) {
         Query q = em.createNamedQuery("Tickets.findByPlayId"); // Find object by given ID
-        q.setParameter("playId", playId);
-        ArrayList<Object> tickets = (ArrayList<Object>)q.getResultList();
+        q.setParameter("playId", (Plays)playId);
+        ArrayList<Object> tickets = new ArrayList<Object>(q.getResultList());
         return tickets;
     }
 
@@ -98,7 +100,7 @@ public class TicketsBean implements TicketsBeanRemote {
      * @author Dylan Van Assche
      */
     @Override
-    public boolean isTicketValidById(int ticketId) {
+    public boolean isTicketValidById(long ticketId) {
         Tickets ticket = (Tickets)this.getTicketById(ticketId);
         // check if ticket is valid and return it
         return ticket.getValid() == Tickets.VALID;
@@ -112,7 +114,7 @@ public class TicketsBean implements TicketsBeanRemote {
      * @author Dylan Van Assche
      */
     @Override
-    public void invalidateTicketById(int ticketId) {
+    public void invalidateTicketById(long ticketId) {
         Tickets ticket = (Tickets)this.getTicketById(ticketId);
         
         // Make ticket invalid and merge it with the DB
