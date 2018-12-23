@@ -19,8 +19,6 @@ import javax.persistence.Query;
  * used anymore!
  * @author Dylan Van Assche
  */
-// TO DO: Change id from int to long
-// TO DO: Add valid field
 @Stateless
 public class TicketsBean implements TicketsBeanRemote {
     @PersistenceContext private EntityManager em;

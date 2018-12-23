@@ -18,15 +18,15 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Bram
+ * @author Bram Obbels
  */
 public class ControllerAccount extends HttpServlet {
     @EJB AccountBeanRemote accountBean;
-    private static final String CONFIRM = "confirm";
-
+    private static final String CREATE = "create";
+    private static final String CONFIRM_CREATE = "confirm";
     
     /**
-     * Initialisation of the ControllerOrder Servlet.
+     * Initialisation of the ControllerAccount Servlet.
      */
     public void init() {
         
@@ -42,11 +42,10 @@ public class ControllerAccount extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String state;
-        String CREATE = "create";
-        String CONFIRM_CREATE = "confirm";
+
         if(request.getParameter("nextState") == null) {
             state = CREATE;
-            System.out.println("Order process started");
+            System.out.println("Account process started");
         }
         else {
             state = request.getParameter("nextState");
@@ -56,21 +55,25 @@ public class ControllerAccount extends HttpServlet {
         if(state.equals(CREATE)){
             this.goToJSPPage("create.jsp", request, response);
         }
-        if(state.equals(CONFIRM_CREATE)){
-            System.out.println("ga naar confirmpage");
+        else if(state.equals(CONFIRM_CREATE)){
+            System.out.println("Go to confirmation page");
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             
             if(accountBean.checkUsername(username)){
-                System.out.println("acount bestaat al");
+                System.out.println("Account already exists");
                 this.goToJSPPage("create.jsp", request, response);
             }
             else{
-                System.out.println("acount bestaat nog niet bestaat");
+                System.out.println("Account doesn't exist yet");
                 accountBean.addAccount(username, password);
                 this.goToJSPPage("confirm-create.jsp", request, response);
             }
-        }   
+        } 
+        else {
+            System.err.println("Unknown state, cannot create account");
+            response.sendError(500, "Internal Server Error");
+        }
     }
     
     /**

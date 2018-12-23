@@ -17,7 +17,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Bram
+ * @author Bram Obbels
  */
 @Stateless
 public class AccountBean implements AccountBeanRemote {
