@@ -29,7 +29,7 @@ public class AccountBean implements AccountBeanRemote {
         Query q; // Find object by given username
         q = em.createNamedQuery("Accounts.findByUsername");
         q.setParameter("username", username);
-        ArrayList<Accounts> accounts = (ArrayList<Accounts>) q.getResultList();
+        ArrayList<Accounts> accounts = new ArrayList<Accounts>(q.getResultList());
         System.out.print(accounts.size());
         if(accounts.size() > 0){
             exists = true;

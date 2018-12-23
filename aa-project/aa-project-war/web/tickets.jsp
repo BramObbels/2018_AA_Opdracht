@@ -25,9 +25,7 @@
             <div class="w3-container w3-padding-32">
                 <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Tickets</h3>
                 <p>
-                    If you have an account or want to create one, you can do that below. 
-                    Without an account you won't be able to access your ticket codes every again. 
-                    If you don't want to create an account, print this page and keep it in a safe place.
+                    Print this page and keep it in a safe place. If you are not logged in, the tickets aren't linked to your account.
                 </p>
                 <button class="w3-button w3-black w3-section printButton" onClick="window.print()"> 
                         <i class="fa fa-print"></i> PRINT

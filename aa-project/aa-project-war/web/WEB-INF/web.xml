@@ -48,10 +48,6 @@
         <servlet-class>controllers.ControllerAccount</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ControllerOrder</servlet-name>
-        <url-pattern>/order</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>ControllerMember</servlet-name>
         <url-pattern>/member</url-pattern>
     </servlet-mapping>
@@ -70,6 +66,11 @@
     <servlet-mapping>
         <servlet-name>ControllerAccount</servlet-name>
         <url-pattern>/account</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControllerOrder</servlet-name>
+        <url-pattern>/order</url-pattern>
+        <url-pattern>/order-account</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -90,15 +91,11 @@
             <web-resource-name>redirect_name</web-resource-name>
             <description/>
             <url-pattern>/manage</url-pattern>
-            <http-method>GET</http-method>
-            <http-method>POST</http-method>
         </web-resource-collection>
         <web-resource-collection>
             <web-resource-name>full_name_admin</web-resource-name>
             <description/>
             <url-pattern>/management.jsp</url-pattern>
-            <http-method>GET</http-method>
-            <http-method>POST</http-method>
         </web-resource-collection>
         <auth-constraint>
             <description/>
@@ -111,12 +108,22 @@
             <web-resource-name>account</web-resource-name>
             <description/>
             <url-pattern>/account.jsp</url-pattern>
-            <http-method>GET</http-method>
-            <http-method>POST</http-method>
         </web-resource-collection>
         <auth-constraint>
             <description/>
-            <role-name>public</role-name>
+            <role-name>members</role-name>
+            <role-name>administrators</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Order</display-name>
+        <web-resource-collection>
+            <web-resource-name>order-with-account</web-resource-name>
+            <description>Order with account</description>
+            <url-pattern>/order-account</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
             <role-name>members</role-name>
             <role-name>administrators</role-name>
         </auth-constraint>
@@ -129,10 +136,6 @@
             <form-error-page>/login-error.jsp</form-error-page>
         </form-login-config>
     </login-config>
-    <security-role>
-        <description>Visible for anyone</description>
-        <role-name>public</role-name>
-    </security-role>
     <security-role>
         <description>Members only</description>
         <role-name>members</role-name>

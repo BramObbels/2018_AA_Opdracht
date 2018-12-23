@@ -24,16 +24,25 @@
             <!-- Project Section -->
             <div class="w3-container w3-padding-32">
                 <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Confirm your order below</h3>
-                <form class="w3-container w3-card-4" method="post" action="<c:url value='order' />">
-                    Play: <c:out value="${sessionScope.orderedPlay.getName()}" />
+                <div class="w3-card-4">
+                    <form class="w3-container" method="post" action="<c:url value='order' />">
+                        Play: <c:out value="${sessionScope.orderedPlay.getName()}" />
+
+                        <c:forEach var = "entry" items = "${sessionScope.orderedSeats}">
+                            <p>seat ID= <c:out value="${entry.getId()}" /></p>
+                        </c:forEach>
+                        <button class="w3-button w3-black w3-section" type="submit">
+                            <i class="fa fa-paper-plane"></i> CONFIRM ORDER
+                        </button>
+                    </form>
                     
-                    <c:forEach var = "entry" items = "${sessionScope.orderedSeats}">
-                        <p>seat ID= <c:out value="${entry.getId()}" /></p>
-                    </c:forEach>
-                    <button class="w3-button w3-black w3-section" type="submit">
-                        <i class="fa fa-paper-plane"></i> CONFIRM ORDER
-                    </button>
-                </form>
+                    <p>If you want to connect your tickets to your account, please click the button below:</p>
+                    <form class="w3-container" method="post" action="<c:url value='order-account' />">
+                        <button class="w3-button w3-black w3-section" type="submit">
+                            <i class="fa fa-paper-plane"></i> LOGIN &amp; CONFIRM ORDER
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </body>
