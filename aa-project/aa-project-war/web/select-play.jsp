@@ -28,7 +28,6 @@
                             <p><input class="w3-radio" type="radio" name="selectedPlayId" required value="${p.getId()}"><label><c:out value="${p.getName()}"/> (<c:out value="${p.getDate()}"/>) <c:out value="${p.getBasicPrice()}"/>+<c:out value="${p.getRankFee()}"/>&euro;</label></p>
                         </c:forEach>
                     
-                    <input type="hidden" name="nextState" value="selectSeat">
                     <button class="w3-button w3-black w3-section" type="submit">
                         <i class="fa fa-paper-plane"></i> SELECT PLAY
                     </button>

@@ -31,7 +31,6 @@
                     <c:forEach var = "t" items = "${sessionScope.generatedTickets}">
                         <p>${t.getId()}</p>
                     </c:forEach>
-                    <input type="hidden" name="nextState" value="orderFinished">
                     <button class="w3-button w3-black w3-section" type="submit">
                         <i class="fa fa-paper-plane"></i> FINISH
                     </button>

@@ -28,7 +28,6 @@
                                 [<c:out value="${entry.key.getRow()}" />, <c:out value="${entry.key.getColumn()}" />]: 
                                 seat ID= <c:out value="${entry.value.getId()}" /></label></p>
                         </c:forEach>
-                    <input type="hidden" name="nextState" value="confirmOrder">
                     <button class="w3-button w3-black w3-section" type="submit">
                         <i class="fa fa-paper-plane"></i> SELECT SEAT
                     </button>
