@@ -3,9 +3,9 @@ package beans;
 import entities.Plays;
 import entities.Seats;
 import entities.Tickets;
+import entities.Accounts;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -24,6 +24,7 @@ public class TicketsBean implements TicketsBeanRemote {
     @PersistenceContext private EntityManager em;
     @EJB PlaysBeanRemote playsBean;
     @EJB SeatsBeanRemote seatsBean;
+    @EJB AccountBeanRemote accountBean;
     private static final BigInteger MIN = new BigInteger("0");
     private static final BigInteger MAX = new BigInteger("9999999999999");
     
@@ -47,9 +48,10 @@ public class TicketsBean implements TicketsBeanRemote {
         System.out.println("PLAY=" + play.getName());
         Seats seat = (Seats)seatsBean.getSeatById(seatId);
         System.out.println("SEAT=" + seat.getRowNumber() + "," + seat.getColumnNumber() + " ID=" + seat.getId());
+        Accounts account = (Accounts)accountBean.getAccountById(accountId);
         
         ticket.setId(ticketId); 
-        /*ticket.setAccountId(); */// Security story
+        ticket.setAccountId(account); // Security story
         ticket.setPlayId(play);
         ticket.setSeatId(seat);        
         ticket.setValid(Tickets.VALID);

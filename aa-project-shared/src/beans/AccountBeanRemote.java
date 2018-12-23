@@ -14,5 +14,7 @@ import javax.ejb.Remote;
 @Remote
 public interface AccountBeanRemote {
     public boolean checkUsername(String username);
+    public int getIdByUsername(String username);
+    public Object getAccountById(int id);
     public void addAccount(String username, String password);
 }

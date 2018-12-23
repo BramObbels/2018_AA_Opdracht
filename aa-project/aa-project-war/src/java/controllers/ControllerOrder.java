@@ -1,5 +1,6 @@
 package controllers;
 
+import beans.AccountBeanRemote;
 import beans.PlaysBeanRemote;
 import beans.SeatsBeanRemote;
 import beans.TicketsBeanRemote;
@@ -7,15 +8,12 @@ import entities.Tickets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import util.TablePosition;
 
 /**
  * ControllerOrder dispatches all the requests to order tickets and glues the Model and the View together.
@@ -27,6 +25,7 @@ public class ControllerOrder extends HttpServlet {
     @EJB PlaysBeanRemote playsBean;
     @EJB SeatsBeanRemote seatsBean;
     @EJB TicketsBeanRemote ticketsBean;
+    @EJB AccountBeanRemote accountBean;
     private static final String SELECT_PLAY = "selectPlay";
     private static final String SELECT_SEAT = "selectSeat";
     private static final String CONFIRM_ORDER = "confirmOrder";
@@ -128,9 +127,16 @@ public class ControllerOrder extends HttpServlet {
                 for(Integer id : (ArrayList<Integer>)session.getAttribute("selectedSeatIds")) {
                     int playId = (Integer)session.getAttribute("selectedPlayId");
                     int accountId = 0;
-                    System.out.println("Ticket:" + playId + " ACC:" + accountId + " ID=" + id);
+                    if(request.getUserPrincipal() == null) {
+                        System.out.println("No account linked, account ID = 0");
+                    }
+                    else {
+                        System.out.println("User is authenticated, linking tickets to account");
+                        accountId = accountBean.getIdByUsername(request.getUserPrincipal().getName());
+                    }
+                    System.out.println("Play ID: " + playId + " Account Id: " + accountId + " seats ID: " + id);
                     Object ticket = ticketsBean.generateTicket(accountId, playId, id);
-                    System.out.println(((Tickets)ticket).getId());
+                    System.out.println("Ticket generated: " + ((Tickets)ticket).getId());
                     generatedTickets.add(ticket);
                 }
                 session.setAttribute("generatedTickets", generatedTickets);

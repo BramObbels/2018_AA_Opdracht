@@ -26,15 +26,38 @@ public class AccountBean implements AccountBeanRemote {
     @Override
     public boolean checkUsername(String username){
         boolean exists = false;
-        Query q; // Find object by given ID
+        Query q; // Find object by given username
         q = em.createNamedQuery("Accounts.findByUsername");
         q.setParameter("username", username);
-        Vector tickets = (Vector) q.getResultList();
-        System.out.print(tickets.size());
-        if(tickets.size() > 0){
+        ArrayList<Accounts> accounts = (ArrayList<Accounts>) q.getResultList();
+        System.out.print(accounts.size());
+        if(accounts.size() > 0){
             exists = true;
         }
         return exists;
+    }
+    
+    @Override
+    public int getIdByUsername(String username) {
+        Query q;
+        q = em.createNamedQuery("Accounts.findByUsername");
+        q.setParameter("username", username);
+        Accounts account = (Accounts) q.getSingleResult();
+        return account.getId();
+    }
+    
+    @Override
+    public Object getAccountById(int id) {
+        try {
+            Query q;
+            q = em.createNamedQuery("Accounts.findById");
+            q.setParameter("id", id);
+            return q.getSingleResult();
+        }
+        catch(Exception error) {
+            System.err.println("Cannot find account, make sure you use a valid ID! Supplied ID: " + id);
+            return null;
+        }
     }
     
     @Override
