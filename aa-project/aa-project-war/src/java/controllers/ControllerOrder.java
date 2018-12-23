@@ -7,6 +7,7 @@ import entities.Tickets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import util.TablePosition;
 
 /**
  * ControllerOrder dispatches all the requests to order tickets and glues the Model and the View together.
@@ -92,7 +94,8 @@ public class ControllerOrder extends HttpServlet {
                 if(request.getParameterValues("selectedSeatIds") == null) {
                     System.err.println("No seats selected, unable to continue. Return to selected seats page");
                     session.setAttribute("nextOrderState", SELECT_SEAT);
-                    session.setAttribute("seats", seatsBean.getAllSeatsForPlay((Integer)session.getAttribute("selectedPlayId")));
+                    ArrayList<ArrayList<Object>> seats = seatsBean.getAllSeatsForPlay((Integer)session.getAttribute("selectedPlayId"));
+                    session.setAttribute("seats", seats);
                     this.goToJSPPage("select-seat.jsp", request, response);
                     break;
                 }    
