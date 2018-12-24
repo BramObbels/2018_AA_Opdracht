@@ -26,11 +26,15 @@ public class ControllerOrder extends HttpServlet {
     @EJB SeatsBeanRemote seatsBean;
     @EJB TicketsBeanRemote ticketsBean;
     @EJB AccountBeanRemote accountBean;
-    private static final String LANDING = "landing";
-    private static final String SELECT_PLAY = "selectPlay";
-    private static final String SELECT_SEAT = "selectSeat";
-    private static final String CONFIRM_ORDER = "confirmOrder";
-    private static final String GENERATE_TICKETS = "generateTickets";
+    private static final String STATE_LANDING = "landing";
+    private static final String STATE_SELECT_PLAY = "selectPlay";
+    private static final String STATE_SELECT_SEAT = "selectSeat";
+    private static final String STATE_CONFIRM_ORDER = "confirmOrder";
+    private static final String STATE_GENERATE_TICKETS = "generateTickets";
+    private static final String ACTION_NOTHING = "nothing";
+    private static final String ACTION_FREE = "free";
+    private static final String ACTION_RESERVE = "reserve";
+    private static final String ACTION_OCCUPY = "occupy";
     
     /**
      * Initialisation of the ControllerOrder Servlet.
@@ -54,38 +58,39 @@ public class ControllerOrder extends HttpServlet {
         String state = (String)session.getAttribute("nextOrderState");
         if(state == null) {
             System.out.println("Order process started");
-            session.setAttribute("nextOrderState", LANDING);
-            state = LANDING;
+            session.setAttribute("nextOrderState", STATE_LANDING);
+            state = STATE_LANDING;
         }
         
         System.out.println("STATE=" + state);
         switch(state) {
             default:
                 System.err.println("Unknown ordering state, starting from the beginning");
-            case LANDING:
+                
+            case STATE_LANDING:
                 System.out.println("CONNECT OPTIONALLY ACCOUNT TO TICKETS");
                 // User isn't logged in, give him/her the option to connect his/her account to the tickets
                 if(request.getUserPrincipal() == null) {
-                    session.setAttribute("nextOrderState", SELECT_PLAY);
+                    session.setAttribute("nextOrderState", STATE_SELECT_PLAY);
                     this.goToJSPPage("order-landing.jsp", request, response);
                     break;
                 }
                 // If user is already logged in, fall through to SELECT_PLAY immediately
                 
-            case SELECT_PLAY:
+            case STATE_SELECT_PLAY:
                 System.out.println("UPCOMING PLAYS=" + playsBean.getUpcomingPlays());
                 session.setAttribute("upcomingPlays", playsBean.getUpcomingPlays());
-                session.setAttribute("nextOrderState", SELECT_SEAT);
+                session.setAttribute("nextOrderState", STATE_SELECT_SEAT);
                 this.goToJSPPage("select-play.jsp", request, response);
                 break;
                 
-            case SELECT_SEAT:
+            case STATE_SELECT_SEAT:
                 System.out.println("SELECT SEATS");
                 // Input validation
                 if(request.getParameter("selectedPlayId") == null) {
                     System.err.println("No play selected, unable to continue. Returning to the previous step: SELECT_PLAY");
                     session.setAttribute("upcomingPlays", playsBean.getUpcomingPlays());
-                    session.setAttribute("nextOrderState", SELECT_SEAT);
+                    session.setAttribute("nextOrderState", STATE_SELECT_SEAT);
                     this.goToJSPPage("select-play.jsp", request, response);
                     break;
                 }
@@ -96,33 +101,59 @@ public class ControllerOrder extends HttpServlet {
                 // Valid input, processing...
                 System.out.println("SELECTED PLAY ID=" + session.getAttribute("selectedPlayId"));
                 session.setAttribute("seats", seatsBean.getAllSeatsForPlay((Integer)session.getAttribute("selectedPlayId")));
-                session.setAttribute("nextOrderState", CONFIRM_ORDER);
+                session.setAttribute("nextOrderState", STATE_CONFIRM_ORDER);
                 this.goToJSPPage("select-seat.jsp", request, response);
                 break;
                 
-            case CONFIRM_ORDER:
+            case STATE_CONFIRM_ORDER:
                 System.out.println("CONFIRM ORDER");
                 // Input validation
-                if(request.getParameterValues("selectedSeatIds") == null) {
+                String[] actions = request.getParameterValues("seatAction");
+                String[] seatIds = request.getParameterValues("seatId");
+                System.out.println("#actions= " + actions.length);
+                System.out.println("#seatIds= " + seatIds.length);
+                boolean hasAction = false;
+                for(String a : actions) {
+                    if(!a.equals(ACTION_NOTHING)) {
+                        hasAction = true;
+                        break;
+                    }
+                }
+                
+                // Continue if we have at least one action
+                if(hasAction) {
+                    System.out.println("NUMBER OF SELECTED SEATS=" + Arrays.toString(request.getParameterValues("selectedSeatIds")));
+                    ArrayList<Integer> freeSeatIds = new ArrayList<Integer>();
+                    ArrayList<Integer> reserveSeatIds = new ArrayList<Integer>();
+                    ArrayList<Integer> occupySeatIds = new ArrayList<Integer>();
+                    for(int i=0; i < seatIds.length; i++) {
+                        String id = seatIds[i];
+                        if(actions[i].equals(ACTION_FREE)) {
+                            freeSeatIds.add(Integer.parseInt(id));
+                        }
+                        else if(actions[i].equals(ACTION_FREE)) {
+                            reserveSeatIds.add(Integer.parseInt(id));
+                        }
+                        else if(actions[i].equals(ACTION_FREE)) {
+                            occupySeatIds.add(Integer.parseInt(id));
+                        }
+                    }
+                    session.setAttribute("freeSeatIds", freeSeatIds);
+                    session.setAttribute("reserveSeatIds", reserveSeatIds);
+                    session.setAttribute("occupySeatIds", occupySeatIds);
+                }
+                // In case the user hasn't selected anything, redirect to the seats selection page
+                else {
                     System.err.println("No seats selected, unable to continue. Return to selected seats page");
                     session.setAttribute("seats", seatsBean.getAllSeatsForPlay((Integer)session.getAttribute("selectedPlayId")));
-                    session.setAttribute("nextOrderState", CONFIRM_ORDER);
+                    session.setAttribute("nextOrderState", STATE_CONFIRM_ORDER);
                     this.goToJSPPage("select-seat.jsp", request, response);
                     break;
-                }    
-                else {
-                    System.out.println("NUMBER OF SELECTED SEATS=" + Arrays.toString(request.getParameterValues("selectedSeatIds")));
-                    String[] checkboxes = request.getParameterValues("selectedSeatIds");
-                    ArrayList<Integer> selectedSeatIds = new ArrayList<Integer>();
-                    for(String id : checkboxes) {
-                        selectedSeatIds.add(Integer.parseInt(id));
-                    }
-                    session.setAttribute("selectedSeatIds", selectedSeatIds);
                 }
                 
                 // Valid input, processing...
                 System.out.println("SELECTED SEATS ID=" + session.getAttribute("selectedSeatIds"));
-                session.setAttribute("nextOrderState", GENERATE_TICKETS);
+                session.setAttribute("nextOrderState", STATE_GENERATE_TICKETS);
                 session.setAttribute("orderedPlay", playsBean.getPlayById((Integer)session.getAttribute("selectedPlayId")));
                 ArrayList<Object> orderedSeats = new ArrayList<Object>();
                 for(Integer id : (ArrayList<Integer>)session.getAttribute("selectedSeatIds")) {
@@ -132,11 +163,23 @@ public class ControllerOrder extends HttpServlet {
                 this.goToJSPPage("confirm-order.jsp", request, response);
                 break;
                 
-            case GENERATE_TICKETS:
+            case STATE_GENERATE_TICKETS:
                 System.out.println("GENERATING TICKETS");
                 session.setAttribute("nextOrderState", null); // End of ordering
                 ArrayList<Object> generatedTickets = new ArrayList<Object>();
-                for(Integer id : (ArrayList<Integer>)session.getAttribute("selectedSeatIds")) {
+                
+                // Free seats -> set status to free if allowed
+                for(Integer id : (ArrayList<Integer>)session.getAttribute("freeSeatIds")) {
+                    seatsBean.freeSeat(id);
+                }
+                
+                // Reserve seats -> set status to reserve if allowed
+                for(Integer id : (ArrayList<Integer>)session.getAttribute("reserveSeatIds")) {
+                    seatsBean.reserveSeat(id);
+                }
+                
+                // Occupied seats -> generate tickets
+                for(Integer id : (ArrayList<Integer>)session.getAttribute("occupySeatIds")) {
                     int playId = (Integer)session.getAttribute("selectedPlayId");
                     int accountId = 0;
                     if(request.getUserPrincipal() == null) {

@@ -30,7 +30,13 @@
                             <tr>
                                 <c:forEach var = "seat" items = "${seatsRow}">
                                     <td>
-                                        <input class="w3-check" type="checkbox" name="selectedSeatIds" value="${seat.getId()}">
+                                        <input type="hidden" name="seatId" value="${seat.getId()}">
+                                        <select name="seatAction">
+                                            <option value="nothing">Nothing</option>
+                                            <option value="free">Free seat</option>
+                                            <option value="reserve">Reserve seat</option>
+                                            <option value="occupy">Occupy seat</option>
+                                        </select> 
                                         <label>
                                             [<c:out value="${seat.getRowNumber()}" />, 
                                             <c:out value="${seat.getColumnNumber()}" />] 

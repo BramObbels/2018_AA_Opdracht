@@ -15,4 +15,7 @@ public interface SeatsBeanRemote {
     public Object getSeatById(int seatId);
     public int getNumberofRowsForPlay(int playId);
     public int getNumberofColumnsForPlay(int playId);
+    public void freeSeat(int seatId);
+    public void reserveSeat(int seatId);
+    public void occupySeat(int seatId);
 }

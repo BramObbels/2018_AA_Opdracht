@@ -57,8 +57,7 @@ public class TicketsBean implements TicketsBeanRemote {
         ticket.setValid(Tickets.VALID);
         
         // Make seat OCCUPIED and merge the change with the DB
-        seat.setStatus(Seats.OCCUPIED);
-        seat = em.merge(seat);
+        seatsBean.occupySeat(seatId);
         
         // Make ticket persistent and return it
         em.persist(ticket);
