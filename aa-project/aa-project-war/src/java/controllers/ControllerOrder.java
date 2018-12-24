@@ -100,7 +100,8 @@ public class ControllerOrder extends HttpServlet {
                 System.out.println("SELECTED PLAY ID=" + session.getAttribute("selectedPlayId"));
                 System.out.println("Management features enabled? " + request.isUserInRole("administrators"));
                 session.setAttribute("isManagement", request.isUserInRole("administrators"));
-                session.setAttribute("seats", seatsBean.getAllSeatsForPlay((Integer)session.getAttribute("selectedPlayId")));
+                ArrayList<ArrayList<Object> > seats = seatsBean.getAllSeatsForPlay((Integer)session.getAttribute("selectedPlayId"));
+                session.setAttribute("seats", seats);
                 Plays play = (Plays)playsBean.getPlayById(Integer.parseInt(request.getParameter("selectedPlayId")));
                 session.setAttribute("basicPrice", play.getBasicPrice());
                 session.setAttribute("rankFee", play.getRankFee());

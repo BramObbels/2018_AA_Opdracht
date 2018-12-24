@@ -20,7 +20,6 @@
         <!-- Menu -->
         <%@include file="WEB-INF/jspf/menu.jspf" %>
         <div class="w3-content w3-padding container">
-
             <!-- Project Section -->
             <div class="w3-container w3-padding-32">
                 <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Select the seats for the chosen play</h3>
@@ -30,15 +29,22 @@
                         <c:forEach var = "seatsRow" items = "${sessionScope.seats}">
                             <tr>
                                 <c:forEach var = "seat" items = "${seatsRow}">
-                                    <td>
+                                    <td class="seat">
+                                        <input type="hidden" name="seatStatus" value="${seat.getStatus()}">
                                         <input type="hidden" name="seatId" value="${seat.getId()}">
                                         <select name="seatAction">
                                             <option selected value="nothing">Nothing</option>
+                                            
+                                            <!-- Management special options -->
                                             <c:if test="${sessionScope.isManagement eq true}">
                                                 <option value="free">Free seat</option>
                                                 <option value="reserve">Reserve seat</option>
                                             </c:if>
-                                            <option value="occupy">Occupy seat</option>
+                                                
+                                            <!-- Occupation only possible if seat is free, except for management -->
+                                            <c:if test="${(sessionScope.isManagement eq true) or (seat.getStatus() == 0)}">
+                                                <option value="occupy">Occupy seat</option>
+                                            </c:if>
                                         </select> 
                                         <label>
                                             [<c:out value="${seat.getRowNumber()}" />, 
@@ -57,5 +63,25 @@
                 </form>
             </div>
         </div>
+        
+        <!-- JS dynamic selection -->
+        <script>
+            var seats = document.getElementsByClassName("seat");
+            console.log("Seats: " + JSON.stringify(seats));
+            for (var i = 0; i < seats.length; ++i) {
+                var item = seats[i];  
+                var status = item.children[0].value; // hidden input field with status of the seat
+                console.log(status);
+                if(status == 0) {
+                    item.className += " w3-green";
+                }
+                else if(status == 1) {
+                    item.className += " w3-orange";
+                }
+                else if(status == 2) {
+                    item.className += " w3-red";
+                }
+            }
+        </script>
     </body>
 </html>
