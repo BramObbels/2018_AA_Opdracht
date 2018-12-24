@@ -26,6 +26,7 @@ public class ControllerOrder extends HttpServlet {
     @EJB SeatsBeanRemote seatsBean;
     @EJB TicketsBeanRemote ticketsBean;
     @EJB AccountBeanRemote accountBean;
+    private static final String LANDING = "landing";
     private static final String SELECT_PLAY = "selectPlay";
     private static final String SELECT_SEAT = "selectSeat";
     private static final String CONFIRM_ORDER = "confirmOrder";
@@ -53,14 +54,24 @@ public class ControllerOrder extends HttpServlet {
         String state = (String)session.getAttribute("nextOrderState");
         if(state == null) {
             System.out.println("Order process started");
-            session.setAttribute("nextOrderState", SELECT_PLAY);
-            state = SELECT_PLAY;
+            session.setAttribute("nextOrderState", LANDING);
+            state = LANDING;
         }
         
         System.out.println("STATE=" + state);
         switch(state) {
             default:
                 System.err.println("Unknown ordering state, starting from the beginning");
+            case LANDING:
+                System.out.println("CONNECT OPTIONALLY ACCOUNT TO TICKETS");
+                // User isn't logged in, give him/her the option to connect his/her account to the tickets
+                if(request.getUserPrincipal() == null) {
+                    session.setAttribute("nextOrderState", SELECT_PLAY);
+                    this.goToJSPPage("order-landing.jsp", request, response);
+                    break;
+                }
+                // If user is already logged in, fall through to SELECT_PLAY immediately
+                
             case SELECT_PLAY:
                 System.out.println("UPCOMING PLAYS=" + playsBean.getUpcomingPlays());
                 session.setAttribute("upcomingPlays", playsBean.getUpcomingPlays());
@@ -72,8 +83,10 @@ public class ControllerOrder extends HttpServlet {
                 System.out.println("SELECT SEATS");
                 // Input validation
                 if(request.getParameter("selectedPlayId") == null) {
-                    System.err.println("No play selected, unable to continue. HTTP 500");
-                    response.sendError(500, "Unable to process the selected play");
+                    System.err.println("No play selected, unable to continue. Returning to the previous step: SELECT_PLAY");
+                    session.setAttribute("upcomingPlays", playsBean.getUpcomingPlays());
+                    session.setAttribute("nextOrderState", SELECT_SEAT);
+                    this.goToJSPPage("select-play.jsp", request, response);
                     break;
                 }
                 else {
@@ -92,9 +105,8 @@ public class ControllerOrder extends HttpServlet {
                 // Input validation
                 if(request.getParameterValues("selectedSeatIds") == null) {
                     System.err.println("No seats selected, unable to continue. Return to selected seats page");
-                    session.setAttribute("nextOrderState", SELECT_SEAT);
-                    ArrayList<ArrayList<Object>> seats = seatsBean.getAllSeatsForPlay((Integer)session.getAttribute("selectedPlayId"));
-                    session.setAttribute("seats", seats);
+                    session.setAttribute("seats", seatsBean.getAllSeatsForPlay((Integer)session.getAttribute("selectedPlayId")));
+                    session.setAttribute("nextOrderState", CONFIRM_ORDER);
                     this.goToJSPPage("select-seat.jsp", request, response);
                     break;
                 }    

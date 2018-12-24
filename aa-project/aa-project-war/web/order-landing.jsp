@@ -1,5 +1,5 @@
 <%-- 
-    Document   : select-play.jsp
+    Document   : order-landing.jsp
     Created on : Oct 29, 2018, 6:45:35 PM
     Author     : Dylan Van Assche
 --%>
@@ -24,23 +24,19 @@
 
             <!-- Project Section -->
             <div class="w3-container w3-padding-32">
-                <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Select an upcoming play to continue</h3>
-                <form class="w3-container w3-card-4" method="post" action="<c:url value='order' />">
-                    <c:forEach var = "p" items = "${sessionScope.upcomingPlays}">
-                        <p>
-                            <input class="w3-radio" type="radio" name="selectedPlayId" required value="${p.getId()}">
-                            <label>
-                                <c:out value="${p.getName()}"/>
-                                (<fmt:formatDate value="${p.getDate()}" pattern="HH:mm dd-MM-yyyy" />)
-                                <c:out value="${p.getBasicPrice()}"/> &euro; 
-                                + <c:out value="${p.getRankFee()}"/> &euro;/rank
-                            </label>
-                        </p>
-                    </c:forEach>
+                <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Welcome to the ticket order process</h3>
+                <p>If you want to connect your tickets to your account, please click the button below:</p>
+                <form class="w3-container" method="post" action="<c:url value='order-account' />">
                     <button class="w3-button w3-black w3-section" type="submit">
-                        <i class="fa fa-paper-plane"></i> SELECT PLAY
+                        <i class="fa fa-paper-plane"></i> CONNECT ACCOUNT TO TICKETS
                     </button>
-                </form> 
+                </form>
+                <p>If you want to continue without an account, click the button below:</p>
+                <form class="w3-container" method="post" action="<c:url value='order' />">
+                    <button class="w3-button w3-black w3-section" type="submit">
+                        <i class="fa fa-paper-plane"></i> CONTINUE WITHOUT AN ACCOUNT
+                    </button>
+                </form>
             </div>
         </div>
     </body>
