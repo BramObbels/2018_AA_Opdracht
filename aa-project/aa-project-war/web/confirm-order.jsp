@@ -27,7 +27,18 @@
                 <form class="w3-container w3-card-4" method="post" action="<c:url value='order' />">
                     Play: <c:out value="${sessionScope.orderedPlay.getName()}" />
 
-                    <c:forEach var = "entry" items = "${sessionScope.orderedSeats}">
+                    <h4>Free seats:</h4>
+                    <c:forEach var = "entry" items = "${sessionScope.freeSeats}">
+                        <p>seat ID= <c:out value="${entry.getId()}" /></p>
+                    </c:forEach>
+                        
+                    <h4>Reserve seats:</h4>
+                    <c:forEach var = "entry" items = "${sessionScope.reserveSeats}">
+                        <p>seat ID= <c:out value="${entry.getId()}" /></p>
+                    </c:forEach>
+                    
+                    <h4>Occupy seats:</h4>
+                    <c:forEach var = "entry" items = "${sessionScope.occupySeats}">
                         <p>seat ID= <c:out value="${entry.getId()}" /></p>
                     </c:forEach>
                     <button class="w3-button w3-black w3-section" type="submit">

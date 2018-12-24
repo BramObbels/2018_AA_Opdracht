@@ -36,8 +36,7 @@ public class TicketsBean implements TicketsBeanRemote {
      * @parameter int seatId
      * @author Dylan Van Assche
      */
-    @Override
-    public Object generateTicket(int accountId, int playId, int seatId) {
+    private Object generateTicket(int accountId, int playId, int seatId) {
         // Generate ticket ID and build Ticket object
         long ticketId = ThreadLocalRandom.current().nextLong(MIN.longValue(), MAX.longValue() + 1);
         Tickets ticket = new Tickets();
@@ -56,12 +55,45 @@ public class TicketsBean implements TicketsBeanRemote {
         ticket.setSeatId(seat);        
         ticket.setValid(Tickets.VALID);
         
-        // Make seat OCCUPIED and merge the change with the DB
-        seatsBean.occupySeat(seatId);
-        
         // Make ticket persistent and return it
         em.persist(ticket);
         return (Object)ticket;
+    }
+    
+    /**
+     * Generate ticket to occupy seat.
+     * Generates a ticket for a given play, account and seat.
+     * @parameter int accountId
+     * @parameter int playId
+     * @parameter int seatId
+     * @author Dylan Van Assche
+     */
+    @Override
+    public Object generateOccupiedTicket(int accountId, int playId, int seatId) {
+        // Make seat OCCUPIED and merge the change with the DB
+        seatsBean.occupySeat(seatId);
+        
+        // Handle reserved tickets
+        Tickets t = this.getReservedTicket(seatId, playId);
+        if(t == null) {
+            return this.generateTicket(accountId, playId, seatId);
+        }
+        return t;
+    }
+    
+    /**
+     * Generate ticket to reserve seat.
+     * Generates a ticket for a given play, account and seat.
+     * @parameter int playId
+     * @parameter int seatId
+     * @author Dylan Van Assche
+     */
+    @Override
+    public Object generateReservedTicket(int playId, int seatId) {
+        // Make seat RESERVED and merge the change with the DB
+        seatsBean.reserveSeat(seatId);
+        // accountId = 0 since we reserve the ticket
+        return this.generateTicket(0, playId, seatId);
     }
 
     /**
@@ -119,5 +151,50 @@ public class TicketsBean implements TicketsBeanRemote {
         // Make ticket invalid and merge it with the DB
         ticket.setValid(Tickets.INVALID);
         ticket = em.merge(ticket);
+    }
+    
+    /**
+     * Remove ticket by seat ID and play ID.
+     * Removes a given ticket from the DB.
+     * @parameter int seatId
+     * @parameter int playId
+     * @see isTicketValidById()
+     * @author Dylan Van Assche
+     */
+    @Override
+    public void removeTicketBySeatIdAndPlayId(int seatId, int playId) {
+        Query q = em.createNamedQuery("Tickets.findByPlayId"); // Find object by given ID
+        Plays play = (Plays)playsBean.getPlayById(playId);
+        q.setParameter("playId", play);
+        ArrayList<Object> tickets = new ArrayList<Object>(q.getResultList());
+        for(Object o : tickets) {
+            Tickets t = (Tickets)o;
+            if(t.getSeatId().getId() == seatId) {
+                em.remove(t);
+                break;
+            }
+        }
+    }
+    
+    /**
+     * Find reserved ticket by seat ID and play ID.
+     * Returns null if no ticket has been found
+     * @parameter int seatId
+     * @parameter int playId
+     * @see generateTicket()
+     * @author Dylan Van Assche
+     */
+    private Tickets getReservedTicket(int seatId, int playId) {
+        Query q = em.createNamedQuery("Tickets.findByPlayId"); // Find object by given ID
+        Plays play = (Plays)playsBean.getPlayById(playId);
+        q.setParameter("playId", play);
+        ArrayList<Object> tickets = new ArrayList<Object>(q.getResultList());
+        for(Object o : tickets) {
+            Tickets t = (Tickets)o;
+            if(t.getSeatId().getId() == seatId) {
+                return t;
+            }
+        }
+        return null;
     }
 }

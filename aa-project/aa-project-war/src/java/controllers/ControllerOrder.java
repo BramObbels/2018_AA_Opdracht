@@ -4,6 +4,7 @@ import beans.AccountBeanRemote;
 import beans.PlaysBeanRemote;
 import beans.SeatsBeanRemote;
 import beans.TicketsBeanRemote;
+import entities.Seats;
 import entities.Tickets;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -123,24 +124,26 @@ public class ControllerOrder extends HttpServlet {
                 // Continue if we have at least one action
                 if(hasAction) {
                     System.out.println("NUMBER OF SELECTED SEATS=" + Arrays.toString(request.getParameterValues("selectedSeatIds")));
-                    ArrayList<Integer> freeSeatIds = new ArrayList<Integer>();
-                    ArrayList<Integer> reserveSeatIds = new ArrayList<Integer>();
-                    ArrayList<Integer> occupySeatIds = new ArrayList<Integer>();
+                    ArrayList<Object> freeSeats = new ArrayList<Object>();
+                    ArrayList<Object> reserveSeats = new ArrayList<Object>();
+                    ArrayList<Object> occupySeats = new ArrayList<Object>();
                     for(int i=0; i < seatIds.length; i++) {
                         String id = seatIds[i];
+                        System.out.println("Action: " + actions[i]);
                         if(actions[i].equals(ACTION_FREE)) {
-                            freeSeatIds.add(Integer.parseInt(id));
+                            freeSeats.add(seatsBean.getSeatById(Integer.parseInt(id)));
                         }
-                        else if(actions[i].equals(ACTION_FREE)) {
-                            reserveSeatIds.add(Integer.parseInt(id));
+                        else if(actions[i].equals(ACTION_RESERVE)) {
+                            reserveSeats.add(seatsBean.getSeatById(Integer.parseInt(id)));
                         }
-                        else if(actions[i].equals(ACTION_FREE)) {
-                            occupySeatIds.add(Integer.parseInt(id));
+                        else if(actions[i].equals(ACTION_OCCUPY)) {
+                            occupySeats.add(seatsBean.getSeatById(Integer.parseInt(id)));
                         }
                     }
-                    session.setAttribute("freeSeatIds", freeSeatIds);
-                    session.setAttribute("reserveSeatIds", reserveSeatIds);
-                    session.setAttribute("occupySeatIds", occupySeatIds);
+                    
+                    session.setAttribute("freeSeats", freeSeats);
+                    session.setAttribute("reserveSeats", reserveSeats);
+                    session.setAttribute("occupySeats", occupySeats);
                 }
                 // In case the user hasn't selected anything, redirect to the seats selection page
                 else {
@@ -152,14 +155,12 @@ public class ControllerOrder extends HttpServlet {
                 }
                 
                 // Valid input, processing...
-                System.out.println("SELECTED SEATS ID=" + session.getAttribute("selectedSeatIds"));
+                System.out.println("SELECTED SEATS ID, FREE=" 
+                        + session.getAttribute("freeSeats") 
+                        + " | RESERVE=" + session.getAttribute("reserveSeats") 
+                        + " | OCCUPY=" + session.getAttribute("occupySeats"));
                 session.setAttribute("nextOrderState", STATE_GENERATE_TICKETS);
                 session.setAttribute("orderedPlay", playsBean.getPlayById((Integer)session.getAttribute("selectedPlayId")));
-                ArrayList<Object> orderedSeats = new ArrayList<Object>();
-                for(Integer id : (ArrayList<Integer>)session.getAttribute("selectedSeatIds")) {
-                    orderedSeats.add(seatsBean.getSeatById(id));
-                }
-                session.setAttribute("orderedSeats", orderedSeats);
                 this.goToJSPPage("confirm-order.jsp", request, response);
                 break;
                 
@@ -167,20 +168,25 @@ public class ControllerOrder extends HttpServlet {
                 System.out.println("GENERATING TICKETS");
                 session.setAttribute("nextOrderState", null); // End of ordering
                 ArrayList<Object> generatedTickets = new ArrayList<Object>();
+                int playId = (Integer)session.getAttribute("selectedPlayId");
                 
                 // Free seats -> set status to free if allowed
-                for(Integer id : (ArrayList<Integer>)session.getAttribute("freeSeatIds")) {
-                    seatsBean.freeSeat(id);
+                for(Seats seat : (ArrayList<Seats>)session.getAttribute("freeSeats")) {
+                    seatsBean.freeSeat(seat.getId());
+                    // Remove any ticket associated with this seat and play
+                    ticketsBean.removeTicketBySeatIdAndPlayId(seat.getId(), playId);
                 }
                 
                 // Reserve seats -> set status to reserve if allowed
-                for(Integer id : (ArrayList<Integer>)session.getAttribute("reserveSeatIds")) {
-                    seatsBean.reserveSeat(id);
+                for(Seats seat : (ArrayList<Seats>)session.getAttribute("reserveSeats")) {
+                    System.out.println("Play ID: " + playId + " seats ID: " + seat.getId());
+                    Object ticket = ticketsBean.generateReservedTicket(playId, seat.getId());
+                    System.out.println("Ticket reserved generated: " + ((Tickets)ticket).getId());
+                    generatedTickets.add(ticket);
                 }
                 
                 // Occupied seats -> generate tickets
-                for(Integer id : (ArrayList<Integer>)session.getAttribute("occupySeatIds")) {
-                    int playId = (Integer)session.getAttribute("selectedPlayId");
+                for(Seats seat : (ArrayList<Seats>)session.getAttribute("occupySeats")) {
                     int accountId = 0;
                     if(request.getUserPrincipal() == null) {
                         System.out.println("No account linked, account ID = 0");
@@ -189,9 +195,10 @@ public class ControllerOrder extends HttpServlet {
                         System.out.println("User is authenticated, linking tickets to account");
                         accountId = accountBean.getIdByUsername(request.getUserPrincipal().getName());
                     }
-                    System.out.println("Play ID: " + playId + " Account Id: " + accountId + " seats ID: " + id);
-                    Object ticket = ticketsBean.generateTicket(accountId, playId, id);
-                    System.out.println("Ticket generated: " + ((Tickets)ticket).getId());
+                    System.out.println("Play ID: " + playId + " Account Id: " + accountId + " seats ID: " + seat.getId());
+
+                    Object ticket = ticketsBean.generateOccupiedTicket(accountId, playId, seat.getId());
+                    System.out.println("Ticket occupied generated: " + ((Tickets)ticket).getId());
                     generatedTickets.add(ticket);
                 }
                 session.setAttribute("generatedTickets", generatedTickets);
