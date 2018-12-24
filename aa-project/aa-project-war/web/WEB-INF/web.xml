@@ -28,22 +28,6 @@
         </security-role-ref>
     </servlet>
     <servlet>
-        <description>Management area</description>
-        <servlet-name>ControllerManagement</servlet-name>
-        <servlet-class>controllers.ControllerManagement</servlet-class>
-        <load-on-startup>4</load-on-startup>
-        <security-role-ref>
-            <description/>
-            <role-name>Administrators</role-name>
-            <role-link>administrators</role-link>
-        </security-role-ref>
-    </servlet>
-    <servlet>
-        <servlet-name>Faces Servlet</servlet-name>
-        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet>
         <servlet-name>ControllerAccount</servlet-name>
         <servlet-class>controllers.ControllerAccount</servlet-class>
     </servlet>
@@ -52,16 +36,8 @@
         <url-pattern>/member</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ControllerManagement</servlet-name>
-        <url-pattern>/manage</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>ControllerLanding</servlet-name>
         <url-pattern>/landing</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ControllerAccount</servlet-name>
@@ -78,7 +54,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/index.xhtml</welcome-file>
         <welcome-file>landing.jsp</welcome-file>
     </welcome-file-list>
     <error-page>
@@ -86,24 +61,7 @@
         <location>/error.jsp</location>
     </error-page>
     <security-constraint>
-        <display-name>Management page</display-name>
-        <web-resource-collection>
-            <web-resource-name>redirect_name</web-resource-name>
-            <description/>
-            <url-pattern>/manage</url-pattern>
-        </web-resource-collection>
-        <web-resource-collection>
-            <web-resource-name>full_name_admin</web-resource-name>
-            <description/>
-            <url-pattern>/management.jsp</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <description/>
-            <role-name>administrators</role-name>
-        </auth-constraint>
-    </security-constraint>
-    <security-constraint>
-        <display-name>account</display-name>
+        <display-name>Account</display-name>
         <web-resource-collection>
             <web-resource-name>account</web-resource-name>
             <description/>

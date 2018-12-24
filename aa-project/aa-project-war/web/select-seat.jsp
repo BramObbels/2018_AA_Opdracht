@@ -38,12 +38,19 @@
                                             
                                             <!-- Management special options -->
                                             <c:if test="${sessionScope.isManagement eq true}">
-                                                <option value="free">Free seat</option>
-                                                <option value="reserve">Reserve seat</option>
+                                                <!-- Only freeing if seat isn't free -->
+                                                <c:if test="${seat.getStatus() != 0}">
+                                                    <option value="free">Free seat</option> 
+                                                </c:if>
+
+                                                <!-- Reserving only when seat is free -->
+                                                <c:if test="${seat.getStatus() == 0}">
+                                                    <option value="reserve">Reserve seat</option>
+                                                </c:if>
                                             </c:if>
                                                 
-                                            <!-- Occupation only possible if seat is free, except for management -->
-                                            <c:if test="${(sessionScope.isManagement eq true) or (seat.getStatus() == 0)}">
+                                            <!-- Occupation only possible if seat is free, except for management (only show occupation when not occupied) -->
+                                            <c:if test="${(sessionScope.isManagement eq true and seat.getStatus() != 2) or (seat.getStatus() == 0)}">
                                                 <option value="occupy">Occupy seat</option>
                                             </c:if>
                                         </select> 
