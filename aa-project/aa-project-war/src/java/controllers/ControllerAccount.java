@@ -72,7 +72,7 @@ public class ControllerAccount extends HttpServlet {
         } 
         else {
             System.err.println("Unknown state, cannot create account");
-            response.sendError(500, "Internal Server Error");
+            response.sendError(500, "Unknown state, unable to create your account. Please try again later");
         }
     }
     

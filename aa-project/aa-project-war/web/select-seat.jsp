@@ -50,6 +50,7 @@
                             </tr>
                         </c:forEach>
                     </table>
+                    <input type="hidden" name="nextOrderState" value="confirmOrder" />
                     <button class="w3-button w3-black w3-section" type="submit">
                         <i class="fa fa-paper-plane"></i> SELECT SEAT
                     </button>

@@ -48,6 +48,7 @@
                     <c:forEach var = "entry" items = "${sessionScope.occupySeats}">
                         <p>seat ID= <c:out value="${entry.getId()}" /> <c:out value="${sessionScope.basicPrice + seat.getRank() * sessionScope.rankFee}" /> &euro;</p>
                     </c:forEach>
+                    <input type="hidden" name="nextOrderState" value="generateTickets" />
                     <button class="w3-button w3-black w3-section" type="submit">
                         <i class="fa fa-paper-plane"></i> CONFIRM ORDER
                     </button>

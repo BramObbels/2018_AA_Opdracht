@@ -27,12 +27,14 @@
                 <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Welcome to the ticket order process</h3>
                 <p>If you want to connect your tickets to your account, please click the button below:</p>
                 <form class="w3-container" method="post" action="<c:url value='order-account' />">
+                    <input type="hidden" name="nextOrderState" value="selectPlay" />
                     <button class="w3-button w3-black w3-section" type="submit">
                         <i class="fa fa-paper-plane"></i> CONNECT ACCOUNT TO TICKETS
                     </button>
                 </form>
                 <p>If you want to continue without an account, click the button below:</p>
                 <form class="w3-container" method="post" action="<c:url value='order' />">
+                    <input type="hidden" name="nextOrderState" value="selectPlay" />
                     <button class="w3-button w3-black w3-section" type="submit">
                         <i class="fa fa-paper-plane"></i> CONTINUE WITHOUT AN ACCOUNT
                     </button>

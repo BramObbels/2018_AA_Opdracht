@@ -57,10 +57,9 @@ public class ControllerOrder extends HttpServlet {
         HttpSession session = request.getSession();
         
         // At the beginning, the order state isn't initialised for the current session
-        String state = (String)session.getAttribute("nextOrderState");
+        String state = (String)request.getParameter("nextOrderState");
         if(state == null) {
             System.out.println("Order process started");
-            session.setAttribute("nextOrderState", STATE_LANDING);
             state = STATE_LANDING;
         }
         
@@ -73,7 +72,6 @@ public class ControllerOrder extends HttpServlet {
                 System.out.println("CONNECT OPTIONALLY ACCOUNT TO TICKETS");
                 // User isn't logged in, give him/her the option to connect his/her account to the tickets
                 if(request.getUserPrincipal() == null) {
-                    session.setAttribute("nextOrderState", STATE_SELECT_PLAY);
                     this.goToJSPPage("order-landing.jsp", request, response);
                     break;
                 }
@@ -82,7 +80,6 @@ public class ControllerOrder extends HttpServlet {
             case STATE_SELECT_PLAY:
                 System.out.println("UPCOMING PLAYS=" + playsBean.getUpcomingPlays());
                 session.setAttribute("upcomingPlays", playsBean.getUpcomingPlays());
-                session.setAttribute("nextOrderState", STATE_SELECT_SEAT);
                 this.goToJSPPage("select-play.jsp", request, response);
                 break;
                 
@@ -92,7 +89,6 @@ public class ControllerOrder extends HttpServlet {
                 if(request.getParameter("selectedPlayId") == null) {
                     System.err.println("No play selected, unable to continue. Returning to the previous step: SELECT_PLAY");
                     session.setAttribute("upcomingPlays", playsBean.getUpcomingPlays());
-                    session.setAttribute("nextOrderState", STATE_SELECT_SEAT);
                     this.goToJSPPage("select-play.jsp", request, response);
                     break;
                 }
@@ -105,7 +101,6 @@ public class ControllerOrder extends HttpServlet {
                 System.out.println("Management features enabled? " + request.isUserInRole("administrators"));
                 session.setAttribute("isManagement", request.isUserInRole("administrators"));
                 session.setAttribute("seats", seatsBean.getAllSeatsForPlay((Integer)session.getAttribute("selectedPlayId")));
-                session.setAttribute("nextOrderState", STATE_CONFIRM_ORDER);
                 Plays play = (Plays)playsBean.getPlayById(Integer.parseInt(request.getParameter("selectedPlayId")));
                 session.setAttribute("basicPrice", play.getBasicPrice());
                 session.setAttribute("rankFee", play.getRankFee());
@@ -159,7 +154,6 @@ public class ControllerOrder extends HttpServlet {
                 else {
                     System.err.println("No seats selected, unable to continue. Return to selected seats page");
                     session.setAttribute("seats", seatsBean.getAllSeatsForPlay((Integer)session.getAttribute("selectedPlayId")));
-                    session.setAttribute("nextOrderState", STATE_CONFIRM_ORDER);
                     this.goToJSPPage("select-seat.jsp", request, response);
                     break;
                 }
@@ -169,14 +163,12 @@ public class ControllerOrder extends HttpServlet {
                         + session.getAttribute("freeSeats") 
                         + " | RESERVE=" + session.getAttribute("reserveSeats") 
                         + " | OCCUPY=" + session.getAttribute("occupySeats"));
-                session.setAttribute("nextOrderState", STATE_GENERATE_TICKETS);
                 session.setAttribute("orderedPlay", playsBean.getPlayById((Integer)session.getAttribute("selectedPlayId")));
                 this.goToJSPPage("confirm-order.jsp", request, response);
                 break;
                 
             case STATE_GENERATE_TICKETS:
                 System.out.println("GENERATING TICKETS");
-                session.setAttribute("nextOrderState", null); // End of ordering
                 ArrayList<Object> generatedTickets = new ArrayList<Object>();
                 int playId = (Integer)session.getAttribute("selectedPlayId");
                 
