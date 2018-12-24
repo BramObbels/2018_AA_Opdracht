@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -27,19 +28,25 @@
                 <form class="w3-container w3-card-4" method="post" action="<c:url value='order' />">
                     Play: <c:out value="${sessionScope.orderedPlay.getName()}" />
 
-                    <h4>Free seats:</h4>
+                    <c:if test="${fn:length(sessionScope.freeSeats) > 0}">
+                        <h4>Free seats:</h4>
+                    </c:if>
                     <c:forEach var = "entry" items = "${sessionScope.freeSeats}">
                         <p>seat ID= <c:out value="${entry.getId()}" /></p>
                     </c:forEach>
                         
-                    <h4>Reserve seats:</h4>
+                    <c:if test="${fn:length(sessionScope.reserveSeats) > 0}">
+                        <h4>Reserve seats:</h4>
+                    </c:if>
                     <c:forEach var = "entry" items = "${sessionScope.reserveSeats}">
-                        <p>seat ID= <c:out value="${entry.getId()}" /></p>
+                        <p>seat ID= <c:out value="${entry.getId()}" /> <c:out value="${sessionScope.basicPrice + seat.getRank() * sessionScope.rankFee}" /> &euro;</p>
                     </c:forEach>
                     
-                    <h4>Occupy seats:</h4>
+                    <c:if test="${fn:length(sessionScope.occupySeats) > 0}">
+                        <h4>Occupy seats:</h4>
+                    </c:if>
                     <c:forEach var = "entry" items = "${sessionScope.occupySeats}">
-                        <p>seat ID= <c:out value="${entry.getId()}" /></p>
+                        <p>seat ID= <c:out value="${entry.getId()}" /> <c:out value="${sessionScope.basicPrice + seat.getRank() * sessionScope.rankFee}" /> &euro;</p>
                     </c:forEach>
                     <button class="w3-button w3-black w3-section" type="submit">
                         <i class="fa fa-paper-plane"></i> CONFIRM ORDER

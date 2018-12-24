@@ -25,6 +25,7 @@
             <div class="w3-container w3-padding-32">
                 <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Select the seats for the chosen play</h3>
                 <form class="w3-container w3-card-4" method="post" action="<c:url value='order' />">
+                    <p>Available seats:</p>
                     <table>
                         <c:forEach var = "seatsRow" items = "${sessionScope.seats}">
                             <tr>
@@ -32,15 +33,17 @@
                                     <td>
                                         <input type="hidden" name="seatId" value="${seat.getId()}">
                                         <select name="seatAction">
-                                            <option value="nothing">Nothing</option>
-                                            <option value="free">Free seat</option>
-                                            <option value="reserve">Reserve seat</option>
+                                            <option selected value="nothing">Nothing</option>
+                                            <c:if test="${sessionScope.isManagement eq true}">
+                                                <option value="free">Free seat</option>
+                                                <option value="reserve">Reserve seat</option>
+                                            </c:if>
                                             <option value="occupy">Occupy seat</option>
                                         </select> 
                                         <label>
                                             [<c:out value="${seat.getRowNumber()}" />, 
                                             <c:out value="${seat.getColumnNumber()}" />] 
-                                            rank= <c:out value="${seat.getRank()}" />
+                                            <c:out value="${sessionScope.basicPrice + seat.getRank() * sessionScope.rankFee}" /> &euro;
                                         </label>
                                     </td>   
                                 </c:forEach>

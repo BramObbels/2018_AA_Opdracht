@@ -4,6 +4,7 @@ import beans.AccountBeanRemote;
 import beans.PlaysBeanRemote;
 import beans.SeatsBeanRemote;
 import beans.TicketsBeanRemote;
+import entities.Plays;
 import entities.Seats;
 import entities.Tickets;
 import java.io.IOException;
@@ -101,8 +102,13 @@ public class ControllerOrder extends HttpServlet {
                 
                 // Valid input, processing...
                 System.out.println("SELECTED PLAY ID=" + session.getAttribute("selectedPlayId"));
+                System.out.println("Management features enabled? " + request.isUserInRole("administrators"));
+                session.setAttribute("isManagement", request.isUserInRole("administrators"));
                 session.setAttribute("seats", seatsBean.getAllSeatsForPlay((Integer)session.getAttribute("selectedPlayId")));
                 session.setAttribute("nextOrderState", STATE_CONFIRM_ORDER);
+                Plays play = (Plays)playsBean.getPlayById(Integer.parseInt(request.getParameter("selectedPlayId")));
+                session.setAttribute("basicPrice", play.getBasicPrice());
+                session.setAttribute("rankFee", play.getRankFee());
                 this.goToJSPPage("select-seat.jsp", request, response);
                 break;
                 
@@ -124,16 +130,19 @@ public class ControllerOrder extends HttpServlet {
                 // Continue if we have at least one action
                 if(hasAction) {
                     System.out.println("NUMBER OF SELECTED SEATS=" + Arrays.toString(request.getParameterValues("selectedSeatIds")));
+                    
+                    // Sort seats based on action
                     ArrayList<Object> freeSeats = new ArrayList<Object>();
                     ArrayList<Object> reserveSeats = new ArrayList<Object>();
                     ArrayList<Object> occupySeats = new ArrayList<Object>();
                     for(int i=0; i < seatIds.length; i++) {
                         String id = seatIds[i];
                         System.out.println("Action: " + actions[i]);
-                        if(actions[i].equals(ACTION_FREE)) {
+                        // Make sure nobody tricks the server to free or reserve seats without admin rights
+                        if(actions[i].equals(ACTION_FREE) && ((Boolean)session.getAttribute("isManagement"))) {
                             freeSeats.add(seatsBean.getSeatById(Integer.parseInt(id)));
                         }
-                        else if(actions[i].equals(ACTION_RESERVE)) {
+                        else if(actions[i].equals(ACTION_RESERVE) && ((Boolean)session.getAttribute("isManagement"))) {
                             reserveSeats.add(seatsBean.getSeatById(Integer.parseInt(id)));
                         }
                         else if(actions[i].equals(ACTION_OCCUPY)) {
@@ -141,6 +150,7 @@ public class ControllerOrder extends HttpServlet {
                         }
                     }
                     
+                    // Add the lists to the HTTP session
                     session.setAttribute("freeSeats", freeSeats);
                     session.setAttribute("reserveSeats", reserveSeats);
                     session.setAttribute("occupySeats", occupySeats);
