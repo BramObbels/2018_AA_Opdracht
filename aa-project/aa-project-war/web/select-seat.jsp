@@ -31,6 +31,7 @@
                                 <c:forEach var = "seat" items = "${seatsRow}">
                                     <td class="seat">
                                         <input type="hidden" name="seatStatus" value="${seat.getStatus()}">
+                                        <img class="w3-image" src="<c:url value='images/seat.jpg' />" alt="Seat">
                                         <input type="hidden" name="seatId" value="${seat.getId()}">
                                         <select name="seatAction">
                                             <option selected value="nothing">Nothing</option>
@@ -46,11 +47,11 @@
                                                 <option value="occupy">Occupy seat</option>
                                             </c:if>
                                         </select> 
-                                        <label>
+                                        <p>
                                             [<c:out value="${seat.getRowNumber()}" />, 
                                             <c:out value="${seat.getColumnNumber()}" />] 
                                             <c:out value="${sessionScope.basicPrice + seat.getRank() * sessionScope.rankFee}" /> &euro;
-                                        </label>
+                                        </p>
                                     </td>   
                                 </c:forEach>
                             </tr>
