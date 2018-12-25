@@ -19,4 +19,5 @@ public interface TicketsBeanRemote {
     public boolean isTicketValidById(long ticketId);
     public void invalidateTicketById(long ticketId);
     public void removeTicketBySeatIdAndPlayId(int seatId, int playId);
+    public ArrayList<Object> getTicketsFromAccountId(int id);
 }

@@ -25,6 +25,27 @@
             <div class="w3-container w3-padding-32">
                 <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Welcome to D&amp;B Concerts account manager!</h3>
             </div>
+            <c:out value="${sessionScope.username}" />
+            <c:out value="${sessionScope.test}" />
+      
+            <table class="w3-table">
+                <tr>
+                    <th>TICKET NUMBER</th>
+                    <th>PLAY</th>
+                    <th>SEAT ROW</th>
+                    <th>SEAT COLUMN</th>
+                </tr>
+
+
+                <c:forEach var = "c" items = "${sessionScope.Collections}">
+                <tr>
+                    <td>${c.getTicket().getId()}</td>
+                    <td>${c.getPlay().getName()}</td>
+                    <td>${c.getSeat().getRowNumber()}</td>
+                    <td>${c.getSeat().getColumnNumber()}</td>
+                </tr>
+                </c:forEach>
+            </table>
         </div>
     </body>
 </html>

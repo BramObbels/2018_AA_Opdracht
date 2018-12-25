@@ -1,7 +1,12 @@
 package controllers;
 
 import beans.AccountBeanRemote;
+import beans.PlaysBeanRemote;
 import beans.TicketsBeanRemote;
+import entities.Collection;
+import entities.Plays;
+import entities.Seats;
+import entities.Tickets;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -22,6 +27,7 @@ import javax.servlet.http.HttpSession;
  * @author Dylan Van Assche
  */
 public class ControllerAccount extends HttpServlet {
+    @EJB PlaysBeanRemote playsBean;
     @EJB TicketsBeanRemote ticketsBean;
     @EJB AccountBeanRemote accountBean;
     /**
@@ -47,9 +53,20 @@ public class ControllerAccount extends HttpServlet {
         
         session.setAttribute("username", name);
         session.setAttribute("test", "test");
-        ArrayList<Object> generatedTickets = new ArrayList<Object>();
+        ArrayList<Object> tickets = new ArrayList<>();
+        ArrayList<Collection> collections = new ArrayList<>();
         int aid = accountBean.getIdByUsername(name);
-        //generatedTickets = ticketsBean.getTicketsFromUserId(aid);
+        System.out.println(aid);
+        tickets = ticketsBean.getTicketsFromAccountId(aid);
+        
+        
+        for(Object o : tickets) {
+            Tickets t = (Tickets)o;
+            Collection collection = new Collection(t.getPlayId(), t.getSeatId(), t);
+            collections.add(collection);
+        }
+        session.setAttribute("Collections", collections);
+
         this.goToJSPPage("account.jsp", request, response);
     }
     
@@ -91,3 +108,4 @@ public class ControllerAccount extends HttpServlet {
         dispatcher.forward(request, response);
     }
 }
+

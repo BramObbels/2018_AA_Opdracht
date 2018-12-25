@@ -197,4 +197,14 @@ public class TicketsBean implements TicketsBeanRemote {
         }
         return null;
     }
+    
+    @Override
+    public ArrayList<Object> getTicketsFromAccountId(int id){
+        Query q = em.createNamedQuery("Tickets.findByAccountId"); // Find object by given ID
+        Accounts account = (Accounts)accountBean.getAccountById(id);
+        q.setParameter("accountId", account);
+        ArrayList<Object> tickets = new ArrayList<Object>(q.getResultList());
+        System.out.println(tickets.size());
+        return tickets;
+    }
 }
