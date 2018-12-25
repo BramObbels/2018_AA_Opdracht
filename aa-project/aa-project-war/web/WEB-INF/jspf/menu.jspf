@@ -14,7 +14,7 @@
     <a href="<c:url value='landing'/>" class="w3-bar-item w3-button"><b>D&amp;B</b> Concerts</a>
     <!-- Float links to the right. Hide them on small screens -->
     <div class="w3-right w3-hide-small">
-        <a href="<c:url value='member'/>">Account</a>
+        <a href="<c:url value='account'/>">Account</a>
         <a href="<c:url value='order'/>">Tickets</a>
         <c:if test="${!empty pageContext.request.remoteUser}">
             <a href="<c:url value='member?logout=1'/>">Logout</a>

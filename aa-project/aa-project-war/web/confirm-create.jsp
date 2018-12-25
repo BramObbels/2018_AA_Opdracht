@@ -18,10 +18,18 @@
         <!-- Menu -->
         <%@include file="WEB-INF/jspf/menu.jspf" %>
         <div class="w3-content w3-padding" style="max-width:1564px">
-
+        
+            
+            
             <!-- Project Section -->
             <div class="w3-container w3-padding-32">
                 <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">ACCOUNT HAS BEEN CREATED</h3>
+                <form method="post" action="<c:url value='create' />">
+                    <input type="hidden" name="nextState" value="continue">
+                    <button class="w3-button w3-black w3-section" type="submit">
+                        <i class="fa fa-paper-plane"></i> CONTINUE
+                    </button>
+                </form>
             </div>
         </div>
     </body>

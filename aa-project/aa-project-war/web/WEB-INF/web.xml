@@ -31,6 +31,10 @@
         <servlet-name>ControllerAccount</servlet-name>
         <servlet-class>controllers.ControllerAccount</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>create</servlet-name>
+        <servlet-class>controllers.ControllerCreate</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ControllerMember</servlet-name>
         <url-pattern>/member</url-pattern>
@@ -47,6 +51,10 @@
         <servlet-name>ControllerOrder</servlet-name>
         <url-pattern>/order</url-pattern>
         <url-pattern>/order-account</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>create</servlet-name>
+        <url-pattern>/create</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -66,6 +74,15 @@
             <web-resource-name>account</web-resource-name>
             <description/>
             <url-pattern>/account.jsp</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>accountshort</web-resource-name>
+            <description/>
+            <url-pattern>/account</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
         </web-resource-collection>
         <auth-constraint>
             <description/>

@@ -1,14 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers;
 
 import beans.AccountBeanRemote;
+import beans.TicketsBeanRemote;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.security.Principal;
+import java.util.ArrayList;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
+import javax.faces.context.ExternalContext;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,16 +16,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author Bram Obbels
+ * ControllerManagement dispatches all the requests for the management area and glues the Model and the View together.
+ * The View receives it's data through the ControllerManagement and the ControllerManagement updates the 
+ * Model if needed from the input given by the View.
+ * @author Dylan Van Assche
  */
 public class ControllerAccount extends HttpServlet {
+    @EJB TicketsBeanRemote ticketsBean;
     @EJB AccountBeanRemote accountBean;
-    private static final String CREATE = "create";
-    private static final String CONFIRM_CREATE = "confirm";
-    
     /**
-     * Initialisation of the ControllerAccount Servlet.
+     * Initialisation of the ControllerManagement Servlet.
      */
     public void init() {
         
@@ -41,39 +40,17 @@ public class ControllerAccount extends HttpServlet {
      * @throws IOException if an I/O error
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String state;
-
-        if(request.getParameter("nextState") == null) {
-            state = CREATE;
-            System.out.println("Account process started");
-        }
-        else {
-            state = request.getParameter("nextState");
-            System.out.println(state);
-        }
+        HttpSession session = request.getSession();
+        Principal principal = request.getUserPrincipal();
+        String name = principal.getName();
+        System.out.println(name);
         
-        if(state.equals(CREATE)){
-            this.goToJSPPage("create.jsp", request, response);
-        }
-        else if(state.equals(CONFIRM_CREATE)){
-            System.out.println("Go to confirmation page");
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            
-            if(accountBean.checkUsername(username)){
-                System.out.println("Account already exists");
-                this.goToJSPPage("create.jsp", request, response);
-            }
-            else{
-                System.out.println("Account doesn't exist yet");
-                accountBean.addAccount(username, password);
-                this.goToJSPPage("confirm-create.jsp", request, response);
-            }
-        } 
-        else {
-            System.err.println("Unknown state, cannot create account");
-            response.sendError(500, "Unknown state, unable to create your account. Please try again later");
-        }
+        session.setAttribute("username", name);
+        session.setAttribute("test", "test");
+        ArrayList<Object> generatedTickets = new ArrayList<Object>();
+        int aid = accountBean.getIdByUsername(name);
+        //generatedTickets = ticketsBean.getTicketsFromUserId(aid);
+        this.goToJSPPage("account.jsp", request, response);
     }
     
     /**

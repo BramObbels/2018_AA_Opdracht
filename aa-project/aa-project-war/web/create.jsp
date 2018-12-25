@@ -22,7 +22,8 @@
             <!-- Project Section -->
             <div class="w3-container w3-padding-32">
                 <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">CREATE NEW ACCOUNT</h3>
-                <form method="post" action="<c:url value='account' />">
+                <c:out value="${sessionScope.recall}" />
+                <form method="post" action="<c:url value='create' />">
                     <input class="w3-input w3-section w3-border" type="text" name="username" placeholder="USERNAME"><label>
                     <input class="w3-input w3-section w3-border" type="password" name="password" placeholder="WACHTWOORD">
                     <input type="hidden" name="nextState" value="confirm">
