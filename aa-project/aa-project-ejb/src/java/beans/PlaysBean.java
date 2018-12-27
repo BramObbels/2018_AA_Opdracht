@@ -1,7 +1,9 @@
 package beans;
 
 import entities.Plays;
+import entities.Seats;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -33,7 +35,16 @@ public class PlaysBean implements PlaysBeanRemote {
         
         // Filter for upcoming plays
         for(Plays p : temp) {
-            if(p.getDate().getTime() < now.getTime()) {
+            Collection<Seats> seatList = p.getSeatsCollection();
+            boolean availableSeats = false;
+            for(Seats s : seatList) {
+                if(s.getStatus() == Seats.AVAILABLE) {
+                    availableSeats = true;
+                    break;
+                }
+            }
+            
+            if(p.getDate().getTime() < now.getTime() && availableSeats) {
                 // Administrators can see all the plays, members and public only the plays that aren't sold out
                 plays.add(p);
             }

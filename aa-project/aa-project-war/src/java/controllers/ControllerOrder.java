@@ -79,7 +79,16 @@ public class ControllerOrder extends HttpServlet {
                 
             case STATE_SELECT_PLAY:
                 System.out.println("UPCOMING PLAYS=" + playsBean.getUpcomingPlays());
-                session.setAttribute("upcomingPlays", playsBean.getUpcomingPlays());
+                if(request.isUserInRole("administrators")) {
+                    
+                    session.setAttribute("upcomingPlays", playsBean.getAllPlays());
+                }
+                else {
+                    System.out.println("Hiding sold out plays, only management may see them.");
+                    session.setAttribute("upcomingPlays", playsBean.getUpcomingPlays());
+                }
+                System.out.println("Management features enabled? " + request.isUserInRole("administrators"));
+                session.setAttribute("isManagement", request.isUserInRole("administrators"));
                 this.goToJSPPage("select-play.jsp", request, response);
                 break;
                 
@@ -98,8 +107,6 @@ public class ControllerOrder extends HttpServlet {
                 
                 // Valid input, processing...
                 System.out.println("SELECTED PLAY ID=" + session.getAttribute("selectedPlayId"));
-                System.out.println("Management features enabled? " + request.isUserInRole("administrators"));
-                session.setAttribute("isManagement", request.isUserInRole("administrators"));
                 ArrayList<ArrayList<Object> > seats = seatsBean.getAllSeatsForPlay((Integer)session.getAttribute("selectedPlayId"));
                 session.setAttribute("seats", seats);
                 Plays play = (Plays)playsBean.getPlayById(Integer.parseInt(request.getParameter("selectedPlayId")));
@@ -124,6 +131,7 @@ public class ControllerOrder extends HttpServlet {
                 }
                 
                 // Continue if we have at least one action
+                double totalPriceOccupied = 0.0;
                 if(hasAction) {
                     System.out.println("NUMBER OF SELECTED SEATS=" + Arrays.toString(request.getParameterValues("selectedSeatIds")));
                     
@@ -143,6 +151,10 @@ public class ControllerOrder extends HttpServlet {
                         }
                         else if(actions[i].equals(ACTION_OCCUPY)) {
                             occupySeats.add(seatsBean.getSeatById(Integer.parseInt(id)));
+                            totalPriceOccupied = totalPriceOccupied 
+                                    + (float)session.getAttribute("basicPrice")
+                                    + ((Seats)seatsBean.getSeatById(Integer.parseInt(id))).getRank() 
+                                    * (float)session.getAttribute("rankFee");
                         }
                     }
                     
@@ -165,6 +177,7 @@ public class ControllerOrder extends HttpServlet {
                         + " | RESERVE=" + session.getAttribute("reserveSeats") 
                         + " | OCCUPY=" + session.getAttribute("occupySeats"));
                 session.setAttribute("orderedPlay", playsBean.getPlayById((Integer)session.getAttribute("selectedPlayId")));
+                session.setAttribute("totalPriceOccupied", totalPriceOccupied);
                 this.goToJSPPage("confirm-order.jsp", request, response);
                 break;
                 

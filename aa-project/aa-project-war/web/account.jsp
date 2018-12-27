@@ -23,10 +23,9 @@
 
             <!-- Project Section -->
             <div class="w3-container w3-padding-32">
-                <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Welcome to D&amp;B Concerts account manager!</h3>
+                <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Account manager</h3>
             </div>
-            <c:out value="${sessionScope.username}" />
-            <c:out value="${sessionScope.test}" />
+            Welcome <c:out value="${sessionScope.username}" />! You can find your tickets below:
       
             <table class="w3-table">
                 <tr>

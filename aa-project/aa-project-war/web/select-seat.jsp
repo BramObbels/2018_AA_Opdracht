@@ -23,6 +23,7 @@
             <!-- Project Section -->
             <div class="w3-container w3-padding-32">
                 <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Select the seats for the chosen play</h3>
+                <p>The price of each seat is calculated by the basic price (basic price = <c:out value="${sessionScope.basicPrice}" /> &euro;) with an extra rank fee * rank of the seat (rank fee = <c:out value="${sessionScope.rankFee}" /> &euro;).
                 <form class="w3-container w3-card-4" method="post" action="<c:url value='order' />">
                     <p>Available seats:</p>
                     <table>

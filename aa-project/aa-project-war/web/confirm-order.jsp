@@ -39,15 +39,20 @@
                         <h4>Reserve seats:</h4>
                     </c:if>
                     <c:forEach var = "entry" items = "${sessionScope.reserveSeats}">
-                        <p>seat ID= <c:out value="${entry.getId()}" /> <c:out value="${sessionScope.basicPrice + seat.getRank() * sessionScope.rankFee}" /> &euro;</p>
+                        <p>seat ID= <c:out value="${entry.getId()}" /></p>
                     </c:forEach>
                     
                     <c:if test="${fn:length(sessionScope.occupySeats) > 0}">
                         <h4>Occupy seats:</h4>
                     </c:if>
                     <c:forEach var = "entry" items = "${sessionScope.occupySeats}">
-                        <p>seat ID= <c:out value="${entry.getId()}" /> <c:out value="${sessionScope.basicPrice + seat.getRank() * sessionScope.rankFee}" /> &euro;</p>
+                        <p>seat ID= <c:out value="${entry.getId()}" /></p>
                     </c:forEach>
+                       
+                    <c:if test="${fn:length(sessionScope.occupySeats) > 0}">
+                        <p>Total price: <c:out value="${sessionScope.totalPriceOccupied}" /> &euro;</p>
+                    </c:if>
+                        
                     <input type="hidden" name="nextOrderState" value="generateTickets" />
                     <button class="w3-button w3-black w3-section" type="submit">
                         <i class="fa fa-paper-plane"></i> CONFIRM ORDER
