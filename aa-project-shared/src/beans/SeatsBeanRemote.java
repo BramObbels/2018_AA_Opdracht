@@ -1,8 +1,7 @@
 package beans;
 
-import java.util.Map;
+import java.util.ArrayList;
 import javax.ejb.Remote;
-import util.TablePosition;
 
 /**
  * Seats API business interface.
@@ -12,13 +11,11 @@ import util.TablePosition;
  */
 @Remote
 public interface SeatsBeanRemote {
-    public Map<TablePosition, Object> getAllSeatsForPlay(int playId);
+    public ArrayList<ArrayList<Object>> getAllSeatsForPlay(int playId);
     public Object getSeatById(int seatId);
     public int getNumberofRowsForPlay(int playId);
     public int getNumberofColumnsForPlay(int playId);
-    public void reserveSeat(int seatId);
     public void freeSeat(int seatId);
+    public void reserveSeat(int seatId);
     public void occupySeat(int seatId);
-    public void addSeat(int row, int column, int rank);
-    public void removeSeat(int seatId);
 }

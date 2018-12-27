@@ -5,35 +5,91 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
         <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="<c:url value='css/w3.css' />">
+        <link rel="stylesheet" href="<c:url value='css/style.css' />">
         <title>Select Seat</title>
     </head>
     <body>
         <!-- Menu -->
         <%@include file="WEB-INF/jspf/menu.jspf" %>
-        <div class="w3-content w3-padding" style="max-width:1564px">
-
+        <div class="w3-content w3-padding container">
             <!-- Project Section -->
             <div class="w3-container w3-padding-32">
                 <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Select the seats for the chosen play</h3>
                 <form class="w3-container w3-card-4" method="post" action="<c:url value='order' />">
-                        <c:forEach var = "entry" items = "${requestScope.seats}">
-                            <p><input class="w3-check" type="checkbox" name="selectedSeatIds" value="${entry.value.getId()}"><label>
-                                [<c:out value="${entry.key.getRow()}" />, <c:out value="${entry.key.getColumn()}" />]: 
-                                seat ID= <c:out value="${entry.value.getId()}" /></label></p>
+                    <p>Available seats:</p>
+                    <table>
+                        <c:forEach var = "seatsRow" items = "${sessionScope.seats}">
+                            <tr>
+                                <c:forEach var = "seat" items = "${seatsRow}">
+                                    <td class="seat">
+                                        <input type="hidden" name="seatStatus" value="${seat.getStatus()}">
+                                        <img class="w3-image" src="<c:url value='images/seat.jpg' />" alt="Seat">
+                                        <input type="hidden" name="seatId" value="${seat.getId()}">
+                                        <select name="seatAction">
+                                            <option selected value="nothing">Nothing</option>
+                                            
+                                            <!-- Management special options -->
+                                            <c:if test="${sessionScope.isManagement eq true}">
+                                                <!-- Only freeing if seat isn't free -->
+                                                <c:if test="${seat.getStatus() != 0}">
+                                                    <option value="free">Free seat</option> 
+                                                </c:if>
+
+                                                <!-- Reserving only when seat is free -->
+                                                <c:if test="${seat.getStatus() == 0}">
+                                                    <option value="reserve">Reserve seat</option>
+                                                </c:if>
+                                            </c:if>
+                                                
+                                            <!-- Occupation only possible if seat is free, except for management (only show occupation when not occupied) -->
+                                            <c:if test="${(sessionScope.isManagement eq true and seat.getStatus() != 2) or (seat.getStatus() == 0)}">
+                                                <option value="occupy">Occupy seat</option>
+                                            </c:if>
+                                        </select> 
+                                        <p>
+                                            [<c:out value="${seat.getRowNumber()}" />, 
+                                            <c:out value="${seat.getColumnNumber()}" />] 
+                                            <c:out value="${sessionScope.basicPrice + seat.getRank() * sessionScope.rankFee}" /> &euro;
+                                        </p>
+                                    </td>   
+                                </c:forEach>
+                            </tr>
                         </c:forEach>
-                    <input type="hidden" name="nextState" value="confirmOrder">
+                    </table>
+                    <input type="hidden" name="nextOrderState" value="confirmOrder" />
                     <button class="w3-button w3-black w3-section" type="submit">
                         <i class="fa fa-paper-plane"></i> SELECT SEAT
                     </button>
                 </form>
             </div>
         </div>
+        
+        <!-- JS dynamic selection -->
+        <script>
+            var seats = document.getElementsByClassName("seat");
+            console.log("Seats: " + JSON.stringify(seats));
+            for (var i = 0; i < seats.length; ++i) {
+                var item = seats[i];  
+                var status = item.children[0].value; // hidden input field with status of the seat
+                console.log(status);
+                if(status == 0) {
+                    item.className += " w3-green";
+                }
+                else if(status == 1) {
+                    item.className += " w3-orange";
+                }
+                else if(status == 2) {
+                    item.className += " w3-red";
+                }
+            }
+        </script>
     </body>
 </html>

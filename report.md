@@ -8,6 +8,7 @@
 https://github.com/BramObbels/2018_AA_Opdracht
 
 ## Verslagen
+
 ### 25/11/2018 - 01/12/2018
 
 | Wie              | Wat                                                                                                | Wanneer    | Tijd  |

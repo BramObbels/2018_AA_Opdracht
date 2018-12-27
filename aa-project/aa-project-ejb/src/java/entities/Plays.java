@@ -148,7 +148,7 @@ public class Plays implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Plays[ id=" + id + " ]";
+        return this.name;
     }
     
 }

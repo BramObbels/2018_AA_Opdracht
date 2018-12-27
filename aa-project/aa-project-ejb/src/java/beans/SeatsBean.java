@@ -2,15 +2,14 @@ package beans;
 
 import entities.Plays;
 import entities.Seats;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import util.TablePosition;
 
 /**
  * Seats API bean.
@@ -28,17 +27,24 @@ public class SeatsBean implements SeatsBeanRemote {
      * @author Dylan Van Assche
      */
     @Override
-    public Map<TablePosition, Object> getAllSeatsForPlay(int playId) {
+    public ArrayList<ArrayList<Object>> getAllSeatsForPlay(int playId) {
         // Convert to Map for easy access by row and column number using the TablePosition helper class
         Query q = em.createNamedQuery("Seats.findAllSortedByPlayId");
         q.setParameter("playId", (Plays)playsBean.getPlayById(playId));
         List<Seats> temp = q.getResultList();
-        Map<TablePosition, Object> seats = new LinkedHashMap<TablePosition, Object>(); // Order is maintained using a LinkedHashMap
-        
+        ArrayList<ArrayList<Object>> seats = new ArrayList<ArrayList<Object>>();
+        ArrayList<Object> seatsRow = new ArrayList<Object>();
+        int rowNumber = 0;
         for(Seats s: temp) {
-            seats.put(new TablePosition(s.getRowNumber(), s.getColumnNumber()), (Object)s); // Insert seat using upcasting
+            if(rowNumber != s.getRowNumber()) {
+                seats.add(seatsRow);
+                seatsRow = new ArrayList<Object>();
+                rowNumber = s.getRowNumber();
+            }
+            seatsRow.add((Object)s);
         }
-        
+        seats.add(seatsRow);
+        System.out.println("Seats:" + seats);
         return seats;
     }
     
@@ -76,18 +82,7 @@ public class SeatsBean implements SeatsBeanRemote {
     }
 
     /**
-     * Reserves a seat
-     * @parameter int seatId
-     * @author Dylan Van Assche
-     */
-    @Override
-    public void reserveSeat(int seatId) {
-        Seats seat = (Seats)this.getSeatById(seatId);
-        seat.setStatus(Seats.RESERVED);
-    }
-
-    /**
-     * Free a seat
+     * Free a seat by ID.
      * @parameter int seatId
      * @author Dylan Van Assche
      */
@@ -95,10 +90,23 @@ public class SeatsBean implements SeatsBeanRemote {
     public void freeSeat(int seatId) {
         Seats seat = (Seats)this.getSeatById(seatId);
         seat.setStatus(Seats.AVAILABLE);
+        em.merge(seat);
     }
 
     /**
-     * Occupy a seat
+     * Reserve a seat by ID.
+     * @parameter int seatId
+     * @author Dylan Van Assche
+     */
+    @Override
+    public void reserveSeat(int seatId) {
+        Seats seat = (Seats)this.getSeatById(seatId);
+        seat.setStatus(Seats.RESERVED);
+        em.merge(seat);
+    }
+
+    /**
+     * Occupy a seat by ID.
      * @parameter int seatId
      * @author Dylan Van Assche
      */
@@ -106,33 +114,6 @@ public class SeatsBean implements SeatsBeanRemote {
     public void occupySeat(int seatId) {
         Seats seat = (Seats)this.getSeatById(seatId);
         seat.setStatus(Seats.OCCUPIED);
-    }
-
-    /**
-     * Add a seat
-     * @parameter int seatId
-     * @author Dylan Van Assche
-     */
-    @Override
-    public void addSeat(int row, int column, int rank) {
-        int lastSeatId = (int)em.createNamedQuery("Seats.findLastId").getSingleResult();
-        // Validation needed for rows and colums?
-        Seats seat = new Seats();
-        seat.setId(lastSeatId + 1);
-        seat.setColumnNumber(column);
-        seat.setRowNumber(row);
-        seat.setRank(rank);
-        em.persist(seat);
-    }
-
-    /**
-     * Remove a seat
-     * @parameter int seatId
-     * @author Dylan Van Assche
-     */
-    @Override
-    public void removeSeat(int seatId) {
-        Seats seat = (Seats)this.getSeatById(seatId);
-        em.remove(seat);
+        em.merge(seat);
     }
 }

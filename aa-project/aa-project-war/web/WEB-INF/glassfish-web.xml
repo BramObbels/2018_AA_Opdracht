@@ -6,10 +6,6 @@
     <group-name>administrators</group-name>
   </security-role-mapping>
   <security-role-mapping>
-    <role-name>public</role-name>
-    <group-name>public</group-name>
-  </security-role-mapping>
-  <security-role-mapping>
     <role-name>members</role-name>
     <group-name>members</group-name>
   </security-role-mapping>
