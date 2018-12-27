@@ -59,7 +59,7 @@ public class MainWindow extends JFrame {
         for(Plays p: this.getController().getPlays()) {
             selectPlay.addItem(p);
         }
-        this.soldTickets = new JList(this.ticketsModel);
+        this.soldTickets = new JList(ticketsModel);
         this.actionPanel = new TicketsActionPanel(this.getController());
         this.informationPanel = new PlayInformationPanel(this.getController());
         this.updateInformationPanel();
