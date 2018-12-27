@@ -16,6 +16,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -33,6 +34,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Tickets.findByValid", query = "SELECT t FROM Tickets t WHERE t.valid = :valid")})
 
 public class Tickets implements Serializable {
+
+    @Size(max = 50)
+    @Column(name = "buyer")
+    private String buyer;
     private static final long serialVersionUID = 1L;
     public static final int VALID = 1;
     public static final int INVALID = 0;
@@ -124,5 +129,13 @@ public class Tickets implements Serializable {
     @Override
     public String toString() {
         return Long.toString(this.id);
+    }
+
+    public String getBuyer() {
+        return buyer;
+    }
+
+    public void setBuyer(String buyer) {
+        this.buyer = buyer;
     }
 }

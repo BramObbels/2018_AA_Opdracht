@@ -6,16 +6,19 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,6 +34,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Accounts.findLastId", query = "SELECT MAX(a.id) FROM Accounts a")
     , @NamedQuery(name = "Accounts.findByPassword", query = "SELECT a FROM Accounts a WHERE a.password = :password")})
 public class Accounts implements Serializable {
+
+    @OneToMany(mappedBy = "accountId")
+    private Collection<Tickets> ticketsCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -99,6 +105,15 @@ public class Accounts implements Serializable {
     @Override
     public String toString() {
         return "entities.Accounts[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Tickets> getTicketsCollection() {
+        return ticketsCollection;
+    }
+
+    public void setTicketsCollection(Collection<Tickets> ticketsCollection) {
+        this.ticketsCollection = ticketsCollection;
     }
     
 }

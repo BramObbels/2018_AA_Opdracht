@@ -186,6 +186,10 @@ public class ControllerOrder extends HttpServlet {
                 ArrayList<Object> generatedTickets = new ArrayList<Object>();
                 int playId = (Integer)session.getAttribute("selectedPlayId");
                 
+                // Buyer name
+                String buyer = request.getParameter("buyer");
+                System.out.println("Buyer name:" + buyer);
+                
                 // Free seats -> set status to free if allowed
                 for(Seats seat : (ArrayList<Seats>)session.getAttribute("freeSeats")) {
                     seatsBean.freeSeat(seat.getId());
@@ -213,7 +217,7 @@ public class ControllerOrder extends HttpServlet {
                     }
                     System.out.println("Play ID: " + playId + " Account Id: " + accountId + " seats ID: " + seat.getId());
 
-                    Object ticket = ticketsBean.generateOccupiedTicket(accountId, playId, seat.getId());
+                    Object ticket = ticketsBean.generateOccupiedTicket(accountId, playId, seat.getId(), buyer);
                     System.out.println("Ticket occupied generated: " + ((Tickets)ticket).getId());
                     generatedTickets.add(ticket);
                 }

@@ -36,7 +36,7 @@ public class TicketsBean implements TicketsBeanRemote {
      * @parameter int seatId
      * @author Dylan Van Assche
      */
-    private Object generateTicket(int accountId, int playId, int seatId) {
+    private Object generateTicket(int accountId, int playId, int seatId, String buyer) {
         // Generate ticket ID and build Ticket object
         long ticketId = ThreadLocalRandom.current().nextLong(MIN.longValue(), MAX.longValue() + 1);
         Tickets ticket = new Tickets();
@@ -54,6 +54,7 @@ public class TicketsBean implements TicketsBeanRemote {
         ticket.setPlayId(play);
         ticket.setSeatId(seat);        
         ticket.setValid(Tickets.VALID);
+        ticket.setBuyer(buyer);
         
         // Make ticket persistent and return it
         em.persist(ticket);
@@ -69,14 +70,14 @@ public class TicketsBean implements TicketsBeanRemote {
      * @author Dylan Van Assche
      */
     @Override
-    public Object generateOccupiedTicket(int accountId, int playId, int seatId) {
+    public Object generateOccupiedTicket(int accountId, int playId, int seatId, String buyer) {
         // Make seat OCCUPIED and merge the change with the DB
         seatsBean.occupySeat(seatId);
         
         // Handle reserved tickets
         Tickets t = this.getReservedTicket(seatId, playId);
         if(t == null) {
-            return this.generateTicket(accountId, playId, seatId);
+            return this.generateTicket(accountId, playId, seatId, buyer);
         }
         return t;
     }
@@ -93,7 +94,7 @@ public class TicketsBean implements TicketsBeanRemote {
         // Make seat RESERVED and merge the change with the DB
         seatsBean.reserveSeat(seatId);
         // accountId = 0 since we reserve the ticket
-        return this.generateTicket(0, playId, seatId);
+        return this.generateTicket(0, playId, seatId, "MANUAL VENDING");
     }
 
     /**

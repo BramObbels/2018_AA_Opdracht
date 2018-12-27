@@ -52,6 +52,9 @@
                     <c:if test="${fn:length(sessionScope.occupySeats) > 0}">
                         <p>Total price: <c:out value="${sessionScope.totalPriceOccupied}" /> &euro;</p>
                     </c:if>
+                      
+                    <label>Name:</label>
+                    <input type="text" name="buyer" />
                         
                     <input type="hidden" name="nextOrderState" value="generateTickets" />
                     <button class="w3-button w3-black w3-section" type="submit">

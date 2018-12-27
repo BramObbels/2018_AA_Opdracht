@@ -37,6 +37,7 @@
  *   - account ID
  *   - play ID
  *   - valid
+ *   - buyer
  *
  * /!\ Drop tables in reverse order of creation
  *
@@ -91,6 +92,7 @@ CREATE TABLE tickets(
     playId INT,
     seatId INT,
     valid INT,
+    buyer VARCHAR(50),
     CONSTRAINT checkValid CHECK (valid = 0 OR valid = 1),
     PRIMARY KEY(id),
     FOREIGN KEY(accountId) REFERENCES accounts(id),
@@ -119,5 +121,5 @@ INSERT INTO seats VALUES(10, 0, 1, 0, 2, 1);
 INSERT INTO seats VALUES(11, 0, 2, 0, 0, 1);
 INSERT INTO seats VALUES(12, 1, 0, 1, 0, 1);
 INSERT INTO seats VALUES(13, 0, 0, 1, 1, 2);
-INSERT INTO tickets VALUES(1, 1, 1, 1, 1);
-INSERT INTO tickets VALUES(2, 2, 2, 1, 1);
+INSERT INTO tickets VALUES(1, 1, 1, 1, 1, 'Jefke');
+INSERT INTO tickets VALUES(2, 2, 2, 1, 1, 'Marie');
