@@ -128,7 +128,7 @@ public class Tickets implements Serializable {
 
     @Override
     public String toString() {
-        return Long.toString(this.id);
+        return Long.toString(this.id) + " (" + this.buyer + ")";
     }
 
     public String getBuyer() {
